@@ -1,0 +1,1 @@
+/usr/bin/g++ -g "CMakeFiles/utest-common.dir/one_test.cpp.o" -o utest-common

@@ -1,0 +1,1 @@
+/usr/bin/g++ -O3 -DNDEBUG -march=native "CMakeFiles/utest-imgaos.dir/one_test.cpp.o" -o utest-imgaos
