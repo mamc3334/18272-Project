@@ -1,0 +1,1 @@
+/usr/bin/g++ -O3 -DNDEBUG -march=native "CMakeFiles/utest-common.dir/one_test.cpp.o" -o utest-common
