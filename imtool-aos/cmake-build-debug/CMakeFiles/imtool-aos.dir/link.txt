@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic "CMakeFiles/imtool-aos.dir/main.cpp.o" -o imtool-aos  -limgaos -lcommon
