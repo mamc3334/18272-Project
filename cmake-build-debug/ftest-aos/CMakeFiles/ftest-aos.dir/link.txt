@@ -1,0 +1,1 @@
+/usr/bin/g++ -g "CMakeFiles/ftest-aos.dir/one_test.cpp.o" -o ftest-aos
