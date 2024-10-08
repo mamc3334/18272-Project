@@ -1,0 +1,468 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						4,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "_deps/googletest-build",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_deps.googletest-build-Release-3f7670dbec88c6d21de4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "cmake-build-release/_deps/googletest-src"
+				},
+				{
+					"build" : "_deps/googletest-build/googlemock",
+					"childIndexes" : 
+					[
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_deps.googletest-build.googlemock-Release-754f5858ba0041dc222f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "cmake-build-release/_deps/googletest-src/googlemock",
+					"targetIndexes" : 
+					[
+						3,
+						4
+					]
+				},
+				{
+					"build" : "_deps/googletest-build/googletest",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_deps.googletest-build.googletest-Release-eb66e7e7347f99ef05b4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.13"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 3,
+					"source" : "cmake-build-release/_deps/googletest-src/googletest",
+					"targetIndexes" : 
+					[
+						5,
+						6
+					]
+				},
+				{
+					"build" : "_deps/gsl-build",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-_deps.gsl-build-Release-f57e1eb5fe46b7a57337.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1.3"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "cmake-build-release/_deps/gsl-src"
+				},
+				{
+					"build" : "_deps/gsl-build/include",
+					"jsonFile" : "directory-_deps.gsl-build.include-Release-65acafd2ddc762e5d2f6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1.3"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 4,
+					"source" : "cmake-build-release/_deps/gsl-src/include"
+				},
+				{
+					"build" : "common",
+					"jsonFile" : "directory-common-Release-6a5c22a1ee7f2aca6d8e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "common",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "imgaos",
+					"jsonFile" : "directory-imgaos-Release-33c699cafc05027c1d79.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "imgaos",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "imgsoa",
+					"jsonFile" : "directory-imgsoa-Release-fe3551fba12cf37a78ba.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "imgsoa",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "imtool-aos",
+					"jsonFile" : "directory-imtool-aos-Release-97784934c67f01ac7852.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "imtool-aos",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "imtool-soa",
+					"jsonFile" : "directory-imtool-soa-Release-c14d5399d47a36fe357c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "imtool-soa",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "utest-common",
+					"jsonFile" : "directory-utest-common-Release-46644698ffce166fe5ad.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "utest-common",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "utest-imgaos",
+					"jsonFile" : "directory-utest-imgaos-Release-97bfe162d6191cf75ae2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "utest-imgaos",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "utest-imgsoa",
+					"jsonFile" : "directory-utest-imgsoa-Release-3555fc070cffd19c2dd0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "utest-imgsoa",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "ftest-aos",
+					"jsonFile" : "directory-ftest-aos-Release-5ebeaf4a43af13df7ba3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ftest-aos",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "ftest-soa",
+					"jsonFile" : "directory-ftest-soa-Release-aab643d0f1731f937797.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ftest-soa",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"name" : "imtool",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						2
+					],
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "googletest-distribution",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						3
+					],
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "gmock",
+					"parentIndex" : 1,
+					"targetIndexes" : 
+					[
+						3,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "gtest",
+					"parentIndex" : 2,
+					"targetIndexes" : 
+					[
+						5,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4,
+						5
+					],
+					"name" : "GSL",
+					"parentIndex" : 0
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 6,
+					"id" : "common::@bfc844598bd03e848b3c",
+					"jsonFile" : "target-common-Release-62f102e58df1a617bc0e.json",
+					"name" : "common",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "ftest-aos::@324724cce2a88a1327bc",
+					"jsonFile" : "target-ftest-aos-Release-3c5d94dd4ba6ea07e292.json",
+					"name" : "ftest-aos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "ftest-soa::@41117fa1be90e393dbeb",
+					"jsonFile" : "target-ftest-soa-Release-cf9ca1ca287f2228face.json",
+					"name" : "ftest-soa",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "gmock::@0f7bb11d64f3678238c7",
+					"jsonFile" : "target-gmock-Release-a96cf89426806818af3d.json",
+					"name" : "gmock",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "gmock_main::@0f7bb11d64f3678238c7",
+					"jsonFile" : "target-gmock_main-Release-83c91239f79a118e5b42.json",
+					"name" : "gmock_main",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "gtest::@1ea2dfc0605fe3ab2a3f",
+					"jsonFile" : "target-gtest-Release-4bb972154d19c13f8ebd.json",
+					"name" : "gtest",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f",
+					"jsonFile" : "target-gtest_main-Release-192ccbf676051251d13c.json",
+					"name" : "gtest_main",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "imgaos::@4ddac52c31d23a8d2382",
+					"jsonFile" : "target-imgaos-Release-e99c25e4314d8ffe78e7.json",
+					"name" : "imgaos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "imgsoa::@27a4bd6cee9bb2ff50e1",
+					"jsonFile" : "target-imgsoa-Release-da3c0b781f48142922e3.json",
+					"name" : "imgsoa",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "imtool-aos::@38ad72e241e3ad919d82",
+					"jsonFile" : "target-imtool-aos-Release-b691d1e47cecdf81897c.json",
+					"name" : "imtool-aos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "imtool-soa::@3b5b673d1d32ff0855cb",
+					"jsonFile" : "target-imtool-soa-Release-3bea2d25bcb89ca37ecc.json",
+					"name" : "imtool-soa",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "utest-common::@0c081709c033be912133",
+					"jsonFile" : "target-utest-common-Release-a55d8c0b0565b97255d2.json",
+					"name" : "utest-common",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "utest-imgaos::@7982f57d56c001f51afb",
+					"jsonFile" : "target-utest-imgaos-Release-1702c6a27a9923771711.json",
+					"name" : "utest-imgaos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "utest-imgsoa::@52198c60f12a5dcb787e",
+					"jsonFile" : "target-utest-imgsoa-Release-2bad210fca5f29ee0309.json",
+					"name" : "utest-imgsoa",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/mamc3334/UC3M/18272-Project/cmake-build-release",
+		"source" : "/home/mamc3334/UC3M/18272-Project"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
