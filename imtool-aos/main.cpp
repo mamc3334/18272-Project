@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -7,12 +8,12 @@ int main(int argc, char *argv[]) {
         exit(-1);
     } else {
         // Has the correct number of default arguments
-        if(argv[2] == "info") {
+        if(strcmp(argv[2], "info") == 1) {
             if (argc != 3) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (3 - argc) << "\n";
                 exit(-1);
             }
-        } else if (argv[2] = "maxlevel") {
+        } else if (strcmp(argv[2], "maxlevel") == 1) {
             if (argc != 4) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
                 exit(-1);
@@ -24,7 +25,7 @@ int main(int argc, char *argv[]) {
             }
 
 
-        } else if (argv[2] = "resize") {
+        } else if (strcmp(argv[2], "resize") == 1) {
             if (argc != 5) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (5 - argc) << "\n";
                 exit(-1);
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]) {
                 cerr << "Invalid resize height: " << argv[4] << "\n";
             }
 
-        } else if (argv[2] = "cutfreq") {
+        } else if (strcmp(argv[2], "cutfreq") == 1) {
             if (argc != 4) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
                 exit(-1);
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
             if (atoi(argv[3]) < 0) {
                 cerr << "Invalid cutfreq: " << argv[3] << "\n";
             }
-        } else if (argv[2] = "compress") {
+        } else if (strcmp(argv[2], "compress") == 1) {
             if (argc != 3) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (3 - argc) << "\n";
                 exit(-1);
