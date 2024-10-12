@@ -17,7 +17,6 @@ struct Image_Attributes {
     int width, height, intensity;
 };
 
-std::vector<Color> imgColors;
 void read_image_template (std::string filename);
 
 

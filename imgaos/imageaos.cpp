@@ -8,6 +8,7 @@ using namespace std;
 #include <fstream>
 #include "../common/binaryio.hpp"
 
+std::vector<Color> imgColors;
 
 void read_image_template (string filename) {
       ifstream imageFile(filename);
