@@ -18,7 +18,13 @@ int main(int argc, char *argv[]) {
                 exit(-1);
             }
 
-            read_image_template(input_filename);
+            vector<string> img_metadata = get_image_metadata(input_filename);
+            cout <<
+                "Input:\t\t" << input_filename << "\n" <<
+                "Output:\t\t" << output_filename << "\n" <<
+                "Operation:\t" << argv[3] << "\n" <<
+                "Image size:\t" << img_metadata[0] << "x" << img_metadata[1] << "\n" <<
+                "Max level:\t" << img_metadata[2] << "\n";
         } else if (strcmp(argv[3], "maxlevel") == 0) {
             if (program_args != 4) {
                 cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - program_args) << "\n";

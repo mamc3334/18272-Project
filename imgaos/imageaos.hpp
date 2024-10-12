@@ -17,7 +17,7 @@ struct Image_Attributes {
     int width, height, intensity;
 };
 
-void read_image_template (std::string filename);
+std::vector<std::string> get_image_metadata (std::string filename);
 
 
 #endif //IMAGEAOS_HPP

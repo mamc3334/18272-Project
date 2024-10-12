@@ -10,7 +10,7 @@ using namespace std;
 
 std::vector<Color> imgColors;
 
-void read_image_template (string filename) {
+std::vector<std::string> get_image_metadata (string filename) {
       ifstream imageFile(filename);
       if(!imageFile.is_open()) {
             cerr << "Failed to open file\n";
@@ -19,5 +19,6 @@ void read_image_template (string filename) {
 
       string magic_word, width, height, intensity;
       imageFile >> magic_word >> width >> height >> intensity;
-      cout << magic_word << ", " << width << ", " << height << ", and " << intensity << "\n";
+      vector<std::string> output = {width, height, intensity};
+      return output;
 }
