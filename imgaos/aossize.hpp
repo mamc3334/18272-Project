@@ -1,0 +1,5 @@
+#ifndef AOS-SIZE-SCALING_HPP
+#define AOS-SIZE-SCALING_HPP
+
+
+#endif //AOS-SIZE-SCALING_HPP

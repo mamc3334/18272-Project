@@ -7,13 +7,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 
-
-void read_image_template (string filename) {
-      ifstream imageFile(filename);
-      if(!imageFile.is_open()) {
-            cerr << "Failed to open file\n";
-            exit(-1);
-      }
+void aos_readBytes(){
       char currChar;
       currChar = imageFile.get();
       if(currChar != 'P' && currChar != 'C') {

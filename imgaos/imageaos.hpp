@@ -4,6 +4,7 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
+
 struct Color {
     int r, g, b;
 };
