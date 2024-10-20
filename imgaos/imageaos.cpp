@@ -10,7 +10,7 @@ using namespace std;
 void aos_readBytes(){
       char currChar;
       currChar = imageFile.get();
-      if(currChar != 'P' && currChar != 'C') {
+      if(currChar != 'P') {
             cerr << "Invalid magic number:\t" << currChar << "\n";
       }
       currChar = imageFile.get();
