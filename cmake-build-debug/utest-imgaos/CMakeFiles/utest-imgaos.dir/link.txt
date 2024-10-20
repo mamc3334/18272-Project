@@ -1,1 +1,0 @@
-/usr/bin/g++ -g "CMakeFiles/utest-imgaos.dir/one_test.cpp.o" -o utest-imgaos

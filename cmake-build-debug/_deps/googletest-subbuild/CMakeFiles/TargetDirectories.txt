@@ -1,3 +1,0 @@
-/home/mamc3334/UC3M/18272-Project/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
-/home/mamc3334/UC3M/18272-Project/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
-/home/mamc3334/UC3M/18272-Project/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir
