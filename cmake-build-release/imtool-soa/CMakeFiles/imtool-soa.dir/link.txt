@@ -1,1 +1,0 @@
-/usr/bin/g++ -O3 -DNDEBUG -march=native "CMakeFiles/imtool-soa.dir/main.cpp.o" -o imtool-soa  ../imgsoa/libimgsoa.a ../common/libcommon.a

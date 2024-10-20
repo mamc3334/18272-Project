@@ -1,1 +1,0 @@
-/usr/bin/g++ -g "CMakeFiles/ftest-soa.dir/one_test.cpp.o" -o ftest-soa
