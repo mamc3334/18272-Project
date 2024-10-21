@@ -1,7 +1,7 @@
 # Add to this list all files related to imgaos library
 add_library(imgaos
         imageaos.cpp
-        aos-size-scaling.cpp
+        aossize.cpp
         #        other1.cpp
 #        other2.cpp
 )

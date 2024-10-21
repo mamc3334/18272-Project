@@ -6,12 +6,10 @@
 #define PROGARGS_HPP
 
 #include <iostream>
+#include <fstream>
 #include "binaryio.hpp"
+#include "utility.hpp"
 using namespace std;
-
-//TODO: This is wrong
-const string inFile;
-const string outFile;
 
 void progPaths(string imagePath, string outFile);
 string getInFile();
