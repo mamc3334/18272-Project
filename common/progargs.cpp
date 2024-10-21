@@ -3,11 +3,16 @@
 //
 
 #include "progargs.hpp"
+#include <fstream>
+
+//TODO: Figure out if we can make these const, AFTER the program has started
+string inFile;
+string outFile;
 
 void progPaths(string inName, string outName)
 {
-    const string inFile = inName;
-    const string outFile = outName;
+    inFile = inName;
+    outFile = outName;
 }
 
 void info(int argc)
@@ -42,8 +47,25 @@ void displayInfo()
      * Do we need to verify file has correct magic number?
      * This will be similar duplicate as first steps for aos/soa file reads
      */
-    readMetaDataFromFile(getInFile());
-    //TODO: sequence of cout statements
+    ifstream imageFile(getInFile());
+    if(!imageFile.is_open()) {
+        cerr << "Failed to open file\n";
+        exit(-1);
+    }
+    vector<string> metadata = get_image_metadata(imageFile);
+    imageFile.close();
+    // TODO: Check bounds of metadata vector?
+    string width = metadata[1];
+    string height = metadata[2];
+    string intensity = metadata[3];
+    // TODO: Check if metadata is valid: magic number, are there min/max width, height, intensity
+    cout <<
+        "Input:   " << getInFile() << "\n" <<
+            "Output:   " << getOutFile() << "\n" <<
+                "Operation:   " << "info\n" <<
+                    "Image Size:   " << width << "x" << height << "\n" <<
+                        "Max Level:   " << intensity << "\n";
+
 }
 
 void maxLevel(int argc, char *argv[])

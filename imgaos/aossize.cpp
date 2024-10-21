@@ -6,7 +6,3 @@ using namespace std;
 #include "aossize.hpp"
 #include <iostream>
 #include <fstream>
-
-int imgWidth(){
-  return;
-  }
