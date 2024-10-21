@@ -1,3 +1,0 @@
-/home/fbuggy/18272-Project/imtool-aos/cmake-build-debug/CMakeFiles/imtool-aos.dir
-/home/fbuggy/18272-Project/imtool-aos/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/fbuggy/18272-Project/imtool-aos/cmake-build-debug/CMakeFiles/rebuild_cache.dir
