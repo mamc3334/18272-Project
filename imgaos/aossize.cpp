@@ -3,9 +3,10 @@
 //
 using namespace std;
 #include <vector>
-#include "imageaos.hpp"
+#include "aossize.hpp"
 #include <iostream>
 #include <fstream>
 
 int imgWidth(){
-  return
+  return;
+  }

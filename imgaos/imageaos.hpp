@@ -4,6 +4,7 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
+#include "../common/progargs.hpp"
 
 struct Color {
     int r, g, b;

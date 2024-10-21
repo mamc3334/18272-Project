@@ -8,6 +8,11 @@ using namespace std;
 #include <fstream>
 
 void aos_readBytes(){
+      //TODO: should be using getByte?
+      readMetaDataFromFile(getInFile());
+
+
+
       char currChar;
       currChar = imageFile.get();
       if(currChar != 'P') {
