@@ -6,9 +6,12 @@ using namespace std;
 #include "imageaos.hpp"
 #include <iostream>
 #include <fstream>
-#include "../common/binaryio.hpp"
 
 std::vector<Color> imgColors;
+//Prerequisite -> readMetaDataFromFile(file, false)
+void aos_readBytes(){
+      //TODO: should be using getByte?
+
 
 std::vector<std::string> get_image_metadata (string filename) {
       ifstream imageFile(filename);

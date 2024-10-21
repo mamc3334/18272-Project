@@ -4,6 +4,8 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
+#include "../common/progargs.hpp"
+
 
 #include <vector>
 #include <string>
