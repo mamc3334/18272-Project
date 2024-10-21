@@ -4,13 +4,12 @@
 
 #ifndef BINARYIO_HPP
 #define BINARYIO_HPP
-#include <string>
-using namespace std;
+#include <fstream>
 
-void readMetaDataFromFile(string filePath, bool close);
-string getMagicChars();
-int getWidth();
-int getHeight();
-int getIntensity();
+std::uint16_t read_binary16 (std::istream & input);
+void write_binary16 (std::ostream & output, std::uint16_t const & value);
+
+std::uint8_t read_binary8 (std::istream & input);
+void write_binary8 (std::ostream & output, std::uint8_t const & value);
 
 #endif //BINARYIO_HPP

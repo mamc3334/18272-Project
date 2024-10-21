@@ -4,38 +4,37 @@
 
 #include "binaryio.hpp"
 
-void readMetaDataFromFile(string filePath, bool close)
-{
-    //TODO: Quickly open file and fetch metadata
-    //TODO: store in accessible variables for use by aos and soa
-    oMagicChars = ;
-    oWidth = ;
-    oHeight = ;
-    oIntensity = ;
 
-    /* TODO: if close is set to true (ie only info) then close file and return
-    *  If false do not close, post req should go to aos or soa read immediately.
-    */
-    if(close)
-    {
-        //TODO
-        //post req
-    }
+std::uint16_t read_binary16 (std::istream & input) {
+    std::uint16_t value;
+
+    // Converts pointer to a 16-bit integer to a pointer to a character
+    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    char* two_bytes = reinterpret_cast<char*> (&value);
+    // Copies sizeof(value) bits from the input stream into the two_bytes char*
+    input.read(two_bytes, sizeof(value));
+    return value;
 }
 
-string getMagicChars()
-{
-    return oMagicChars;
+void write_binary16 (std::ostream & output, std::uint16_t const & value) {
+    char const* two_bytes = reinterpret_cast<char const*>(&value);
+    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    output.write(two_bytes, sizeof(value));
 }
-int getWidth()
-{
-    return oWidth;
+
+std::uint8_t read_binary8 (std::istream & input) {
+    std::uint8_t value;
+
+    // Converts pointer to a 16-bit integer to a pointer to a character
+    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    char* byte = reinterpret_cast<char*> (&value);
+    // Copies sizeof(value) bits from the input stream into the two_bytes char*
+    input.read(byte, sizeof(value));
+    return value;
 }
-int getHeight()
-{
-    return oHeight;
-}
-int getIntensity()
-{
-    return oIntensity;
+
+void write_binary8 (std::ostream & output, std::uint8_t const & value) {
+    char const* byte = reinterpret_cast<char const*>(&value);
+    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    output.write(byte, sizeof(value));
 }

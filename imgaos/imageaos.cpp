@@ -7,38 +7,21 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 
+std::vector<Color> imgColors;
 //Prerequisite -> readMetaDataFromFile(file, false)
 void aos_readBytes(){
       //TODO: should be using getByte?
 
 
-
-      char currChar;
-      currChar = imageFile.get();
-      if(currChar != 'P') {
-            cerr << "Invalid magic number:\t" << currChar << "\n";
-      }
-      currChar = imageFile.get();
-      if(currChar != '6') {
-            cerr << "Invalid magic number:\t" << currChar << "\n";
+std::vector<std::string> get_image_metadata (string filename) {
+      ifstream imageFile(filename);
+      if(!imageFile.is_open()) {
+            cerr << "Failed to open file\n";
+            exit(-1);
       }
 
-      // Get width
-
-      // Get height
-
-      // Get intensity
-
-
-      // This won't work
-      while (imageFile.get(currChar)) {
-            int r, g, b;
-            r = int(currChar);
-            imageFile.get(currChar);
-            g = int(currChar);
-            imageFile.get(currChar);
-            b = int(currChar);
-            Color pixel = {r, g, b};
-            imgColors.push_back(pixel);
-      }
+      string magic_word, width, height, intensity;
+      imageFile >> magic_word >> width >> height >> intensity;
+      vector<std::string> output = {width, height, intensity};
+      return output;
 }
