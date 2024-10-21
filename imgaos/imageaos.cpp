@@ -7,9 +7,9 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 
+//Prerequisite -> readMetaDataFromFile(file, false)
 void aos_readBytes(){
       //TODO: should be using getByte?
-      readMetaDataFromFile(getInFile());
 
 
 

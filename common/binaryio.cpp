@@ -4,7 +4,7 @@
 
 #include "binaryio.hpp"
 
-void readMetaDataFromFile(string filePath)
+void readMetaDataFromFile(string filePath, bool close)
 {
     //TODO: Quickly open file and fetch metadata
     //TODO: store in accessible variables for use by aos and soa
@@ -12,6 +12,15 @@ void readMetaDataFromFile(string filePath)
     oWidth = ;
     oHeight = ;
     oIntensity = ;
+
+    /* TODO: if close is set to true (ie only info) then close file and return
+    *  If false do not close, post req should go to aos or soa read immediately.
+    */
+    if(close)
+    {
+        //TODO
+        //post req
+    }
 }
 
 string getMagicChars()

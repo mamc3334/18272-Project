@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-void readMetaDataFromFile(string filePath);
+void readMetaDataFromFile(string filePath, bool close);
 string getMagicChars();
 int getWidth();
 int getHeight();
