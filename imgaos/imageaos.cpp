@@ -34,7 +34,7 @@ void aos_maxlevel()
         * Case 4: (hard) original > 255, new < 255
             * 6 bytes/pixel -> 3 bytes/pixel
             *
-
+/*test
 void read_image_IntensityScaling (string inputFilename, string outputFilename, int newIntensity) {
     ifstream inputImageFile(inputFilename);
     if(!inputImageFile.is_open()) {
