@@ -52,8 +52,6 @@ void aos_maxlevel(int newIntensity)
         }
     }
 }
-     */
-}
 
 void aos_resize()
 {
