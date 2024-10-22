@@ -13,6 +13,13 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
     return output;
 }
 
+void validate_metadata (const Image_Attributes &metadata) {
+    if (metadata.width < 0 || metadata.height < 0 || metadata.intensity < 0 || metadata.magic_word != "P6") {
+        cerr << "Invalid image metadata" << "\n";
+        exit(1);
+    }
+}
+
 void setInFile(const string& in)
 {
     inFile = in;
