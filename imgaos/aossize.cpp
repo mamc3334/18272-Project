@@ -1,24 +1,29 @@
 //
 // Created by mcgaf on 10/20/2024.
 //
-using namespace std;
-#include <vector>
 #include "aossize.hpp"
-#include <iostream>
-#include <fstream>
+using namespace std;
 
-bigColor[][] aossize_read_old_uint16(metadata.height, metadata.width, imageFile)
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const int rows, const int cols, ifstream& inFile)
 {
-    if(meta.intensity > 255)
+    for(int i = 0; i < rows; i++)
     {
-        bigColor pixelArray[meta.height][meta.width];
-        for(int i = 0; i < meta.height; i++)
+        for(int j = 0; j < cols; j++)
         {
-            for(int j = 0; j < meta.width; j++)
-            {
-                pixelArray[i][j]= {read_binary16(in), read_binary16(in), read_binary16(in)};
-            }
+
+            pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
         }
     }
-    return pixelArray;
 }
+
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const int rows, const int cols, ifstream& inFile)
+{
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
+        }
+    }
+}
+

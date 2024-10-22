@@ -1,10 +1,13 @@
 #ifndef AOSSIZE_HPP
 #define AOSSIZE_HPP
 
-#include "imageaos.hpp"
+#include "aoscommon.hpp"
 #include "../common/binaryio.hpp"
-#include "../common/progargs.hpp"
+#include <vector>
+#include <fstream>
+using namespace std;
 
-aossize_read_old_uint16(int metadata.height, int metadata.width, ifstream& inFile);
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const int rows, const int cols, ifstream& inFile);
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const int rows, const int cols, ifstream& inFile);
 
 #endif //AOSSIZE_HPP

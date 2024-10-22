@@ -1,3 +1,5 @@
+#include "aoscommon.hpp"
+#include "aossize.hpp"
 //
 // Created by finnb on 10/7/2024.
 //
@@ -5,6 +7,7 @@ using namespace std;
 #include <vector>
 #include "imageaos.hpp"
 #include <iostream>
+
 
 void aos_resize()
 {
@@ -16,8 +19,9 @@ void aos_resize()
     const Image_Attributes metadata = get_image_metadata(imageFile);
     if(metadata.intensity > 255)
     {
-        bigColor oldPhoto[][] = aossize_old_photo_16(metadata.height, metadata.width, imageFile);
-        aossize_main(oldPhoto, );
+        vector<vector<bigColor>> oldPhoto(metadata.height, vector<bigColor>(metadata.width));
+        aossize_old_photo_16(oldPhoto, metadata.height, metadata.width, imageFile);
+        aossize_main(oldPhoto, get);
     }
     else
     {
