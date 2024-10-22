@@ -22,5 +22,7 @@ string getInFile();
 string getOutFile();
 void setInFile(const string& in);
 void setOutFile(const string& out);
+util_set_new_w(const int& w);
+util_set_new_h(const int& h);
 
 #endif //UTILITY_HPP

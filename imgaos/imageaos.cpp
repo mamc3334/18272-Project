@@ -6,42 +6,14 @@ using namespace std;
 #include "imageaos.hpp"
 #include <iostream>
 
-std::vector<Color> imgColors;
-
-void aos_read_bytes(const Image_Attributes& meta, ifstream& in) {
-    /* TODO: should be using getByte?
-        * use metadata width and height and intensity
-        * Consider cache access
-     */
-}
-
-void aos_maxlevel()
+void aos_maxlevel(int newIntensity)
 {
-    ifstream imageFile(getInFile());
-    if(!imageFile.is_open()) {
-        cerr << "Failed to open file\n";
-        exit(-1);
-    }
-    const Image_Attributes metadata = get_image_metadata(imageFile);
-    aos_read_bytes(metadata, imageFile);
-    /* TODO: Intensity scaling to new max value
-        * Case 1: (easy) original and new intensity < 255
-            * 3 bytes/pixel
-        * Case 2: (medium) original and new intensity > 255
-            * 6 bytes/pixel - little-endian
-        * Case 3: (hard) original < 255, new > 255
-            * 3 bytes/pixel -> 6 bytes/pixel
-        * Case 4: (hard) original > 255, new < 255
-            * 6 bytes/pixel -> 3 bytes/pixel
-            *
-
-void read_image_IntensityScaling (string inputFilename, string outputFilename, int newIntensity) {
-    ifstream inputImageFile(inputFilename);
+    ifstream inputImageFile(getInFile());
     if(!inputImageFile.is_open()) {
         cerr << "Failed to open input file\n";
         exit(-1);
     }
-    ofstream outputImageFile(outputFilename);
+    ofstream outputImageFile(getOutFile());
     if(!outputImageFile.is_open()) {
         cerr << "Failed to open output file\n";
         exit(-1);
@@ -91,7 +63,17 @@ void aos_resize()
         exit(-1);
     }
     const Image_Attributes metadata = get_image_metadata(imageFile);
-    aos_read_bytes(metadata, imageFile);
+    if(metadata.intensity > 255)
+    {
+        bigColor oldPhoto[][] = aossize_read_old_uint16(metadata.height, metadata.width, imageFile);
+        aossize_main(oldPhoto,, ge);
+    }
+    else
+    {
+        smallColor oldPhoto[][] = aossize_read_old_uint8(metadata.height, metadata.width, imageFile);
+        aossize_main(oldPhoto, );
+    }
+
     /* TODO: Size scaling
         * Cases: Smaller to bigger
         * Use same process -> map target(new) onto original
