@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "../common/progargs.hpp"
-#include "../common/utility.hpp"
+#include "../common/intensityscaling.hpp"
 #include "../imgaos/imageaos.hpp"
 
 int main(int argc, char *argv[]) {
