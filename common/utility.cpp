@@ -46,7 +46,7 @@ void displayInfo()
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    Image_Attributes metadata = get_image_metadata(imageFile);
+    const Image_Attributes metadata = get_image_metadata(imageFile);
     imageFile.close();
     // TODO: Check bounds of metadata vector?
     // TODO: Check if metadata is valid: magic number, are there min/max width, height, intensity

@@ -14,7 +14,7 @@ struct Color {
     int r, g, b;
 };
 
-void aos_read_bytes();
+void aos_read_bytes(const Image_Attributes& meta);
 
 void aos_maxlevel();
 

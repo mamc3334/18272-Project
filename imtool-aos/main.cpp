@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
         if(strcmp(argv[3], "info") == 0)
         {
             prog_info(argc);
+            displayInfo();
         } else if (strcmp(argv[3], "maxlevel") == 0) {
             prog_maxlevel(argc, argv);
             aos_maxlevel();

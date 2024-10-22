@@ -17,7 +17,6 @@ void prog_info(const int argc)
         cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
         exit(-1);
     }
-    displayInfo();
 }
 
 void prog_maxlevel(const int argc, char *argv[])
