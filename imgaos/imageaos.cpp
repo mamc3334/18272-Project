@@ -6,53 +6,6 @@ using namespace std;
 #include "imageaos.hpp"
 #include <iostream>
 
-void aos_maxlevel(int newIntensity)
-{
-    ifstream inputImageFile(getInFile());
-    if(!inputImageFile.is_open()) {
-        cerr << "Failed to open input file\n";
-        exit(-1);
-    }
-    ofstream outputImageFile(getOutFile());
-    if(!outputImageFile.is_open()) {
-        cerr << "Failed to open output file\n";
-        exit(-1);
-    }
-    string magic_word, width, height, intensity;
-    inputImageFile >> magic_word >> width >> height >> intensity;
-    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << intensity << "\n";
-    int colors = 3*width*height;
-    if(intensity <= 255){
-        if(newIntensity <= 255){
-            for(int i = 0;i < colors: i ++){
-                uint8_t x = read_binary8 (inputImageFile);
-                uint8_t newColor = (x*newIntensity)/intensity;
-                write_binary8 (outputImageFile, newColor);
-            }
-        }else{ //newIntensity > 255
-            for(int i = 0;i < colors: i ++){
-                uint8_t x = read_binary8 (inputImageFile);
-                uint16_t newColor = (x*newIntensity)/intensity;
-                write_binary16 (outputImageFile, newColor);
-            }
-        }
-    }else{ //intensity > 255
-        if(newIntensity <= 255){
-            for(int i = 0;i < colors: i ++){
-                uint16_t x = read_binary16 (inputImageFile);
-                uint8_t newColor = (x*newIntensity)/intensity;
-                write_binary8 (outputImageFile, newColor);
-            }
-        }else{ //newIntensity > 255
-            for(int i = 0;i < colors: i ++){
-                uint16_t x = read_binary16 (inputImageFile);
-                uint16_t newColor = (x*newIntensity)/intensity;
-                write_binary16 (outputImageFile, newColor);
-            }
-        }
-    }
-}
-
 void aos_resize()
 {
     ifstream imageFile(getInFile());
@@ -63,12 +16,12 @@ void aos_resize()
     const Image_Attributes metadata = get_image_metadata(imageFile);
     if(metadata.intensity > 255)
     {
-        bigColor oldPhoto[][] = aossize_read_old_uint16(metadata.height, metadata.width, imageFile);
-        aossize_main(oldPhoto,, ge);
+        bigColor oldPhoto[][] = aossize_old_photo_16(metadata.height, metadata.width, imageFile);
+        aossize_main(oldPhoto, );
     }
     else
     {
-        smallColor oldPhoto[][] = aossize_read_old_uint8(metadata.height, metadata.width, imageFile);
+        smallColor oldPhoto[][] = aossize_old_photo_8(metadata.height, metadata.width, imageFile);
         aossize_main(oldPhoto, );
     }
 

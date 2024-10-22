@@ -7,7 +7,7 @@ using namespace std;
 #include "binaryio.hpp"
 
 
-void read_image_IntensityScaling (string inputFilename, string outputFilename, int newIntensity){
+void read_image_intensity_scaling (string inputFilename, string outputFilename, int newIntensity){
     ifstream inputImageFile(inputFilename);
     if(!inputImageFile.is_open()) {
         cerr << "Failed to open input file\n";
