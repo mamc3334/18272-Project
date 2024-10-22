@@ -11,14 +11,6 @@
 #include <vector>
 #include <string>
 
-
-struct smallColor{
-    uint8_t r, g, b;
-};
-struct bigColor{
-    uint16_t r, g, b;
-};
-
 void aos_maxlevel(int newIntensity)
 
 void aos_resize();
