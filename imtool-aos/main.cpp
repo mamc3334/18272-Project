@@ -2,9 +2,9 @@
 #include <cstring>
 using namespace std;
 
-#include "../common/binaryio.hpp"
 #include "../common/progargs.hpp"
 #include "../common/utility.hpp"
+#include "../imgaos/imageaos.hpp"
 
 int main(int argc, char *argv[]) {
     if (argc < 4) {
@@ -12,18 +12,22 @@ int main(int argc, char *argv[]) {
         exit(-1);
     } else {
         // Has the correct number of default arguments
-        progPaths(argv[1], argv[2]);
+        prog_paths(argv[1], argv[2]);
         if(strcmp(argv[3], "info") == 0)
         {
-            info(argc);
+            prog_info(argc);
         } else if (strcmp(argv[3], "maxlevel") == 0) {
-            maxLevel(argc, argv);
+            prog_maxlevel(argc, argv);
+            aos_maxlevel();
         } else if (strcmp(argv[3], "resize") == 0) {
-            resize(argc, argv); //function in progargs
+            prog_resize(argc, argv);
+            aos_resize();
         } else if (strcmp(argv[3], "cutfreq") == 0) {
-            cutfreq(argc, argv);
+            prog_cutfreq(argc, argv);
+            aos_cutfreq();
         } else if (strcmp(argv[3], "compress") == 0) {
-            compress(argc);
+            prog_compress(argc);
+            aos_compress();
         } else {
             cerr << "Error:\tInvalid option:\t" << argv[3] << "\n";
             exit(-1);

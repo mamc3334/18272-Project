@@ -14,6 +14,16 @@ struct Color {
     int r, g, b;
 };
 
+void aos_read_bytes();
+
+void aos_maxlevel();
+
+void aos_resize();
+
+void aos_cutfreq();
+
+void aos_compress();
+
 
 
 
