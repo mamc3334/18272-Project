@@ -24,9 +24,4 @@ void aos_cutfreq();
 
 void aos_compress();
 
-
-
-
-
-
 #endif //IMAGEAOS_HPP
