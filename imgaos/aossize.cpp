@@ -3,8 +3,6 @@
 //
 #include "aossize.hpp"
 
-#include <cmath>
-#include <sys/stat.h>
 using namespace std;
 
 void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const int rows, const int cols, ifstream& inFile)

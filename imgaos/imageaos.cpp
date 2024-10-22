@@ -34,6 +34,8 @@ void aos_resize(int width, int height)
         aossize_old_photo_8(sOldPhoto, metadata.height, metadata.width, imageFile);
         aossize_resize_8(sOldPhoto, metadata.width, metadata.height, height, width, outputImageFile);
     }
+    imageFile.close();
+    outputImageFile.close();
 }
 
 void aos_cutfreq()

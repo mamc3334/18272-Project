@@ -5,6 +5,7 @@
 #include "../common/binaryio.hpp"
 #include <vector>
 #include <fstream>
+#include <cmath>
 using namespace std;
 
 void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, int rows, int cols, ifstream& inFile);
