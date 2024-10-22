@@ -22,10 +22,10 @@ int main(int argc, char *argv[]) {
             read_image_intensity_scaling(atoi(argv[4]));
         } else if (strcmp(argv[3], "resize") == 0) {
             prog_resize(argc, argv);
-            aos_resize();
+            aos_resize(atoi(argv[4]), atoi(argv[5]));
         } else if (strcmp(argv[3], "cutfreq") == 0) {
             prog_cutfreq(argc, argv);
-            aos_cutfreq();
+            aos_cutfreq(atoi(argv[4]));
         } else if (strcmp(argv[3], "compress") == 0) {
             prog_compress(argc);
             aos_compress();

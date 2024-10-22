@@ -11,9 +11,9 @@
 #include <vector>
 #include <string>
 
-void aos_resize();
+void aos_resize(int width, int height);
 
-void aos_cutfreq();
+void aos_cutfreq(int num);
 
 void aos_compress();
 
