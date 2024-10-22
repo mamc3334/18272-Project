@@ -7,6 +7,6 @@
 
 #include "utility.hpp"
 
-void read_image_intensity_scaling (string inputFilename, string outputFilename, int newIntensity);
+void read_image_intensity_scaling (int newIntensity);
 
 #endif //INTENSITYSCALING_H
