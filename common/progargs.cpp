@@ -59,6 +59,7 @@ void prog_cutfreq(const int argc, char *argv[])
         cerr << "Invalid cutfreq: " << argv[3] << "\n";
         exit(-1);
     }
+    util_set_freq(atoi(argv[4]));
 }
 
 void prog_compress(const int argc)
