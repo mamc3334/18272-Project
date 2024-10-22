@@ -29,11 +29,6 @@ void prog_maxlevel(const int argc, char *argv[])
         cerr << "Invalid maxlevel: " << argv[4] << "\n";
         exit(-1);
     }
-    cout << "maxlevel: " << argv[4] << endl;
-    /* TODO: Intensity Rescaling
-         * Read metadata similar to info but store instead of print
-         * Store these somewhere in common
-         * then go to aos/soa file for rest of read */
 }
 
 void prog_resize(const int argc, char *argv[])
@@ -50,10 +45,8 @@ void prog_resize(const int argc, char *argv[])
         cerr << "Invalid resize height: " << argv[5] << "\n";
         exit(-1);
     }
-    /* TODO: Image resize
-         * Read metadata similar to info but store instead of print
-         * Store these somewhere in common
-         * then go to aos/soa file for rest of read */
+    util_set_new_w(atoi(argv[4]));
+    util_set_new_h(atoi(argv[5]));
 }
 
 void prog_cutfreq(const int argc, char *argv[])
@@ -66,11 +59,6 @@ void prog_cutfreq(const int argc, char *argv[])
         cerr << "Invalid cutfreq: " << argv[3] << "\n";
         exit(-1);
     }
-    cout << "Cutfreq" << endl;
-    /* TODO: Remove least frequent colors
-         * Read metadata similar to info but store instead of print
-         * Store these somewhere in common
-         * then go to aos/soa file for rest of read */
 }
 
 void prog_compress(const int argc)
@@ -79,11 +67,4 @@ void prog_compress(const int argc)
         cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
         exit(-1);
     }
-    cout << "Compress" << endl;
-    /* TODO: Photo Compression
-         * Read metadata similar to info but store instead of print
-         * Store these somewhere in common
-         * go to aos/soa file
-         * Follow color table instructions
-         * create output CPPM file */
 }
