@@ -4,10 +4,23 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+using namespace std;
 
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
-std::vector<std::string> get_image_metadata (std::ifstream& imageFile);
+struct Image_Attributes {
+    std::string magic_word;
+    int width, height, intensity;
+};
+
+inline string inFile, outFile;
+
+Image_Attributes get_image_metadata (ifstream& imageFile);
+void displayInfo();
+string getInFile();
+string getOutFile();
+void setInFile(const string& in);
+void setOutFile(const string& out);
 
 #endif //UTILITY_HPP

@@ -7,24 +7,19 @@
 
 #include <iostream>
 #include <fstream>
-#include "binaryio.hpp"
 #include "utility.hpp"
 using namespace std;
 
-void progPaths(string imagePath, string outFile);
-string getInFile();
-string getOutFile();
+void prog_paths(const string& imagePath, const string& outFile);
 
-void info(int argc);
+void prog_info(int argc);
 
-void displayInfo();
+void prog_maxlevel(int argc, char *argv[]);
 
-void maxLevel(int argc, char *argv[]);
+void prog_resize(int argc, char *argv[]);
 
-void resize(int argc, char *argv[]);
+void prog_cutfreq(int argc, char *argv[]);
 
-void cutfreq(int argc, char *argv[]);
-
-void compress(int argc);
+void prog_compress(int argc);
 
 #endif //PROGARGS_HPP
