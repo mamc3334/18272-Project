@@ -5,18 +5,21 @@
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
 #include "../common/progargs.hpp"
+#include "../common/binaryio.hpp"
 
 
 #include <vector>
 #include <string>
 
-struct Color {
-    int r, g, b;
+
+struct smallColor{
+    uint8_t r, g, b;
+};
+struct bigColor{
+    uint16_t r, g, b;
 };
 
-void aos_read_bytes(const Image_Attributes& meta);
-
-void aos_maxlevel();
+void aos_maxlevel(int newIntensity)
 
 void aos_resize();
 
