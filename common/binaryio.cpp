@@ -6,13 +6,9 @@
 
 
 std::uint16_t read_binary16 (std::istream & input) {
-    std::uint16_t value;
-
-    // Converts pointer to a 16-bit integer to a pointer to a character
-    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
-    char* two_bytes = reinterpret_cast<char*> (&value);
-    // Copies sizeof(value) bits from the input stream into the two_bytes char*
-    input.read(two_bytes, sizeof(value));
+    std::uint8_t first = read_binary8(input);
+    std::uint8_t second = read_binary8(input);
+    std::uint16_t value = (second << 8) | first;
     return value;
 }
 
