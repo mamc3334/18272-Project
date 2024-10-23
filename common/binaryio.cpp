@@ -5,7 +5,7 @@
 #include "binaryio.hpp"
 
 
-std::uint16_t read_binary16 (std::istream & input){
+std::uint16_t read_binary16 (std::istream & input) {
     std::uint16_t value;
 
     // Converts pointer to a 16-bit integer to a pointer to a character
