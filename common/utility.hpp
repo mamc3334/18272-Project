@@ -16,14 +16,12 @@ struct Image_Attributes {
 
 inline string inFile, outFile;
 
-Image_Attributes get_image_metadata (ifstream& imageFile);
 void validate_metadata (Image_Attributes metadata);
+Image_Attributes get_image_metadata (ifstream& imageFile);
 void displayInfo();
 string getInFile();
 string getOutFile();
 void setInFile(const string& in);
 void setOutFile(const string& out);
-util_set_new_w(const int& w);
-util_set_new_h(const int& h);
 
 #endif //UTILITY_HPP

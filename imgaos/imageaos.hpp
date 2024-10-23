@@ -11,11 +11,9 @@
 #include <vector>
 #include <string>
 
-void aos_maxlevel(int newIntensity)
+void aos_resize(int width, int height);
 
-void aos_resize();
-
-void aos_cutfreq();
+void aos_cutfreq(int num);
 
 void aos_compress();
 

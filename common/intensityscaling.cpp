@@ -1,3 +1,4 @@
+#include "utility.hpp"
 //
 // Created by eloim on 22/10/2024.
 //
@@ -7,13 +8,13 @@ using namespace std;
 #include "binaryio.hpp"
 
 
-void read_image_IntensityScaling (string inputFilename, string outputFilename, int newIntensity){
-    ifstream inputImageFile(inputFilename);
+void read_image_intensity_scaling (int newIntensity){
+    ifstream inputImageFile(getInFile());
     if(!inputImageFile.is_open()) {
         cerr << "Failed to open input file\n";
         exit(-1);
     }
-    ofstream outputImageFile(outputFilename);
+    ofstream outputImageFile(getOutFile());
     if(!outputImageFile.is_open()) {
         cerr << "Failed to open output file\n";
         exit(-1);
@@ -21,7 +22,8 @@ void read_image_IntensityScaling (string inputFilename, string outputFilename, i
     string magic_word;
     int width, height, intensity;
     inputImageFile >> magic_word >> width >> height >> intensity;
-    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << intensity << "\n";
+    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << newIntensity << "\n";
+
     int colors = 3*width*height;
     if(intensity <= 255){
         if(newIntensity <= 255){

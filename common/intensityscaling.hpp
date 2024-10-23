@@ -5,4 +5,8 @@
 #ifndef INTENSITYSCALING_H
 #define INTENSITYSCALING_H
 
+#include "utility.hpp"
+
+void read_image_intensity_scaling (int newIntensity);
+
 #endif //INTENSITYSCALING_H
