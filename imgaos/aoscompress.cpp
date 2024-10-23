@@ -21,11 +21,13 @@ void compress(ifstream& infile, ofstream& outfile) {
         vector<smallColor> colors;
         get_small_colors(infile, colors);
         uint8_t indexByteLength = getIndexByteLength(colors.size());
+        write_metadata(outfile, metadata);
         write_small_colors(infile, outfile, metadata, colors, indexByteLength);
     } else { //intensity > 255, use bigColor
         vector<bigColor> colors;
         get_big_colors(infile, colors);
         uint8_t indexByteLength = getIndexByteLength(colors.size());
+		write_metadata(outfile, metadata);
         write_big_colors(infile, outfile, metadata, colors, indexByteLength);
     }
 }
@@ -58,9 +60,12 @@ Read through all pixels of the input file
  */
 
 void get_small_colors(ifstream& inFile, vector<smallColor>& colors, Image_Attributes& metadata) {
-	int numColors = 3*metadata.width*metadata.height;
-    for(int i = 0; i < numColors; i++) {
-        uint8_t color = read_binary8(inFile);
+	int numPixels = metadata.width*metadata.height;
+    for(int i = 0; i < numPixels; i++) {
+        uint8_t red = read_binary8(inFile);
+        uint8_t green = read_binary8(inFile);
+        uint8_t blue = read_binary8(inFile);
+        smallColor color = {red, green, blue};
 		if(contains_small_color(colors, color)) {
 			colors.push_back(color);
 		}
@@ -69,7 +74,16 @@ void get_small_colors(ifstream& inFile, vector<smallColor>& colors, Image_Attrib
 
 
 void get_big_colors(ifstream& infile, vector<bigColor>& colors, Image_Attributes& metadata) {
-
+	int numPixels = metadata.width*metadata.height;
+    for(int i = 0; i < numPixels; i++) {
+        uint16_t red = read_binary16(inFile);
+        uint16_t green = read_binary16(inFile);
+        uint16_t blue = read_binary16(inFile);
+        bigColor color = {red, green, blue};
+		if(contains_big_color(colors, color)) {
+			colors.push_back(color);
+		}
+    }
 }
 
 
@@ -89,11 +103,30 @@ Write new magic word, width, height, intensity
 Write length of color vector
 Write pixel indices using the correct length (indexByteLength)
  */
+void write_metadata(ofstream& outfile, Image_Attributes& metadata) {
+	outfile << "C6 " << metadata.width << " " << metadata.height << " " << metadata.intensity << " ";
+}
 
 void write_small_colors(ifstream& infile, ofstream& outfile, Image_Attributes& metadata, vector<smallColor>& colors, uint8_t indexByteLength) {
-
+    outfile << colors.size() << "\n";
+    for(int i = 0; i < colors.size(); i++) {
+      smallColor color = colors[i];
+      write_binary8(outfile, color.r);
+      write_binary8(outfile, color.g);
+      write_binary8(outfile, color.b);
+    }
 }
 
 void write_big_colors(ifstream& infile, ofstream& outfile, Image_Attributes& metadata, vector<bigColor>& colors, uint8_t indexByteLength) {
+	outfile << colors.size() << "\n";
+    for(int i = 0; i < colors.size(); i++) {
+      bigColor color = colors[i];
+      write_binary16(outfile, color.r);
+      write_binary16(outfile, color.g);
+      write_binary16(outfile, color.b);
+    }
+}
+
+void write_small_pixels(ifstream& infile, ofstream& outfile, vector<smallColor>& colors) {
 
 }
