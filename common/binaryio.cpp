@@ -31,7 +31,7 @@ void write_binary16 (std::ostream & output, std::uint16_t const & value) {
 
 void write_little_endian_binary16 (std::ostream & output, std::uint16_t const & value)
 {
-    write_binary8(output, static_cast<uint8_t>(value&0xFF));
+    write_binary8(output, static_cast<uint8_t>(value));
     write_binary8(output, static_cast<uint8_t>(value>>8));
 }
 
