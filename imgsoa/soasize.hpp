@@ -7,6 +7,8 @@
 
 #include <fstream>
 #include "soacommon.hpp"
+#include "../common/binaryio.hpp"
+#include "../common/utility.hpp"
 using namespace std;
 
 void soasize_old_photo_16(photo16& photo, int rows, int cols, ifstream& inFile);

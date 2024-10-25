@@ -5,20 +5,21 @@
 #ifndef SOACOMMON_HPP
 #define SOACOMMON_HPP
 #include <cstdint>
+#include <vector>
 #include <tuple>
 using namespace std;
 
 struct photo16
 {
-    uint16_t r[];
-    uint16_t g[];
-    uint16_t b[];
+    vector<uint16_t> r;
+    vector<uint16_t> g;
+    vector<uint16_t> b;
 };
 struct photo8
 {
-    uint8_t r[];
-    uint8_t g[];
-    uint8_t b[];
+    vector<uint8_t> r;
+    vector<uint8_t> g;
+    vector<uint8_t> b;
 };
 
 #endif //SOACOMMON_HPP
