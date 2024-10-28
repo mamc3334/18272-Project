@@ -5,13 +5,15 @@
 #ifndef AOSCOMMON_HPP
 #define AOSCOMMON_HPP
 #include <iostream>
+#include <cstdint>
+
 using namespace std;
 
 struct smallColor{
     uint8_t r, g, b;
 
     bool operator==(const smallColor &other) const{
-      return r == other.r && g == other.g && b == other.b;
+      return (r == other.r && g == other.g && b == other.b);
     }
 };
 struct bigColor{

@@ -9,24 +9,35 @@
 #include<fstream>
 #include "../common/utility.hpp"
 #include "aoscommon.hpp"
+#include <cstdint>
 
 using namespace std;
 
-void compress(ifstream &infile, ofstream &outfile);
+void compress(ifstream& inFile, ofstream& outFile);
 
-bool contains_big_color(vector<bigColor>& colors, bigColor& color);
-bool contains_small_color(vector<smallColor>& colors, smallColor& color);
+template <typename T> bool contains(vector<T> vec, T& element);
+template <typename T> bool index_of_1b(vector<T> vec, T& element, uint8_t& index);
+template <typename T> bool index_of_2b(vector<T> vec, T& element, uint16_t& index);
+template <typename T> bool index_of_4b(vector<T> vec, T& element, int& index);
 
-void get_small_colors(ifstream& infile, vector<smallColor>& colors);
-void get_big_colors(ifstream& infile, vector<bigColor>& colors);
+void get_small_colors(ifstream& inFile, vector<smallColor>& colors, int numPixels);
+void get_big_colors(ifstream& inFile, vector<bigColor>& colors, int numPixels);
 
 uint8_t getIndexByteLength(size_t colorSize);
 
-void write_metadata(ofstream& outfile, Image_Attributes& metadata);
-void write_small_colors(ifstream& infile, ofstream& outfile, vector<smallColor>& colors);
-void write_big_colors(ifstream& infile, ofstream& outfile, vector<bigColor>& colors);
+void write_metadata(ofstream& outFile, Image_Attributes& metadata);
+void write_small_colors(ofstream& outFile, vector<smallColor>& colors);
+void write_big_colors(ofstream& outFile, vector<bigColor>& colors);
 
-void write_small_pixels(ifstream& infile, ofstream& outfile, vector<smallColor>& colors, uint_8 numPixels);
-void write_big_pixels(ifstream& infile, ofstream& outfile, vector<bigColor>& colors, uint_8 numPixels);
+void write_small_pixels(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels, uint8_t indexByteLength);
+void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels);
+void write_small_pixels_2b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels);
+void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels);
+
+void write_big_pixels(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels, uint8_t indexByteLength);
+void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels);
+void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels);
+void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels);
+void write_big_pixels(ifstream& infile, ofstream& outfile, vector<bigColor>& colors, uint8_t numPixels);
 
 #endif //AOSCOMPRESS_HPP
