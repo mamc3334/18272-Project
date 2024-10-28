@@ -38,3 +38,9 @@ void write_binary8 (std::ostream & output, std::uint8_t const & value) {
     // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
     output.write(byte, sizeof(value));
 }
+
+void write_binary32(std::ostream & output, int const & value) {
+    char const* three_bytes = reinterpret_cast<char const*>(&value);
+    // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    output.write(three_bytes, sizeof(value));
+}
