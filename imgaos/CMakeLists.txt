@@ -2,6 +2,8 @@
 add_library(imgaos
         imageaos.cpp
         aossize.cpp
+        aoscompress.cpp
+        aoscommon.cpp
         #        other1.cpp
 #        other2.cpp
 )
