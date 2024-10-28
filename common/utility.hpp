@@ -18,6 +18,7 @@ inline string inFile, outFile;
 
 void validate_metadata (Image_Attributes metadata);
 Image_Attributes get_image_metadata (ifstream& imageFile);
+void validate_metadata (Image_Attributes metadata);
 void displayInfo();
 string getInFile();
 string getOutFile();
