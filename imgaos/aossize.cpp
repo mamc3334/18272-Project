@@ -5,11 +5,11 @@
 
 using namespace std;
 
-void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const int rows, const int cols, ifstream& inFile)
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
 {
-    for(int i = 0; i < rows; i++)
+    for(size_t i = 0; i < rows; i++)
     {
-        for(int j = 0; j < cols; j++)
+        for(size_t j = 0; j < cols; j++)
         {
 
             pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
@@ -17,27 +17,27 @@ void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const int rows, 
     }
 }
 
-void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const int rows, const int cols, ifstream& inFile)
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
 {
-    for(int i = 0; i < rows; i++)
+    for(size_t i = 0; i < rows; i++)
     {
-        for(int j = 0; j < cols; j++)
+        for(size_t j = 0; j < cols; j++)
         {
             pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
         }
     }
 }
 
-void aossize_resize_16(vector<vector<bigColor>>& pixelArray, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
+void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int oRows, const unsigned int oCols, int nRows, int nCols, ofstream& outFile)
 {
     for(int i = 0; i < nRows; i++){
-        double y = static_cast<double>(i)*oRows/nRows;
-        int yl = floor(y);
-        int yh = ceil(y);
+        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
+        float yl = floor(y);
+        float yh = ceil(y);
         for(int j = 0; j < nCols; j++){
-            double x = static_cast<double>(j)*oCols/nCols;
-            int xl = floor(x);
-            int xh = ceil(x);
+            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
+            float xl = floor(x);
+            float xh = ceil(x);
             bigColor pixel = interpolate_16(pixelArray,x,y,xl,xh,yl,yh);
             write_binary16(outFile, pixel.r);
             write_binary16(outFile, pixel.g);
@@ -49,13 +49,13 @@ void aossize_resize_16(vector<vector<bigColor>>& pixelArray, int oRows, int oCol
 void aossize_resize_8(vector<vector<smallColor>>& pixelArray, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
 {
     for(int i = 0; i < nRows; i++){
-        double y = static_cast<double>(i)*oRows/nRows;
-        double yl = floor(y);
-        double yh = ceil(y);
+        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
+        float yl = floor(y);
+        float yh = ceil(y);
         for(int j = 0; j < nCols; j++){
-            double x = static_cast<double>(j)*oCols/nCols;
-            double xl = floor(x);
-            double xh = ceil(x);
+            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
+            float xl = floor(x);
+            float xh = ceil(x);
             smallColor pixel = interpolate_8(pixelArray,x,y,xl,xh,yl,yh);
             write_binary8(outFile, pixel.r);
             write_binary8(outFile, pixel.g);
@@ -64,12 +64,12 @@ void aossize_resize_8(vector<vector<smallColor>>& pixelArray, int oRows, int oCo
     }
 }
 
-bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const double x, const double y, const double xl, const double xh, const double yl, const double yh)
+bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const float x, const float y, const float xl, const float xh, const float yl, const float yh)
 {
-    bigColor pixelTL = pixelArray[static_cast<int>(yl)][static_cast<int>(xl)];
-    bigColor pixelTR = pixelArray[static_cast<int>(yl)][static_cast<int>(xh)];
-    bigColor pixelBL = pixelArray[static_cast<int>(yh)][static_cast<int>(xl)];
-    bigColor pixelBR = pixelArray[static_cast<int>(yh)][static_cast<int>(xh)];
+    bigColor pixelTL = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xl)];
+    bigColor pixelTR = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xh)];
+    bigColor pixelBL = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xl)];
+    bigColor pixelBR = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xh)];
     uint16_t topR = static_cast<uint16_t>(pixelTL.r*(x-xl) + pixelTR.r*(xh-x));
     uint16_t topG = static_cast<uint16_t>(pixelTL.g*(x-xl) + pixelTR.g*(xh-x));
     uint16_t topB = static_cast<uint16_t>(pixelTL.b*(x-xl) + pixelTR.b*(xh-x));
@@ -84,12 +84,12 @@ bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const double
     return {finalR, finalG, finalB};
 }
 
-smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const double x, const double y, const double xl, const double xh, const double yl, const double yh)
+smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const float x, const float y, const float xl, const float xh, const float yl, const float yh)
 {
-    smallColor pixelTL = pixelArray[static_cast<int>(yl)][static_cast<int>(xl)];
-    smallColor pixelTR = pixelArray[static_cast<int>(yl)][static_cast<int>(xh)];
-    smallColor pixelBL = pixelArray[static_cast<int>(yh)][static_cast<int>(xl)];
-    smallColor pixelBR = pixelArray[static_cast<int>(yh)][static_cast<int>(xh)];
+    smallColor pixelTL = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xl)];
+    smallColor pixelTR = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xh)];
+    smallColor pixelBL = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xl)];
+    smallColor pixelBR = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xh)];
     uint8_t topR = static_cast<uint8_t>(pixelTL.r*(x-xl) + pixelTR.r*(xh-x));
     uint8_t topG = static_cast<uint8_t>(pixelTL.g*(x-xl) + pixelTR.g*(xh-x));
     uint8_t topB = static_cast<uint8_t>(pixelTL.b*(x-xl) + pixelTR.b*(xh-x));

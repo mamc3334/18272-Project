@@ -11,12 +11,13 @@ using namespace std;
 
 struct Image_Attributes {
     std::string magic_word;
-    int width, height, intensity;
+    unsigned int width, height;
+    int intensity;
 };
 
 inline string inFile, outFile;
 
-void validate_metadata (Image_Attributes metadata);
+void validate_metadata (const string& word, const int width, const int height, const int intensity);
 Image_Attributes get_image_metadata (ifstream& imageFile);
 void displayInfo();
 string getInFile();
