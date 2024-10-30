@@ -5,19 +5,19 @@
 #include "../common/binaryio.hpp"
 using namespace std;
 
-void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const unsigned int rows, const unsigned int cols, ifstream& inFile)
 {
-    for(size_t i = 0; i < rows; i++){
-        for(size_t j = 0; j < cols; j++){
+    for(unsigned int i = 0; i < rows; i++){
+        for(unsigned int j = 0; j < cols; j++){
             pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
         }
     }
 }
 
-void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const unsigned int rows, const unsigned int cols, ifstream& inFile)
 {
-    for(size_t i = 0; i < rows; i++){
-        for(size_t j = 0; j < cols; j++){
+    for(unsigned int i = 0; i < rows; i++){
+        for(unsigned int j = 0; j < cols; j++){
             pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
         }
     }
