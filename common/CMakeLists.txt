@@ -2,7 +2,7 @@
 add_library(common
         progargs.cpp
         binaryio.cpp
-        utility.cpp
+        #utility.cpp
         intensityscaling.cpp
         intensityscaling.h
 )
