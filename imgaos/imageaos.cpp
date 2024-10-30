@@ -1,12 +1,13 @@
-#include "aoscommon.hpp"
-#include "aossize.hpp"
 //
 // Created by finnb on 10/7/2024.
 //
-using namespace std;
-#include <vector>
 #include "imageaos.hpp"
+#include "aoscommon.hpp"
+#include "aossize.hpp"
+#include "../common/utility.hpp"
+#include <vector>
 #include <iostream>
+using namespace std;
 
 void aos_resize(int width, int height)
 {

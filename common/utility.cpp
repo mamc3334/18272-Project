@@ -4,8 +4,11 @@
 
 #include "utility.hpp"
 
-void validate_metadata (const Image_Attributes &metadata) {
-    if (metadata.width < 0 || metadata.height < 0 || metadata.intensity < 0 || metadata.magic_word != "P6") {
+#include <sys/stat.h>
+using namespace std;
+
+void validate_metadata (const string& word, const int width, const int height, const int intensity) {
+    if (width < 0 || height < 0 || intensity < 0 || word != "P6") {
         cerr << "Invalid input photo file" << "\n";
         exit(1);
     }
@@ -16,8 +19,8 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
     string magic_word;
     int width, height, intensity;
     imageFile >> magic_word >> width >> height >> intensity;
-    Image_Attributes output = {magic_word, width, height, intensity};
-    validate_metadata(output);
+    validate_metadata(magic_word, width, height, intensity);
+    Image_Attributes output = {magic_word, static_cast<unsigned int>(width), static_cast<unsigned int>(height), intensity};
     return output;
 }
 

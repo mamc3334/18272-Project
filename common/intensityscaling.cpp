@@ -41,6 +41,9 @@ void intensity_greater_255(const vector<int> & data, istream inputImageFile, ost
 }
 
 void read_image_intensity_scaling (int newIntensity){
+    /*TODO: Maybe incorporate get_image_metadata() to reduce redundant code
+     * Use type casting to fix conversion errors (int, uint_16t, uint_8t)
+     */
     ifstream inputImageFile(getInFile());
     if(!inputImageFile.is_open()) {
         cerr << "Failed to open input file\n";
