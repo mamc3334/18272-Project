@@ -1,18 +1,43 @@
-#include "intensityscaling.h"
-
-#include "utility.hpp"
 //
 // Created by eloim on 22/10/2024.
 //
 using namespace std;
 #include <iostream>
 #include <fstream>
-#include "binaryio.hpp"
+#include "intensityscaling.hpp"
 
 
-void intensity_smaller_255(const vector<int> & data, const ifstream & inputImageFile, const ofstream & outputImageFile);
+void intensity_smaller_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
+    if(data[1] <= 255){
+        for(int i = 0;i < data[2]; i ++){
+            const uint8_t oldColor = read_binary8 (inputImageFile);
+            const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
+            write_binary8 (outputImageFile, newColor);
+        }
+    }else{ //newIntensity > 255
+        for(int i = 0;i < data[2]; i ++){
+            const uint8_t oldColor = read_binary8 (inputImageFile);
+            const auto newColor = static_cast<uint16_t>((oldColor*data[1])/data[0]);
+            write_binary16 (outputImageFile, newColor);
+        }
+    }
+}
 
-void intensity_greater_255(const vector<int> & data, const ifstream & inputImageFile, const ofstream & outputImageFile);
+void intensity_greater_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
+    if(data[1] <= 255){
+        for(int i = 0;i < data[2]; i ++){
+            const uint16_t oldColor = read_binary16 (inputImageFile);
+            const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
+            write_binary8 (outputImageFile, newColor);
+        }
+    }else{ //newIntensity > 255
+        for(int i = 0;i < data[2]; i ++){
+            const uint16_t oldColor = read_binary16 (inputImageFile);
+            const auto newColor = static_cast<uint16_t>((oldColor*data[1])/data[0]);
+            write_binary16 (outputImageFile, newColor);
+        }
+    }
+}
 
 void read_image_intensity_scaling (int newIntensity){
     ifstream inputImageFile(getInFile());
@@ -36,34 +61,3 @@ void read_image_intensity_scaling (int newIntensity){
     }
 }
 
-void intensity_smaller_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
-    if(data[1] <= 255){
-        for(int i = 0;i < data[2]; i ++){
-            const uint8_t oldColor = read_binary8 (inputImageFile);
-            const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
-            write_binary8 (outputImageFile, newColor);
-        }
-    }else{ //newIntensity > 255
-        for(int i = 0;i < data[2]; i ++){
-            const uint8_t oldColor = read_binary8 (inputImageFile);
-            const auto newColor = static_cast<uint16_t>((oldColor*data[1])/data[0]);
-            write_binary16 (outputImageFile, newColor);
-        }
-    }
-};
-
-void intensity_greater_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
-    if(data[1] <= 255){
-        for(int i = 0;i < data[2]; i ++){
-            const uint16_t oldColor = read_binary16 (inputImageFile);
-            const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
-            write_binary8 (outputImageFile, newColor);
-        }
-    }else{ //newIntensity > 255
-        for(int i = 0;i < data[2]; i ++){
-            const uint16_t oldColor = read_binary16 (inputImageFile);
-            const auto newColor = static_cast<uint16_t>((oldColor*data[1])/data[0]);
-            write_binary16 (outputImageFile, newColor);
-        }
-    }
-};
