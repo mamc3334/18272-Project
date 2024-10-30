@@ -1,8 +1,7 @@
 #ifndef AOSSIZE_HPP
 #define AOSSIZE_HPP
 
-#include "aoscommon.hpp"
-#include "../common/binaryio.hpp"
+#include "../common/utility.hpp"
 #include <vector>
 #include <fstream>
 #include <cmath>

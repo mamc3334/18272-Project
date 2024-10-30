@@ -11,13 +11,13 @@
 #include "../common/utility.hpp"
 using namespace std;
 
-void soasize_old_photo_16(photo16& photo, int rows, int cols, ifstream& inFile);
-void soasize_old_photo_8(photo8& photo, int rows, int cols, ifstream& inFile);
+void soasize_old_photo_16(bigArray& photo, unsigned int size, ifstream& inFile);
+void soasize_old_photo_8(smallArray& photo, unsigned int size, ifstream& inFile);
 
-photo16 size_resize_16(photo16 photo, int oRows, int oCols, int nRows, int nCols, ofstream& outFile);
-photo8 size_resize_8(photo8 photo, int oRows, int oCols, int nRows, int nCols, ofstream& outFile);
+void soasize_resize_16(bigArray photo, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
+void soasize_resize_8(smallArray photo, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
 
-tuple<uint16_t,uint16_t,uint16_t> interpolate_16(photo16 photo, double x, double y, double xl, double xh, double yl, double yh);
-tuple<uint16_t,uint16_t,uint16_t> interpolate_8(photo8 photo, double x, double y, double xl, double xh, double yl, double yh);
+tuple<uint16_t,uint16_t,uint16_t> interpolate_16(bigArray photo, float x, float y, float xl, float xh, float yl, float yh);
+tuple<uint8_t, uint8_t, uint8_t> interpolate_8(smallArray photo, float x, float y, float xl, float xh, float yl, float yh);
 
 #endif //SOASIZE_HPP

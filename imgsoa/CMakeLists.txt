@@ -10,6 +10,7 @@ add_library(imgsoa
         soacompress.hpp
         soacommon.cpp
         soacommon.hpp
+        soasize.cpp
         #        other1.cpp
 #        other2.cpp
 )

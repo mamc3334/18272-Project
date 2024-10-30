@@ -15,6 +15,14 @@ struct Image_Attributes {
     int intensity;
 };
 
+struct smallColor{
+    uint8_t r, g, b;
+};
+
+struct bigColor{
+    uint16_t r, g, b;
+};
+
 inline string inFile, outFile;
 
 void validate_metadata (const string& word, const int width, const int height, const int intensity);

@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <cstring>
+#include <common/intensityscaling.hpp>
 using namespace std;
 
 #include "../common/progargs.hpp"
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
             displayInfo();
         } else if (strcmp(argv[3], "maxlevel") == 0) {
             prog_maxlevel(argc, argv);
-            soa_maxlevel();
+            read_image_intensity_scaling(atoi(argv[4]));
         } else if (strcmp(argv[3], "resize") == 0) {
             prog_resize(argc, argv);
             soa_resize();

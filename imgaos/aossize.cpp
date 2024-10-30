@@ -2,16 +2,13 @@
 // Created by mcgaf on 10/20/2024.
 //
 #include "aossize.hpp"
-
+#include "../common/binaryio.hpp"
 using namespace std;
 
 void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
 {
-    for(size_t i = 0; i < rows; i++)
-    {
-        for(size_t j = 0; j < cols; j++)
-        {
-
+    for(size_t i = 0; i < rows; i++){
+        for(size_t j = 0; j < cols; j++){
             pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
         }
     }
@@ -19,10 +16,8 @@ void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const size_t row
 
 void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const size_t rows, const size_t cols, ifstream& inFile)
 {
-    for(size_t i = 0; i < rows; i++)
-    {
-        for(size_t j = 0; j < cols; j++)
-        {
+    for(size_t i = 0; i < rows; i++){
+        for(size_t j = 0; j < cols; j++){
             pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
         }
     }
@@ -30,7 +25,8 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const size_t ro
 
 void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int oRows, const unsigned int oCols, int nRows, int nCols, ofstream& outFile)
 {
-    for(int i = 0; i < nRows; i++){
+    for(int i = 0; i < nRows; i++)
+    {
         float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
         float yl = floor(y);
         float yh = ceil(y);

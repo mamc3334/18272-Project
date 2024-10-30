@@ -9,13 +9,13 @@
 #include <tuple>
 using namespace std;
 
-struct photo16
+struct bigArray
 {
     vector<uint16_t> r;
     vector<uint16_t> g;
     vector<uint16_t> b;
 };
-struct photo8
+struct smallArray
 {
     vector<uint8_t> r;
     vector<uint8_t> g;
