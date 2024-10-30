@@ -7,8 +7,8 @@
 #include <cmath>
 using namespace std;
 
-void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, size_t rows, size_t cols, ifstream& inFile);
-void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, size_t rows, size_t cols, ifstream& inFile);
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, unsigned int rows, unsigned int cols, ifstream& inFile);
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, unsigned int rows, unsigned int cols, ifstream& inFile);
 
 void aossize_resize_16(vector<vector<bigColor>>& pixelArray, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
 void aossize_resize_8(vector<vector<smallColor>>& pixelArray, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
