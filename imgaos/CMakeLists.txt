@@ -2,8 +2,8 @@
 add_library(imgaos
         imageaos.cpp
         aossize.cpp
-        #        other1.cpp
-#        other2.cpp
+        aoscompress.cpp
+        aosinfrequentcolor.cpp
 )
 # Use this line only if you have dependencies from this library to GSL
-#target_link_libraries (imgaos PRIVATE common Microsoft.GSL::GSL)
+target_link_libraries (imgaos PRIVATE common Microsoft.GSL::GSL)
