@@ -1,6 +1,3 @@
-#include "intensityscaling.h"
-
-#include "utility.hpp"
 //
 // Created by eloim on 22/10/2024.
 //
