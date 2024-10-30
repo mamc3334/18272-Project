@@ -39,10 +39,10 @@ void soasize_resize_16(bigArray photo, int oRows, int oCols, int nRows, int nCol
             float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
             float xl = floor(x);
             float xh = ceil(x);
-            tuple<uint16_t, uint16_t, uint16_t> pixel = interpolate_16(photo,x,y,xl,xh,yl,yh);
-            write_binary16(outFile, get<0>(pixel));
-            write_binary16(outFile, get<1>(pixel));
-            write_binary16(outFile, get<2>(pixel));
+            bigColor pixel = interpolate_16(photo,x,y,xl,xh,yl,yh);
+            write_binary16(outFile, pixel.r);
+            write_binary16(outFile, pixel.g);
+            write_binary16(outFile, pixel.b);
         }
     }
 }
@@ -57,15 +57,15 @@ void soasize_resize_8(smallArray photo, int oRows, int oCols, int nRows, int nCo
             float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
             float xl = floor(x);
             float xh = ceil(x);
-            tuple<uint8_t, uint8_t, uint8_t> pixel = interpolate_8(photo,x,y,xl,xh,yl,yh);
-            write_binary8(outFile, get<0>(pixel));
-            write_binary8(outFile, get<1>(pixel));
-            write_binary8(outFile, get<2>(pixel));
+            smallColor pixel = interpolate_8(photo,x,y,xl,xh,yl,yh);
+            write_binary8(outFile, pixel.r);
+            write_binary8(outFile, pixel.g);
+            write_binary8(outFile, pixel.b);
         }
     }
 }
 
-tuple<uint16_t, uint16_t, uint16_t> interpolate_16(bigArray photo, float x, float y, float xl, float xh, float yl, float yh)
+bigColor interpolate_16(bigArray photo, float x, float y, float xl, float xh, float yl, float yh)
 {
     auto redTL = photo.r[static_cast<unsigned int>(xl*yl)];
     auto redTR = photo.r[static_cast<unsigned int>(xh*yl)];
@@ -91,7 +91,7 @@ tuple<uint16_t, uint16_t, uint16_t> interpolate_16(bigArray photo, float x, floa
     return {redFin,greenFin,blueFin};
 }
 
-tuple<uint8_t, uint8_t, uint8_t> interpolate_8(smallArray photo, float x, float y, float xl, float xh, float yl, float yh)
+smallColor interpolate_8(smallArray photo, float x, float y, float xl, float xh, float yl, float yh)
 {
     auto redTL = photo.r[static_cast<unsigned int>(xl*yl)];
     auto redTR = photo.r[static_cast<unsigned int>(xh*yl)];
