@@ -5,6 +5,7 @@
 #ifndef BINARYIO_HPP
 #define BINARYIO_HPP
 #include <fstream>
+#include <cstdint>
 
 std::uint16_t read_binary16 (std::istream & input);
 void write_binary16 (std::ostream & output, std::uint16_t const & value);
