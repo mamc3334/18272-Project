@@ -1,59 +1,15 @@
 //
 // Created by finnb on 10/7/2024.
 //
-using namespace std;
-#include <vector>
 #include "imageaos.hpp"
+#include "aoscommon.hpp"
+#include "aossize.hpp"
+#include "../common/utility.hpp"
+#include <vector>
 #include <iostream>
+using namespace std;
 
-void aos_maxlevel(int newIntensity)
-{
-    ifstream inputImageFile(getInFile());
-    if(!inputImageFile.is_open()) {
-        cerr << "Failed to open input file\n";
-        exit(-1);
-    }
-    ofstream outputImageFile(getOutFile());
-    if(!outputImageFile.is_open()) {
-        cerr << "Failed to open output file\n";
-        exit(-1);
-    }
-    string magic_word, width, height, intensity;
-    inputImageFile >> magic_word >> width >> height >> intensity;
-    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << intensity << "\n";
-    int colors = 3*width*height;
-    if(intensity <= 255){
-        if(newIntensity <= 255){
-            for(int i = 0;i < colors: i ++){
-                uint8_t x = read_binary8 (inputImageFile);
-                uint8_t newColor = (x*newIntensity)/intensity;
-                write_binary8 (outputImageFile, newColor);
-            }
-        }else{ //newIntensity > 255
-            for(int i = 0;i < colors: i ++){
-                uint8_t x = read_binary8 (inputImageFile);
-                uint16_t newColor = (x*newIntensity)/intensity;
-                write_binary16 (outputImageFile, newColor);
-            }
-        }
-    }else{ //intensity > 255
-        if(newIntensity <= 255){
-            for(int i = 0;i < colors: i ++){
-                uint16_t x = read_binary16 (inputImageFile);
-                uint8_t newColor = (x*newIntensity)/intensity;
-                write_binary8 (outputImageFile, newColor);
-            }
-        }else{ //newIntensity > 255
-            for(int i = 0;i < colors: i ++){
-                uint16_t x = read_binary16 (inputImageFile);
-                uint16_t newColor = (x*newIntensity)/intensity;
-                write_binary16 (outputImageFile, newColor);
-            }
-        }
-    }
-}
-
-void aos_resize()
+void aos_resize(int width, int height)
 {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
@@ -61,24 +17,26 @@ void aos_resize()
         exit(-1);
     }
     const Image_Attributes metadata = get_image_metadata(imageFile);
+    ofstream outputImageFile(getOutFile());
+    if(!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+    outputImageFile << metadata.magic_word << "\n" << width << "\n" << height << "\n" << metadata.intensity << "\n";
     if(metadata.intensity > 255)
     {
-        bigColor oldPhoto[][] = aossize_read_old_uint16(metadata.height, metadata.width, imageFile);
-        aossize_main(oldPhoto,, ge);
+        vector<vector<bigColor>> oldPhoto(metadata.height, vector<bigColor>(metadata.width));
+        aossize_old_photo_16(oldPhoto, metadata.height, metadata.width, imageFile);
+        aossize_resize_16(oldPhoto, metadata.height, metadata.width, width, height, outputImageFile);
     }
     else
     {
-        smallColor oldPhoto[][] = aossize_read_old_uint8(metadata.height, metadata.width, imageFile);
-        aossize_main(oldPhoto, );
+        vector<vector<smallColor>> sOldPhoto(metadata.height, vector<smallColor>(metadata.width));
+        aossize_old_photo_8(sOldPhoto, metadata.height, metadata.width, imageFile);
+        aossize_resize_8(sOldPhoto, metadata.width, metadata.height, height, width, outputImageFile);
     }
-
-    /* TODO: Size scaling
-        * Cases: Smaller to bigger
-        * Use same process -> map target(new) onto original
-        * Map target onto orginal
-        * Find xL, xH, yL, yH of original for each pixel in target(new) image
-        * triple interpolation x, y, x-y
-     */
+    imageFile.close();
+    outputImageFile.close();
 }
 
 void aos_cutfreq()

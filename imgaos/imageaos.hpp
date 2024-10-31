@@ -4,18 +4,11 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
-#include "../common/progargs.hpp"
-#include "../common/binaryio.hpp"
 
 
-#include <vector>
-#include <string>
+void aos_resize(int width, int height);
 
-void aos_maxlevel(int newIntensity)
-
-void aos_resize();
-
-void aos_cutfreq();
+void aos_cutfreq(int num);
 
 void aos_compress();
 
