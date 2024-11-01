@@ -14,11 +14,11 @@ void prog_paths(const string& imagePath, const string& outFile);
 
 void prog_info(int argc);
 
-void prog_maxlevel(int argc, char *argv[]);
+void prog_maxlevel(int argc, const vector<string> & args);
 
-void prog_resize(int argc, char *argv[]);
+void prog_resize(int argc, const vector<string> & args);
 
-void prog_cutfreq(int argc, char *argv[]);
+void prog_cutfreq(int argc, const vector<string> & args);
 
 void prog_compress(int argc);
 
