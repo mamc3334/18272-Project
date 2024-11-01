@@ -6,7 +6,7 @@ TEST(AOSSizeTests, Old16Test){
     const unsigned int cols = 7;
     vector<vector<bigColor>> pixelArray(rows, vector<bigColor>(cols));
 
-    //TODO: create simple sample data image
+
 
     aossize_old_photo_16(pixelArray, rows, cols, mockDataFile);
 
