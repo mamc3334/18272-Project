@@ -42,7 +42,7 @@ void prog_resize(const int argc, const vector<string> & args)
         exit(-1);
     }
     if (stoi(args[4]) < 0) {
-        cerr << "Invalid resize height: " << args[3] << "\n";
+        cerr << "Invalid resize height: " << args[4] << "\n";
         exit(-1);
     }
 }

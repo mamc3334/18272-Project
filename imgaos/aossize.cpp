@@ -5,33 +5,33 @@
 #include "../common/binaryio.hpp"
 using namespace std;
 
-void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const unsigned int rows, const unsigned int cols, ifstream& inFile)
+void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, ifstream& inFile)
 {
-    for(unsigned int i = 0; i < rows; i++){
-        for(unsigned int j = 0; j < cols; j++){
-            pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
+    for(unsigned int i = 0; i < OldPhotoData.height; i++){
+        for(unsigned int j = 0; j < OldPhotoData.width; j++){
+            pixelArray[i][j]= {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
         }
     }
 }
 
-void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const unsigned int rows, const unsigned int cols, ifstream& inFile)
+void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const Image_Attributes& OldPhotoData, ifstream& inFile)
 {
-    for(unsigned int i = 0; i < rows; i++){
-        for(unsigned int j = 0; j < cols; j++){
-            pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
+    for(unsigned int i = 0; i < OldPhotoData.height; i++){
+        for(unsigned int j = 0; j < OldPhotoData.width; j++){
+            pixelArray[i][j]= {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
         }
     }
 }
 
-void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int oRows, const unsigned int oCols, int nRows, int nCols, ofstream& outFile)
+void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
-    for(int i = 0; i < nRows; i++)
+    for(int i = 0; i < NewPhotoData.height; i++)
     {
-        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
+        float y = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
         float yl = floor(y);
         float yh = ceil(y);
-        for(int j = 0; j < nCols; j++){
-            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
+        for(int j = 0; j < NewPhotoData.width; j++){
+            float x = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
             float xl = floor(x);
             float xh = ceil(x);
             bigColor pixel = interpolate_16(pixelArray,x,y,xl,xh,yl,yh);
@@ -42,14 +42,14 @@ void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int 
     }
 }
 
-void aossize_resize_8(vector<vector<smallColor>>& pixelArray, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
+void aossize_resize_8(vector<vector<smallColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
-    for(int i = 0; i < nRows; i++){
-        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
+    for(int i = 0; i < NewPhotoData.height; i++){
+        float y = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
         float yl = floor(y);
         float yh = ceil(y);
-        for(int j = 0; j < nCols; j++){
-            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
+        for(int j = 0; j < NewPhotoData.width; j++){
+            float x = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
             float xl = floor(x);
             float xh = ceil(x);
             smallColor pixel = interpolate_8(pixelArray,x,y,xl,xh,yl,yh);
