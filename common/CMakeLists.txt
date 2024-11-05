@@ -10,4 +10,4 @@ add_library(common
         intensityscaling.hpp
 )
 # Use this line only if you have dependencies from this library to GSL
-#target_link_libraries (common PRIVATE Microsoft.GSL::GSL)
+target_link_libraries (common PRIVATE Microsoft.GSL::GSL)

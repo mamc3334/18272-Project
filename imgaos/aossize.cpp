@@ -12,6 +12,7 @@ void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const unsigned i
             pixelArray[i][j]= {read_binary16(inFile), read_binary16(inFile), read_binary16(inFile)};
         }
     }
+    inFile.close();
 }
 
 void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const unsigned int rows, const unsigned int cols, ifstream& inFile)
@@ -21,6 +22,7 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const unsigned 
             pixelArray[i][j]= {read_binary8(inFile), read_binary8(inFile), read_binary8(inFile)};
         }
     }
+    inFile.close();
 }
 
 void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int oRows, const unsigned int oCols, int nRows, int nCols, ofstream& outFile)
@@ -40,6 +42,7 @@ void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const unsigned int 
             write_binary16(outFile, pixel.b);
         }
     }
+    outFile.close();
 }
 
 void aossize_resize_8(vector<vector<smallColor>>& pixelArray, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
@@ -58,6 +61,7 @@ void aossize_resize_8(vector<vector<smallColor>>& pixelArray, int oRows, int oCo
             write_binary8(outFile, pixel.b);
         }
     }
+    outFile.close();
 }
 
 bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const float x, const float y, const float xl, const float xh, const float yl, const float yh)
