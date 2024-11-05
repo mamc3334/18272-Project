@@ -1,6 +1,7 @@
 //
 // Created by mcgaf on 11/4/2024.
 //
+#pragma once
 
 #include <fstream>
 using namespace std;
