@@ -6,8 +6,8 @@ add_executable(ftest-soa
 #        other2_test.cpp
         )
 # Library dependencies
-#target_link_libraries (ftest-soa
-#        PRIVATE
-#        common
-#        GTest::gtest_main
-#        Microsoft.GSL::GSL)
+target_link_libraries (ftest-soa
+        PRIVATE
+        common
+        GTest::gtest_main
+        Microsoft.GSL::GSL)
