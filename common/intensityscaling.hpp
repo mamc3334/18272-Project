@@ -8,8 +8,10 @@
 #include "utility.hpp"
 #include "binaryio.hpp"
 
+inline int maxIntensity;
+
 void read_image_intensity_scaling (int newIntensity);
-void intensity_smaller_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile);
-void intensity_greater_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile);
+void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
+void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
 
 #endif //INTENSITYSCALING_H
