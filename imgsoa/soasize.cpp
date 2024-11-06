@@ -5,41 +5,44 @@
 #include "soasize.hpp"
 #include <cmath>
 #include <sys/stat.h>
+#include "../common/binaryio.hpp"
 
-void soasize_old_photo_16(bigArray& photo, unsigned int size, ifstream& inFile)
+void soasize_old_image_16(bigArray& image, const Image_Attributes& OldImageData, ifstream& inFile)
 {
-    unsigned int i=0;
-    while(i<size){
-        photo.r.push_back(read_binary16(inFile));
-        photo.g.push_back(read_binary16(inFile));
-        photo.b.push_back(read_binary16(inFile));
-        i++;
+    int count=0;
+    while(count<OldImageData.height*OldImageData.width){
+        image.r.push_back(read_binary16(inFile));
+        image.g.push_back(read_binary16(inFile));
+        image.b.push_back(read_binary16(inFile));
+        count++;
     }
 }
 
-void soasize_old_photo_8(smallArray& photo, unsigned int size, ifstream& inFile)
+void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData, ifstream& inFile)
 {
-    unsigned int i=0;
-    while(i<size){
-            photo.r.push_back(read_binary8(inFile));
-            photo.g.push_back(read_binary8(inFile));
-            photo.b.push_back(read_binary8(inFile));
+    int count=0;
+    while(count<OldImageData.height*OldImageData.width){
+        image.r.push_back(read_binary8(inFile));
+        image.g.push_back(read_binary8(inFile));
+        image.b.push_back(read_binary8(inFile));
+        count++;
     }
 }
 
-void soasize_resize_16(bigArray photo, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
+void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile)
 {
-    for(int i = 0; i < nRows; i++)
+    for(int i = 0; i < NewImageData.height; i++)
     {
-        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
-        float yl = floor(y);
-        float yh = ceil(y);
-        for(int j = 0; j < nCols; j++)
+        const float y_new = static_cast<float>(i)*static_cast<float>(OldImageData.height)/static_cast<float>(NewImageData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
+        for(int j = 0; j < NewImageData.width; j++)
         {
-            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
-            float xl = floor(x);
-            float xh = ceil(x);
-            bigColor pixel = interpolate_16(photo,x,y,xl,xh,yl,yh);
+            const float x_new= static_cast<float>(j)*static_cast<float>(OldImageData.width)/static_cast<float>(NewImageData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new, .x_lo=x_lo, .x_hi=x_hi, .y_new=y_new, .y_lo=y_lo, .y_hi=y_hi};
+            const bigColor pixel = interpolate_16(image, coords);
             write_binary16(outFile, pixel.r);
             write_binary16(outFile, pixel.g);
             write_binary16(outFile, pixel.b);
@@ -47,17 +50,18 @@ void soasize_resize_16(bigArray photo, int oRows, int oCols, int nRows, int nCol
     }
 }
 
-void soasize_resize_8(smallArray photo, int oRows, int oCols, int nRows, int nCols, ofstream& outFile)
+void soasize_resize_8(const smallArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile)
 {
-    for(int i = 0; i < nRows; i++){
-        float y = static_cast<float>(i)*static_cast<float>(oRows)/static_cast<float>(nRows);
-        float yl = floor(y);
-        float yh = ceil(y);
-        for(int j = 0; j < nCols; j++){
-            float x = static_cast<float>(j)*static_cast<float>(oCols)/static_cast<float>(nCols);
-            float xl = floor(x);
-            float xh = ceil(x);
-            smallColor pixel = interpolate_8(photo,x,y,xl,xh,yl,yh);
+    for(int i = 0; i < NewImageData.height; i++){
+        const float y_new= static_cast<float>(i)*static_cast<float>(OldImageData.height)/static_cast<float>(NewImageData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
+        for(int j = 0; j < NewImageData.width; j++){
+            const float x_new= static_cast<float>(j)*static_cast<float>(OldImageData.width)/static_cast<float>(NewImageData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new, .x_lo=x_lo, .x_hi=x_hi, .y_new=y_new, .y_lo=y_lo, .y_hi=y_hi};
+            const smallColor pixel = interpolate_8(image, coords);
             write_binary8(outFile, pixel.r);
             write_binary8(outFile, pixel.g);
             write_binary8(outFile, pixel.b);
@@ -65,54 +69,54 @@ void soasize_resize_8(smallArray photo, int oRows, int oCols, int nRows, int nCo
     }
 }
 
-bigColor interpolate_16(bigArray photo, float x, float y, float xl, float xh, float yl, float yh)
+bigColor interpolate_16(const bigArray& image, const Coords& coords)
 {
-    auto redTL = photo.r[static_cast<unsigned int>(xl*yl)];
-    auto redTR = photo.r[static_cast<unsigned int>(xh*yl)];
-    auto redBL = photo.r[static_cast<unsigned int>(xl*yh)];
-    auto redBR = photo.r[static_cast<unsigned int>(xh*yh)];
-    auto redTop = redTL*(x-xl) + redTR*(xh-x);
-    auto redBot = redBL*(x-xl) + redBR*(xh-x);
-    const uint16_t redFin = static_cast<uint16_t>(redTop*(y-yl) + redBot*(yh-y));
-    auto greenTL = photo.g[static_cast<unsigned int>(xl*yl)];
-    auto greenTR = photo.g[static_cast<unsigned int>(xh*yl)];
-    auto greenBL = photo.g[static_cast<unsigned int>(xl*yh)];
-    auto greenBR = photo.g[static_cast<unsigned int>(xh*yh)];
-    auto greenTop = greenTL*(x-xl) + greenTR*(xh-x);
-    auto greenBot = greenBL*(x-xl) + greenBR*(xh-x);
-    const uint16_t greenFin = static_cast<uint16_t>(greenTop*(y-yl) + greenBot*(yh-y));
-    auto blueTL = photo.b[static_cast<unsigned int>(xl*yl)];
-    auto blueTR = photo.b[static_cast<unsigned int>(xh*yl)];
-    auto blueBL = photo.b[static_cast<unsigned int>(xl*yh)];
-    auto blueBR = photo.b[static_cast<unsigned int>(xh*yh)];
-    auto blueTop = blueTL*(x-xl) + blueTR*(xh-x);
-    auto blueBot = blueBL*(x-xl) + blueBR*(xh-x);
-    const uint16_t blueFin = static_cast<uint16_t>(blueTop*(x-yl) + blueBot*(xh-y));
-    return {redFin,greenFin,blueFin};
+    const uint16_t redTL = image.r[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint16_t redTR = image.r[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint16_t redBL = image.r[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint16_t redBR = image.r[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float redTop = (redTL*(coords.x_new-coords.x_lo)) + (redTR*(coords.x_hi-coords.x_new));
+    const float redBot = (redBL*(coords.x_new-coords.x_lo)) + (redBR*(coords.x_hi-coords.x_new));
+    const auto redFin = static_cast<uint16_t>((redTop*(coords.y_new-coords.y_lo)) + (redBot*(coords.y_hi-coords.y_new)));
+    const uint16_t greenTL = image.g[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint16_t greenTR = image.g[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint16_t greenBL = image.g[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint16_t greenBR = image.g[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float greenTop = (greenTL*(coords.x_new-coords.x_lo)) + (greenTR*(coords.x_hi-coords.x_new));
+    const float greenBot = (greenBL*(coords.x_new-coords.x_lo)) + (greenBR*(coords.x_hi-coords.x_new));
+    const auto greenFin = static_cast<uint16_t>((greenTop*(coords.y_new-coords.y_lo)) + (greenBot*(coords.y_hi-coords.y_new)));
+    const uint16_t blueTL = image.b[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint16_t blueTR = image.b[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint16_t blueBL = image.b[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint16_t blueBR = image.b[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float blueTop = (blueTL*(coords.x_new-coords.x_lo)) + (blueTR*(coords.x_hi-coords.x_new));
+    const float blueBot = (blueBL*(coords.x_new-coords.x_lo)) + (blueBR*(coords.x_hi-coords.x_new));
+    const auto blueFin = static_cast<uint16_t>((blueTop*(coords.y_new-coords.y_lo)) + (blueBot*(coords.y_hi-coords.y_new)));
+    return {.r=redFin,.g=greenFin,.b=blueFin};
 }
 
-smallColor interpolate_8(smallArray photo, float x, float y, float xl, float xh, float yl, float yh)
+smallColor interpolate_8(const smallArray& image, const Coords& coords)
 {
-    auto redTL = photo.r[static_cast<unsigned int>(xl*yl)];
-    auto redTR = photo.r[static_cast<unsigned int>(xh*yl)];
-    auto redBL = photo.r[static_cast<unsigned int>(xl*yh)];
-    auto redBR = photo.r[static_cast<unsigned int>(xh*yh)];
-    auto redTop = redTL*(x-xl) + redTR*(xh-x);
-    auto redBot = redBL*(x-xl) + redBR*(xh-x);
-    const uint8_t redFin = static_cast<uint8_t>(redTop*(y-yl) + redBot*(yh-y));
-    auto greenTL = photo.g[static_cast<unsigned int>(xl*yl)];
-    auto greenTR = photo.g[static_cast<unsigned int>(xh*yl)];
-    auto greenBL = photo.g[static_cast<unsigned int>(xl*yh)];
-    auto greenBR = photo.g[static_cast<unsigned int>(xh*yh)];
-    auto greenTop = greenTL*(x-xl) + greenTR*(xh-x);
-    auto greenBot = greenBL*(x-xl) + greenBR*(xh-x);
-    const uint8_t greenFin = static_cast<uint8_t>(greenTop*(y-yl) + greenBot*(yh-y));
-    auto blueTL = photo.b[static_cast<unsigned int>(xl*yl)];
-    auto blueTR = photo.b[static_cast<unsigned int>(xh*yl)];
-    auto blueBL = photo.b[static_cast<unsigned int>(xl*yh)];
-    auto blueBR = photo.b[static_cast<unsigned int>(xh*yh)];
-    auto blueTop = blueTL*(x-xl) + blueTR*(xh-x);
-    auto blueBot = blueBL*(x-xl) + blueBR*(xh-x);
-    const uint8_t blueFin = static_cast<uint8_t>(blueTop*(x-yl) + blueBot*(xh-y));
-    return {redFin,greenFin,blueFin};
+    const uint8_t redTL = image.r[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint8_t redTR = image.r[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint8_t redBL = image.r[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint8_t redBR = image.r[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float redTop = (redTL*(coords.x_new-coords.x_lo)) + (redTR*(coords.x_hi-coords.x_new));
+    const float redBot = (redBL*(coords.x_new-coords.x_lo)) + (redBR*(coords.x_hi-coords.x_new));
+    const auto redFin = static_cast<uint8_t>((redTop*(coords.y_new-coords.y_lo)) + (redBot*(coords.y_hi-coords.y_new)));
+    const uint8_t greenTL = image.g[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint8_t greenTR = image.g[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint8_t greenBL = image.g[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint8_t greenBR = image.g[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float greenTop = (greenTL*(coords.x_new-coords.x_lo)) + (greenTR*(coords.x_hi-coords.x_new));
+    const float greenBot = (greenBL*(coords.x_new-coords.x_lo)) + (greenBR*(coords.x_hi-coords.x_new));
+    const auto greenFin = static_cast<uint8_t>((greenTop*(coords.y_new-coords.y_lo)) + (greenBot*(coords.y_hi-coords.y_new)));
+    const uint8_t blueTL = image.b[static_cast<unsigned int>(coords.x_lo*coords.y_lo)];
+    const uint8_t blueTR = image.b[static_cast<unsigned int>(coords.x_hi*coords.y_lo)];
+    const uint8_t blueBL = image.b[static_cast<unsigned int>(coords.x_lo*coords.y_hi)];
+    const uint8_t blueBR = image.b[static_cast<unsigned int>(coords.x_hi*coords.y_hi)];
+    const float blueTop = (blueTL*(coords.x_new-coords.x_lo)) + (blueTR*(coords.x_hi-coords.x_new));
+    const float blueBot = (blueBL*(coords.x_new-coords.x_lo)) + (blueBR*(coords.x_hi-coords.x_new));
+    const auto blueFin = static_cast<uint8_t>((blueTop*(coords.y_new-coords.y_lo)) + (blueBot*(coords.y_hi-coords.y_new)));
+    return {.r=redFin,.g=greenFin,.b=blueFin};
 }

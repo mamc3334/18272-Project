@@ -4,9 +4,9 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
+#include "common/utility.hpp"
 
-
-void aos_resize(int width, int height);
+void aos_resize(Image_Attributes& newImageData);
 
 void aos_cutfreq(int num);
 

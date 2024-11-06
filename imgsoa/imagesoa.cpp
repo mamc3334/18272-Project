@@ -1,39 +1,48 @@
 //
 // Created by finnb on 10/7/2024.
 //
-#include "../common/utility.hpp"
-#include "soacommon.hpp"
-#include "soasize.hpp"
+#include "imagesoa.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
 
-void soa_resize(int width, int height)
+void soa_resize(Image_Attributes& NewImageData)
 {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes metadata = get_image_metadata(imageFile);
+    const Image_Attributes OldImageData = get_image_metadata(imageFile);
     ofstream outputImageFile(getOutFile());
     if(!outputImageFile.is_open()) {
         cerr << "Failed to open output file\n";
         exit(-1);
     }
-    outputImageFile << metadata.magic_word << "\n" << width << "\n" << height << "\n" << metadata.intensity << "\n";
-    if(metadata.intensity > 255)
+    NewImageData.magic_word = OldImageData.magic_word;
+    NewImageData.intensity = OldImageData.intensity;
+    outputImageFile << NewImageData.magic_word << "\n" << NewImageData.width << "\n" << NewImageData.height << "\n" << NewImageData.intensity << "\n";
+    if(NewImageData.intensity > IntensityCutoff)
     {
-        bigArray oldPhoto;
-        soasize_old_photo_16(oldPhoto, metadata.height*metadata.width, imageFile);
-        soasize_resize_16(oldPhoto, metadata.width, metadata.height, width, height, outputImageFile);
+        bigArray oldImage;
+        soasize_old_image_16(oldImage, OldImageData, imageFile);
+        soasize_resize_16(oldImage, OldImageData, NewImageData, outputImageFile);
     }
     else
     {
-        smallArray oldPhoto;
-        soasize_old_photo_8(oldPhoto, metadata.height*metadata.width, imageFile);
-        soasize_resize_8(oldPhoto, metadata.width, metadata.height, width, height, outputImageFile);
+        smallArray oldImage;
+        soasize_old_image_8(oldImage, OldImageData, imageFile);
+        soasize_resize_8(oldImage, OldImageData, NewImageData, outputImageFile);
     }
     imageFile.close();
     outputImageFile.close();
+}
+
+void soa_cutfreq(int num) {
+
+}
+
+
+void soa_compress() {
+
 }

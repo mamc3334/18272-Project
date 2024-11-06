@@ -2,12 +2,10 @@
 # For example, you may have one ∗_test.cpp for each ∗.cpp in common
 add_executable(ftest-aos
         one_test.cpp
-#        other1_test.cpp
-#        other2_test.cpp
         )
 # Library dependencies
-#target_link_libraries (ftest-aos
-#        PRIVATE
-#        common
-#        GTest::gtest_main
-#        Microsoft.GSL::GSL)
+target_link_libraries (ftest-aos
+        PRIVATE
+        common
+        GTest::gtest_main
+        Microsoft.GSL::GSL)

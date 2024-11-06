@@ -7,9 +7,10 @@ using namespace std;
 #include <fstream>
 #include "intensityscaling.hpp"
 
+int maxIntensity = 255;
 
-void intensity_smaller_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
-    if(data[1] <= 255){
+void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
+    if(data[1] <= maxIntensity){
         for(int i = 0;i < data[2]; i ++){
             const uint8_t oldColor = read_binary8 (inputImageFile);
             const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
@@ -24,8 +25,8 @@ void intensity_smaller_255(const vector<int> & data, istream inputImageFile, ost
     }
 }
 
-void intensity_greater_255(const vector<int> & data, istream inputImageFile, ostream outputImageFile) {
-    if(data[1] <= 255){
+void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
+    if(data[1] <= maxIntensity){
         for(int i = 0;i < data[2]; i ++){
             const uint16_t oldColor = read_binary16 (inputImageFile);
             const auto newColor = static_cast<uint8_t>((oldColor*data[1])/data[0]);
@@ -55,10 +56,10 @@ void read_image_intensity_scaling (int newIntensity){
         exit(-1);
     }
     auto [magic_word, width, height, intensity] = get_image_metadata(inputImageFile);
-    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << intensity << "\n";
-    int colors = 3*width*height;
-    vector<int> data = {intensity, newIntensity, colors};
-    if(intensity <= 255){
+    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << newIntensity << "\n";
+    const unsigned int colors = 3 * width * height;
+    const vector data = {intensity, newIntensity, static_cast<int>(colors)};
+    if(intensity <= maxIntensity){
         intensity_smaller_255(data, inputImageFile, outputImageFile);
     }else{ //intensity > 255
         intensity_greater_255(data, inputImageFile, outputImageFile);
