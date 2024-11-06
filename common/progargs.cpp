@@ -3,7 +3,6 @@
 //
 
 #include "progargs.hpp"
-#include <fstream>
 
 void prog_paths(const string& inName, const string& outName)
 {
@@ -13,7 +12,7 @@ void prog_paths(const string& inName, const string& outName)
 
 void prog_info(const int argc)
 {
-    if (argc != 4) {
+    if (argc != InfoArgs) {
         cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
         exit(-1);
     }
@@ -21,11 +20,11 @@ void prog_info(const int argc)
 
 void prog_maxlevel(const int argc, const vector<string> & args)
 {
-    if (argc != 5) {
+    if (argc != MaxLevelArgs) {
         cerr << "Error:\tInvalid extra arguments for maxlevel:\t" << (5 - argc) << "\n";
         exit(-1);
     }
-    if (stoi(args[3]) < 0 || stoi(args[3]) > 65535) {
+    if (stoi(args[3]) < 0 || stoi(args[3]) > MaxIntensity) {
         cerr << "Invalid maxlevel: " << args[3] << "\n";
         exit(-1);
     }
@@ -33,7 +32,7 @@ void prog_maxlevel(const int argc, const vector<string> & args)
 
 void prog_resize(const int argc, const vector<string> & args)
 {
-    if (argc != 6) {
+    if (argc != ResizeArgs) {
         cerr << "Error:\tInvalid extra arguments for info:\t" << (6 - argc) << "\n";
         exit(-1);
     }
@@ -42,14 +41,14 @@ void prog_resize(const int argc, const vector<string> & args)
         exit(-1);
     }
     if (stoi(args[4]) < 0) {
-        cerr << "Invalid resize height: " << args[3] << "\n";
+        cerr << "Invalid resize height: " << args[4] << "\n";
         exit(-1);
     }
 }
 
 void prog_cutfreq(const int argc, const vector<string> & args)
 {
-    if (argc != 5) {
+    if (argc != CutFreqArgs) {
         cerr << "Error:\tInvalid extra arguments for cutfreq:\t" << (5 - argc) << "\n";
         exit(-1);
     }
@@ -61,7 +60,7 @@ void prog_cutfreq(const int argc, const vector<string> & args)
 
 void prog_compress(const int argc)
 {
-    if (argc != 4) {
+    if (argc != CompressArgs) {
         cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
         exit(-1);
     }
