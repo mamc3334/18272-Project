@@ -3,7 +3,7 @@
 #include "../utest-common/utest-helpers.hpp"
 
 TEST(AOSSizeTests, Old16Test){
-  const Image_Attributes OldPhotoData = {.width=2, .height=2};
+  const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
   vector<vector<bigColor>> pixelArray(OldPhotoData.height, vector<bigColor>(OldPhotoData.width));
 
   ifstream mockDataFile("../test-data/aossize_old16.bin");
@@ -19,7 +19,7 @@ TEST(AOSSizeTests, Old16Test){
 }
 
 TEST(AOSSizeTests, Old8Test){
-  const Image_Attributes OldPhotoData = {.width=2, .height=2};
+  const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
   vector<vector<smallColor>> pixelArray(OldPhotoData.height, vector<smallColor>(OldPhotoData.width));
   ifstream mockDataFile("../test-data/aossize_old8.bin");
 
@@ -36,8 +36,8 @@ TEST(AOSSizeTests, Old8Test){
 }
 
 TEST(AOSSizeTests, Resize16Test) {
-  const Image_Attributes OldPhotoData = {.width=2, .height=2};
-  const Image_Attributes NewPhotoData = {.width=1, .height=3};
+  const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
+  const Image_Attributes NewPhotoData = {.magic_word = "", .width=1, .height=3, .intensity = 0};
 
   vector<vector<bigColor>> pixelArray = {
     { {.r=100, .g=150, .b=200}, {.r=250, .g=300, .b=350} },
@@ -53,8 +53,8 @@ TEST(AOSSizeTests, Resize16Test) {
 }
 
 TEST(AOSSizeTests, Resize8Test) {
-  const Image_Attributes OldPhotoData = {.width=2, .height=2};
-  const Image_Attributes NewPhotoData = {.width=1, .height=3};
+  const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
+  const Image_Attributes NewPhotoData = {.magic_word = "", .width=1, .height=3, .intensity = 0};
 
   vector<vector<smallColor>> pixelArray = {
     { {.r=10, .g=15, .b=20}, {.r=25, .g=30, .b=35} },
@@ -76,7 +76,7 @@ TEST(AOSSizeTests, Interpolate16Test) {
     { {.r=400, .g=450, .b=500}, {.r=550, .g=600, .b=650} }
   };
   // Midpoints between corner pixels (0,1), (1,1), (1,0), (0,0)
-  constexpr Coords coords = {.x_new=0.5, .x_lo=0, .x_hi=1, .y_new=0.5, .y_lo=0, .y_hi=1};
+  constexpr Coords coords = {.x_map=0.5, .x_lo=0, .x_hi=1, .y_map=0.5, .y_lo=0, .y_hi=1};
 
   const bigColor pixel = interpolate_16(pixelArray, coords);
   constexpr bigColor expectedPixel = {.r=325, .g=375, .b=425};
@@ -88,15 +88,15 @@ TEST(AOSSizeTests, Interpolate16Test) {
 
 TEST(AOSSizeTests, Interpolate8Test) {
   // 2x2 pixel photo
-  const vector<vector<bigColor>> pixelArray = {
+  const vector<vector<smallColor>> pixelArray = {
     { {.r=10, .g=15, .b=20}, {.r=25, .g=30, .b=35} },
     { {.r=40, .g=45, .b=50}, {.r=55, .g=60, .b=65} }
   };
 
   // Midpoints between corner pixels (0,1), (1,1), (1,0), (0,0)
-  constexpr Coords coords = {.x_new=0.5, .x_lo=0, .x_hi=1, .y_new=0.5, .y_lo=0, .y_hi=1};
+  constexpr Coords coords = {.x_map=0.5, .x_lo=0, .x_hi=1, .y_map=0.5, .y_lo=0, .y_hi=1};
 
-  const bigColor pixel = interpolate_16(pixelArray, coords);
+  const smallColor pixel = interpolate_8(pixelArray, coords);
   constexpr bigColor expectedPixel = {.r=32, .g=37, .b=42};
 
   EXPECT_EQ(pixel.r, expectedPixel.r);

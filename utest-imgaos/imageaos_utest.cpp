@@ -5,7 +5,7 @@
 TEST(ImageAOSTests, Resize16Test) {
   setInFile("../test-data/test16.ppm");
   setOutFile("../test-data/outputs/resize16.ppm");
-  Image_Attributes newImageData = {.width=4, .height=4};
+  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
   aos_resize(newImageData);
 
   ifstream expectedFile("../test-data/expected/resize16.ppm");
@@ -29,7 +29,7 @@ TEST(ImageAOSTests, Resize16Test) {
 TEST(ImageAOSTests, Resize8Test) {
   setInFile("../test-data/test8.ppm");
   setOutFile("../test-data/outputs/resize8.ppm");
-  Image_Attributes newImageData = {.width=4, .height=4};
+  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
   aos_resize(newImageData);
 
   ifstream expectedFile("../test-data/expected/resize8.ppm");

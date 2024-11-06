@@ -12,7 +12,7 @@ using namespace std;
 constexpr int IntensityCutoff = 255;
 
 struct Coords {
-  float x_new,x_lo,x_hi,y_new,y_lo,y_hi;
+  float x_map,x_lo,x_hi,y_map,y_lo,y_hi;
 };
 
 struct Image_Attributes {
