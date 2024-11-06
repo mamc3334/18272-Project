@@ -3,6 +3,8 @@
 //
 #include "aossize.hpp"
 #include "../common/binaryio.hpp"
+#include <cmath>
+
 using namespace std;
 
 void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, ifstream& inFile)
@@ -25,18 +27,19 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const Image_Att
     inFile.close();
 }
 
-void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
+void aossize_resize_16(const vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
     for(int i = 0; i < NewPhotoData.height; i++)
     {
-        float y = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
-        float yl = floor(y);
-        float yh = ceil(y);
+        const float y_new = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
         for(int j = 0; j < NewPhotoData.width; j++){
-            float x = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
-            float xl = floor(x);
-            float xh = ceil(x);
-            bigColor pixel = interpolate_16(pixelArray,x,y,xl,xh,yl,yh);
+            const float x_new = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new,.x_lo=x_lo,.x_hi=x_hi,.y_new=y_new,.y_lo=y_lo,.y_hi=y_hi};
+            const bigColor pixel = interpolate_16(pixelArray, coords);
             write_binary16(outFile, pixel.r);
             write_binary16(outFile, pixel.g);
             write_binary16(outFile, pixel.b);
@@ -45,17 +48,18 @@ void aossize_resize_16(vector<vector<bigColor>>& pixelArray, const Image_Attribu
     outFile.close();
 }
 
-void aossize_resize_8(vector<vector<smallColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
+void aossize_resize_8(const vector<vector<smallColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
     for(int i = 0; i < NewPhotoData.height; i++){
-        float y = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
-        float yl = floor(y);
-        float yh = ceil(y);
+        const float y_new = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
         for(int j = 0; j < NewPhotoData.width; j++){
-            float x = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
-            float xl = floor(x);
-            float xh = ceil(x);
-            smallColor pixel = interpolate_8(pixelArray,x,y,xl,xh,yl,yh);
+            const float x_new = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new,.x_lo=x_lo,.x_hi=x_hi,.y_new=y_new,.y_lo=y_lo,.y_hi=y_hi};
+            const smallColor pixel = interpolate_8(pixelArray, coords);
             write_binary8(outFile, pixel.r);
             write_binary8(outFile, pixel.g);
             write_binary8(outFile, pixel.b);
@@ -64,42 +68,42 @@ void aossize_resize_8(vector<vector<smallColor>>& pixelArray, const Image_Attrib
     outFile.close();
 }
 
-bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const float x, const float y, const float xl, const float xh, const float yl, const float yh)
+bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const Coords& coords)
 {
-    bigColor pixelTL = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xl)];
-    bigColor pixelTR = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xh)];
-    bigColor pixelBL = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xl)];
-    bigColor pixelBR = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xh)];
-    uint16_t topR = static_cast<uint16_t>(pixelTL.r*(x-xl) + pixelTR.r*(xh-x));
-    uint16_t topG = static_cast<uint16_t>(pixelTL.g*(x-xl) + pixelTR.g*(xh-x));
-    uint16_t topB = static_cast<uint16_t>(pixelTL.b*(x-xl) + pixelTR.b*(xh-x));
-    uint16_t botR = static_cast<uint16_t>(pixelBL.r*(x-xl) + pixelBR.r*(xh-x));
-    uint16_t botG = static_cast<uint16_t>(pixelBL.g*(x-xl) + pixelBR.g*(xh-x));
-    uint16_t botB = static_cast<uint16_t>(pixelBL.b*(x-xl) + pixelBR.b*(xh-x));
-    bigColor pixelTop = {topR, topG, topB};
-    bigColor pixelBot = {botR, botG, botB};
-    uint16_t finalR = static_cast<uint16_t>(pixelTop.r*(y-yl) + pixelBot.r*(yh-y));
-    uint16_t finalG = static_cast<uint16_t>(pixelTop.g*(y-xl) + pixelBot.g*(yh-x));
-    uint16_t finalB = static_cast<uint16_t>(pixelTop.b*(y-xl) + pixelBot.b*(xh-x));
-    return {finalR, finalG, finalB};
+    const bigColor pixelTL = pixelArray[static_cast<unsigned int>(coords.y_lo)][static_cast<unsigned int>(coords.x_lo)];
+    const bigColor pixelTR = pixelArray[static_cast<unsigned int>(coords.y_lo)][static_cast<unsigned int>(coords.x_hi)];
+    const bigColor pixelBL = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_lo)];
+    const bigColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
+    const auto topR = static_cast<uint16_t>((pixelTL.r*(coords.x_new-coords.x_lo)) + (pixelTR.r*(coords.x_hi-coords.x_new)));
+    const auto topG = static_cast<uint16_t>((pixelTL.g*(coords.x_new-coords.x_lo)) + (pixelTR.g*(coords.x_hi-coords.x_new)));
+    const auto topB = static_cast<uint16_t>((pixelTL.b*(coords.x_new-coords.x_lo)) + (pixelTR.b*(coords.x_hi-coords.x_new)));
+    const auto botR = static_cast<uint16_t>((pixelBL.r*(coords.x_new-coords.x_lo)) + (pixelBR.r*(coords.x_hi-coords.x_new)));
+    const auto botG = static_cast<uint16_t>((pixelBL.g*(coords.x_new-coords.x_lo)) + (pixelBR.g*(coords.x_hi-coords.x_new)));
+    const auto botB = static_cast<uint16_t>((pixelBL.b*(coords.x_new-coords.x_lo)) + (pixelBR.b*(coords.x_hi-coords.x_new)));
+    const bigColor pixelTop = {.r=topR, .g=topG, .b=topB};
+    const bigColor pixelBot = {.r=botR, .g=botG, .b=botB};
+    const auto finalR = static_cast<uint16_t>((pixelTop.r*(coords.y_new-coords.y_lo)) + (pixelBot.r*(coords.y_hi-coords.y_new)));
+    const auto finalG = static_cast<uint16_t>((pixelTop.g*(coords.y_new-coords.y_lo)) + (pixelBot.g*(coords.y_hi-coords.y_new)));
+    const auto finalB = static_cast<uint16_t>((pixelTop.b*(coords.y_new-coords.y_lo)) + (pixelBot.b*(coords.x_hi-coords.y_new)));
+    return {.r=finalR, .g=finalG, .b=finalB};
 }
 
-smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const float x, const float y, const float xl, const float xh, const float yl, const float yh)
+smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const Coords& coords)
 {
-    smallColor pixelTL = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xl)];
-    smallColor pixelTR = pixelArray[static_cast<unsigned int>(yl)][static_cast<unsigned int>(xh)];
-    smallColor pixelBL = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xl)];
-    smallColor pixelBR = pixelArray[static_cast<unsigned int>(yh)][static_cast<unsigned int>(xh)];
-    uint8_t topR = static_cast<uint8_t>(pixelTL.r*(x-xl) + pixelTR.r*(xh-x));
-    uint8_t topG = static_cast<uint8_t>(pixelTL.g*(x-xl) + pixelTR.g*(xh-x));
-    uint8_t topB = static_cast<uint8_t>(pixelTL.b*(x-xl) + pixelTR.b*(xh-x));
-    uint8_t botR = static_cast<uint8_t>(pixelBL.r*(x-xl) + pixelBR.r*(xh-x));
-    uint8_t botG = static_cast<uint8_t>(pixelBL.g*(x-xl) + pixelBR.g*(xh-x));
-    uint8_t botB = static_cast<uint8_t>(pixelBL.b*(x-xl) + pixelBR.b*(xh-x));
-    smallColor pixelTop = {topR, topG, topB};
-    smallColor pixelBot = {botR, botG, botB};
-    uint8_t finalR = static_cast<uint8_t>(pixelTop.r*(y-yl) + pixelBot.r*(yh-y));
-    uint8_t finalG = static_cast<uint8_t>(pixelTop.g*(y-xl) + pixelBot.g*(yh-x));
-    uint8_t finalB = static_cast<uint8_t>(pixelTop.b*(y-xl) + pixelBot.b*(xh-x));
-    return {finalR, finalG, finalB};
+    const smallColor pixelTL = pixelArray[static_cast<unsigned int>(coords.y_lo)][static_cast<unsigned int>(coords.x_hi)];
+    const smallColor pixelTR = pixelArray[static_cast<unsigned int>(coords.y_lo)][static_cast<unsigned int>(coords.x_hi)];
+    const smallColor pixelBL = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
+    const smallColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
+    const auto topR = static_cast<uint8_t>((pixelTL.r*(coords.x_new-coords.x_lo)) + (pixelTR.r*(coords.x_hi-coords.x_new)));
+    const auto topG = static_cast<uint8_t>((pixelTL.g*(coords.x_new-coords.x_lo)) + (pixelTR.g*(coords.x_hi-coords.x_new)));
+    const auto topB = static_cast<uint8_t>((pixelTL.b*(coords.x_new-coords.x_lo)) + (pixelTR.b*(coords.x_hi-coords.x_new)));
+    const auto botR = static_cast<uint8_t>((pixelBL.r*(coords.x_new-coords.x_lo)) + (pixelBR.r*(coords.x_hi-coords.x_new)));
+    const auto botG = static_cast<uint8_t>((pixelBL.g*(coords.x_new-coords.x_lo)) + (pixelBR.g*(coords.x_hi-coords.x_new)));
+    const auto botB = static_cast<uint8_t>((pixelBL.b*(coords.x_new-coords.x_lo)) + (pixelBR.b*(coords.x_hi-coords.x_new)));
+    const smallColor pixelTop = {.r=topR, .g=topG, .b=topB};
+    const smallColor pixelBot = {.r=botR, .g=botG, .b=botB};
+    const auto finalR = static_cast<uint8_t>((pixelTop.r*(coords.y_new-coords.y_lo)) + (pixelBot.r*(coords.y_hi-coords.y_new)));
+    const auto finalG = static_cast<uint8_t>((pixelTop.g*(coords.y_new-coords.y_lo)) + (pixelBot.g*(coords.y_hi-coords.y_new)));
+    const auto finalB = static_cast<uint8_t>((pixelTop.b*(coords.y_new-coords.y_lo)) + (pixelBot.b*(coords.y_hi-coords.y_new)));
+    return {.r=finalR, .g=finalG, .b=finalB};
 }
