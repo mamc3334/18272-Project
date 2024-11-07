@@ -29,16 +29,16 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const Image_Att
 
 void aossize_resize_16(const vector<vector<bigColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
-    for(int i = 0; i < NewPhotoData.height; i++)
+    for(int i = 0; i < nRows; i++)
     {
-        const float y_map = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
-        const float y_lo = floor(y_map);
-        const float y_hi = ceil(y_map);
+        const float y_new = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
         for(int j = 0; j < NewPhotoData.width; j++){
-            const float x_map = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
-            const float x_lo = floor(x_map);
-            const float x_hi = ceil(x_map);
-            const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
+            const float x_new = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new,.x_lo=x_lo,.x_hi=x_hi,.y_new=y_new,.y_lo=y_lo,.y_hi=y_hi};
             const bigColor pixel = interpolate_16(pixelArray, coords);
             write_binary16(outFile, pixel.r);
             write_binary16(outFile, pixel.g);
@@ -51,14 +51,14 @@ void aossize_resize_16(const vector<vector<bigColor>>& pixelArray, const Image_A
 void aossize_resize_8(const vector<vector<smallColor>>& pixelArray, const Image_Attributes& OldPhotoData, const Image_Attributes& NewPhotoData, ofstream& outFile)
 {
     for(int i = 0; i < NewPhotoData.height; i++){
-        const float y_map = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
-        const float y_lo = floor(y_map);
-        const float y_hi = ceil(y_map);
+        const float y_new = static_cast<float>(i)*static_cast<float>(OldPhotoData.height)/static_cast<float>(NewPhotoData.height);
+        const float y_lo = floor(y_new);
+        const float y_hi = ceil(y_new);
         for(int j = 0; j < NewPhotoData.width; j++){
-            const float x_map = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
-            const float x_lo = floor(x_map);
-            const float x_hi = ceil(x_map);
-            const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
+            const float x_new = static_cast<float>(j)*static_cast<float>(OldPhotoData.width)/static_cast<float>(NewPhotoData.width);
+            const float x_lo = floor(x_new);
+            const float x_hi = ceil(x_new);
+            const Coords coords = {.x_new=x_new,.x_lo=x_lo,.x_hi=x_hi,.y_new=y_new,.y_lo=y_lo,.y_hi=y_hi};
             const smallColor pixel = interpolate_8(pixelArray, coords);
             write_binary8(outFile, pixel.r);
             write_binary8(outFile, pixel.g);
