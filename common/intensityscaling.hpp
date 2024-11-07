@@ -10,7 +10,7 @@
 
 
 void read_image_intensity_scaling (int newIntensity);
-void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
-void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
+void intensity_smaller_255(const vector<int> & data, const ifstream &inputImageFile, const ofstream &outputImageFile);
+void intensity_greater_255(const vector<int> & data, const ifstream &inputImageFile, const ofstream &outputImageFile);
 
 #endif //INTENSITYSCALING_H
