@@ -9,7 +9,7 @@
 
 void soasize_old_image_16(bigArray& image, const Image_Attributes& OldImageData, ifstream& inFile)
 {
-    int count=0;
+    unsigned int count=0;
     while(count<OldImageData.height*OldImageData.width){
         image.r.push_back(read_binary16(inFile));
         image.g.push_back(read_binary16(inFile));
@@ -20,7 +20,7 @@ void soasize_old_image_16(bigArray& image, const Image_Attributes& OldImageData,
 
 void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData, ifstream& inFile)
 {
-    int count=0;
+    unsigned int count=0;
     while(count<OldImageData.height*OldImageData.width){
         image.r.push_back(read_binary8(inFile));
         image.g.push_back(read_binary8(inFile));
@@ -31,12 +31,12 @@ void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData
 
 void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile)
 {
-    for(int i = 0; i < NewImageData.height; i++)
+    for(unsigned int i = 0; i < NewImageData.height; i++)
     {
         const float y_map = static_cast<float>(i)*static_cast<float>(OldImageData.height)/static_cast<float>(NewImageData.height);
         const float y_lo = floor(y_map);
         const float y_hi = ceil(y_map);
-        for(int j = 0; j < NewImageData.width; j++)
+        for(unsigned int j = 0; j < NewImageData.width; j++)
         {
             const float x_map= static_cast<float>(j)*static_cast<float>(OldImageData.width)/static_cast<float>(NewImageData.width);
             const float x_lo = floor(x_map);
@@ -52,11 +52,11 @@ void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageDa
 
 void soasize_resize_8(const smallArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile)
 {
-    for(int i = 0; i < NewImageData.height; i++){
+    for(unsigned i = 0; i < NewImageData.height; i++){
         const float y_map= static_cast<float>(i)*static_cast<float>(OldImageData.height)/static_cast<float>(NewImageData.height);
         const float y_lo = floor(y_map);
         const float y_hi = ceil(y_map);
-        for(int j = 0; j < NewImageData.width; j++){
+        for(unsigned j = 0; j < NewImageData.width; j++){
             const float x_map= static_cast<float>(j)*static_cast<float>(OldImageData.width)/static_cast<float>(NewImageData.width);
             const float x_lo = floor(x_map);
             const float x_hi = ceil(x_map);

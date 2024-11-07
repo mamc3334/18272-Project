@@ -31,13 +31,12 @@ struct bigColor{
 
 inline string inFile, outFile;
 
-void validate_metadata (const string& word, const int width, const int height, const int intensity);
+void validate_metadata (const string& word, int width, int height, int intensity);
 Image_Attributes get_image_metadata (ifstream& imageFile);
-void validate_metadata (Image_Attributes metadata);
 void displayInfo();
 string getInFile();
 string getOutFile();
-void setInFile(const string& in);
-void setOutFile(const string& out);
+void setInFile(const string& name);
+void setOutFile(const string& name);
 
 #endif //UTILITY_HPP
