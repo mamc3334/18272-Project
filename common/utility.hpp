@@ -10,6 +10,12 @@ using namespace std;
 #ifndef UTILITY_HPP
 #define UTILITY_HPP
 
+constexpr int IntensityCutoff = 255;
+
+struct Coords {
+  float x_new,x_lo,x_hi,y_new,y_lo,y_hi;
+};
+
 struct Image_Attributes {
     std::string magic_word;
     unsigned int width, height;

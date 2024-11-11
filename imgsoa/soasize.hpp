@@ -7,17 +7,16 @@
 
 #include <fstream>
 #include "soacommon.hpp"
-#include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
 using namespace std;
 
-void soasize_old_photo_16(bigArray& photo, unsigned int size, ifstream& inFile);
-void soasize_old_photo_8(smallArray& photo, unsigned int size, ifstream& inFile);
+void soasize_old_image_16(bigArray& image, const Image_Attributes& OldImageData, ifstream& inFile);
+void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData, ifstream& inFile);
 
-void soasize_resize_16(bigArray photo, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
-void soasize_resize_8(smallArray photo, unsigned int oRows, unsigned int oCols, int nRows, int nCols, ofstream& outFile);
+void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile);
+void soasize_resize_8(const smallArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile);
 
-bigColor interpolate_16(bigArray photo, float x, float y, float xl, float xh, float yl, float yh);
-smallColor interpolate_8(smallArray photo, float x, float y, float xl, float xh, float yl, float yh);
+bigColor interpolate_16(const bigArray& image, const Coords& coords);
+smallColor interpolate_8(const smallArray& image, const Coords& coords);
 
 #endif //SOASIZE_HPP

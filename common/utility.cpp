@@ -3,7 +3,6 @@
 //
 
 #include "utility.hpp"
-
 #include <sys/stat.h>
 using namespace std;
 

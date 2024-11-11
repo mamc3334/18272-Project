@@ -3,11 +3,13 @@
 //
 #include <iostream>
 #include <cstring>
+#include <span>
 #include <common/intensityscaling.hpp>
 using namespace std;
 
 #include "../common/progargs.hpp"
 #include "../common/utility.hpp"
+#include "../imgsoa/imagesoa.hpp"
 
 int main(int argc, char *argv[]) {
     if (argc < 4) {
@@ -15,26 +17,29 @@ int main(int argc, char *argv[]) {
         exit(-1);
     } else {
         // Has the correct number of default arguments
-        prog_paths(argv[1], argv[2]);
-        if(strcmp(argv[3], "info") == 0)
+        span const args_view{ argv, static_cast<std::size_t>(argc) };
+        vector<string> const args{args_view.begin() + 1, args_view.end()};
+        prog_paths(args[0], args[1]);
+        if(args[2] == "info")
         {
-            prog_info(argc);
-            displayInfo();
-        } else if (strcmp(argv[3], "maxlevel") == 0) {
-            prog_maxlevel(argc, argv);
-            read_image_intensity_scaling(atoi(argv[4]));
-        } else if (strcmp(argv[3], "resize") == 0) {
-            prog_resize(argc, argv);
-            soa_resize();
-        } else if (strcmp(argv[3], "cutfreq") == 0) {
-            prog_cutfreq(argc, argv);
-            soa_cutfreq();
-        } else if (strcmp(argv[3], "compress") == 0) {
-            prog_compress(argc);
-            soa_compress();
+          prog_info(argc);
+          displayInfo();
+        } else if (args[2] == "maxlevel") {
+          prog_maxlevel(argc, args);
+          read_image_intensity_scaling(stoi(args[3]));
+        } else if (args[2] == "resize") {
+          prog_resize(argc, args);
+          Image_Attributes newImageData = {.width=static_cast<unsigned int>(stoi(args[3])), .height=static_cast<unsigned int>(stoi(args[4]))};
+          soa_resize(newImageData);
+        } else if (args[2] == "cutfreq") {
+          prog_cutfreq(argc, args);
+          soa_cutfreq(stoi(args[3]));
+        } else if (args[2] == "compress") {
+          prog_compress(argc);
+          soa_compress();
         } else {
-            cerr << "Error:\tInvalid option:\t" << argv[3] << "\n";
-            exit(-1);
+          cerr << "Error:\tInvalid option:\t" << args[2] << "\n";
+          exit(-1);
         }
     }
 }

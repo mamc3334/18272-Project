@@ -19,7 +19,7 @@ CheckOptions:
   readability-function-cognitive-complexity.Threshold: 50
   readability-function-cognitive-complexity.Threshold.DescribeBasicIncrements: true
   readability-function-size.LineThreshold: 40
-  readability-function-size.ParameterThreshold: 4
+  readability-function-size.ParameterThreshold: 8
 
 WarningsAsErrors: '*'
 

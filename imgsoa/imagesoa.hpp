@@ -4,8 +4,13 @@
 
 #ifndef IMAGESOA_HPP
 #define IMAGESOA_HPP
+#include "soasize.hpp"
+#include "soainfrequentcolor.hpp"
+#include "soacompress.hpp"
+#include "../common/utility.hpp"
+#include "soacommon.hpp"
 
-void soa_resize(int width, int height);
+void soa_resize(Image_Attributes& NewImageData);
 
 void soa_cutfreq(int num);
 
