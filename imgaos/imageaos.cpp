@@ -1,51 +1,52 @@
-#include "aoscommon.hpp"
-#include "aossize.hpp"
 //
 // Created by finnb on 10/7/2024.
 //
-using namespace std;
-#include <vector>
 #include "imageaos.hpp"
+#include "aossize.hpp"
+#include <vector>
 #include <iostream>
+using namespace std;
 
-void aos_resize(int width, int height)
+
+
+void aos_resize(Image_Attributes& newImageData)
 {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes metadata = get_image_metadata(imageFile);
+    const Image_Attributes oldImageData = get_image_metadata(imageFile);
     ofstream outputImageFile(getOutFile());
     if(!outputImageFile.is_open()) {
         cerr << "Failed to open output file\n";
         exit(-1);
     }
-    outputImageFile << metadata.magic_word << "\n" << width << "\n" << height << "\n" << metadata.intensity << "\n";
-    if(metadata.intensity > 255)
+    newImageData.intensity = oldImageData.intensity;
+    newImageData.magic_word = oldImageData.magic_word;
+    outputImageFile << newImageData.magic_word << "\n" << newImageData.width << "\n" << newImageData.height << "\n" << newImageData.intensity << "\n";
+    if(newImageData.intensity > IntensityCutoff)
     {
-        vector<vector<bigColor>> oldPhoto(metadata.height, vector<bigColor>(metadata.width));
-        aossize_old_photo_16(oldPhoto, metadata.height, metadata.width, imageFile);
-        aossize_resize_16(oldPhoto, metadata.height, metadata.width, width, height, outputImageFile);
+        vector<vector<bigColor>> oldPhoto(oldImageData.height, vector<bigColor>(oldImageData.width));
+        aossize_old_photo_16(oldPhoto, oldImageData, imageFile);
+        aossize_resize_16(oldPhoto, oldImageData, newImageData, outputImageFile);
     }
     else
     {
-        vector<vector<smallColor>> sOldPhoto(metadata.height, vector<smallColor>(metadata.width));
-        aossize_old_photo_8(sOldPhoto, metadata.height, metadata.width, imageFile);
-        aossize_resize_8(sOldPhoto, metadata.width, metadata.height, height, width, outputImageFile);
+        vector<vector<smallColor>> sOldPhoto(oldImageData.height, vector<smallColor>(oldImageData.width));
+        aossize_old_photo_8(sOldPhoto, oldImageData, imageFile);
+        aossize_resize_8(sOldPhoto, oldImageData, newImageData, outputImageFile);
     }
-    imageFile.close();
-    outputImageFile.close();
 }
 
-void aos_cutfreq()
+void aos_cutfreq(int num)
 {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes metadata = get_image_metadata(imageFile);
+    const Image_Attributes oldImageData = get_image_metadata(imageFile);
     /* TODO: Remove least used colors
         *
         *
@@ -59,7 +60,7 @@ void aos_compress()
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes metadata = get_image_metadata(imageFile);
+    const Image_Attributes oldImageData = get_image_metadata(imageFile);
     /* TODO: Compress
         * maybe similar to cutfreq
         *
