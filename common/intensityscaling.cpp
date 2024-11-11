@@ -6,6 +6,8 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include "intensityscaling.hpp"
+#include "utility.hpp"
+#include "binaryio.hpp"
 
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
     if(data[1] <= IntensityCutoff){
