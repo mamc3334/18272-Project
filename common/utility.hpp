@@ -25,7 +25,7 @@ struct smallColor{
 
 struct bigColor{
     uint16_t r, g, b;
-    bool operator==(const smallColor &other) const {
+    bool operator==(const bigColor &other) const {
         return (r == other.r && g == other.g && b == other.b);
     }
 };

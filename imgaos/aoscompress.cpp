@@ -17,7 +17,7 @@ void compress(ifstream& inFile, ofstream& outFile) {
     Image_Attributes metadata = get_image_metadata(inFile);
     validate_metadata(metadata);
     int intensity = metadata.intensity;
-    int numPixels = metadata.width*metadata.height;
+    unsigned int numPixels = metadata.width*metadata.height;
     if(intensity <= 255) { // use smallColor
         vector<smallColor> colors;
         get_small_colors(inFile, colors, numPixels);
@@ -36,8 +36,17 @@ void compress(ifstream& inFile, ofstream& outFile) {
 }
 
 // Returns true if the vector contains the element, false if not
-template <typename T> bool contains(vector<T> vec, T& element) {
+bool contains_smallColor(vector<smallColor> vec, smallColor element) {
   for(size_t i = 0; i < vec.size(); i++) {
+		if(vec[i] == element) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool contains_bigColor(vector<bigColor> vec, bigColor element) {
+	for(size_t i = 0; i < vec.size(); i++) {
 		if(vec[i] == element) {
 			return true;
 		}
@@ -87,13 +96,13 @@ TODO: Instead of for loop, should this be a while loop to ensure no reading erro
 
 // Populates colors vector with list of 3-byte RGB values from inFile
 
-void get_small_colors(ifstream& inFile, vector<smallColor>& colors, int numPixels) {
-    for(int i = 0; i < numPixels; i++) {
+void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unsigned int numPixels) {
+    for(unsigned int i = 0; i < numPixels; i++) {
         uint8_t red = read_binary8(inFile);
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
         smallColor color = {red, green, blue};
-		if(contains<smallColor>(colors, color)) {
+		if(contains_smallColor(colors, color)) {
 			colors.push_back(color);
 		}
     }
@@ -101,13 +110,13 @@ void get_small_colors(ifstream& inFile, vector<smallColor>& colors, int numPixel
 
 // Populates colors vector with list of 6-byte RGB values from inFile
 
-void get_big_colors(ifstream& inFile, vector<bigColor>& colors, int numPixels) {
-    for(int i = 0; i < numPixels; i++) {
+void get_big_colors(ifstream& inFile, vector<bigColor>& colors, unsigned int numPixels) {
+    for(unsigned int i = 0; i < numPixels; i++) {
         uint16_t red = read_binary16(inFile);
         uint16_t green = read_binary16(inFile);
         uint16_t blue = read_binary16(inFile);
         bigColor color = {red, green, blue};
-		if(contains<bigColor>(colors, color)) {
+		if(contains_bigColor(colors, color)) {
 			colors.push_back(color);
 		}
     }
@@ -170,7 +179,7 @@ void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
 
 // Writes sequence of indexes corresponding to locations in the color vector, using the proper number of bytes per index
 
-void write_small_pixels(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels, uint8_t indexByteLength) {
+void write_small_pixels(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, unsigned int numPixels, uint8_t indexByteLength) {
     if (indexByteLength == 1) {
     	write_small_pixels_1b(inFile, outFile, colors, numPixels);
     } else if (indexByteLength == 2) {
@@ -184,8 +193,8 @@ void write_small_pixels(ifstream& inFile, ofstream& outFile, vector<smallColor>&
 
 
 
-void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint8_t red = read_binary8(inFile);
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
@@ -201,8 +210,8 @@ void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, vector<smallColo
     }
 }
 
-void write_small_pixels_2b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_small_pixels_2b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint8_t red = read_binary8(inFile);
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
@@ -218,8 +227,8 @@ void write_small_pixels_2b(ifstream& inFile, ofstream& outFile, vector<smallColo
     }
 }
 
-void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, vector<smallColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint8_t red = read_binary8(inFile);
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
@@ -236,7 +245,7 @@ void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, vector<smallColo
 }
 
 
-void write_big_pixels(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels, uint8_t indexByteLength) {
+void write_big_pixels(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels, uint8_t indexByteLength) {
 	if (indexByteLength == 1) {
 		write_big_pixels_1b(inFile, outFile, colors, numPixels);
 	} else if (indexByteLength == 2) {
@@ -250,8 +259,8 @@ void write_big_pixels(ifstream& inFile, ofstream& outFile, vector<bigColor>& col
 
 
 
-void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint16_t red = read_binary8(inFile);
         uint16_t green = read_binary8(inFile);
         uint16_t blue = read_binary8(inFile);
@@ -267,8 +276,8 @@ void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& 
     }
 }
 
-void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint16_t red = read_binary8(inFile);
         uint16_t green = read_binary8(inFile);
         uint16_t blue = read_binary8(inFile);
@@ -284,8 +293,8 @@ void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& 
     }
 }
 
-void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, int numPixels) {
-	for(int i = 0; i < numPixels; i++) {
+void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint16_t red = read_binary8(inFile);
         uint16_t green = read_binary8(inFile);
         uint16_t blue = read_binary8(inFile);
