@@ -4,6 +4,9 @@
 
 #include "utility.hpp"
 #include <sys/stat.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 void validate_metadata (const string& word, const int width, const int height, const int intensity) {
