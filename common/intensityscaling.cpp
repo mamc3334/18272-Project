@@ -7,6 +7,8 @@ using namespace std;
 #include <fstream>
 #include <unistd.h>
 #include "intensityscaling.hpp"
+#include "utility.hpp"
+#include "binaryio.hpp"
 
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
     if(data[1] <= IntensityCutoff){
@@ -53,7 +55,6 @@ void read_image_intensity_scaling (int newIntensity){
     }
     auto [magic_word, width, height, intensity] = get_image_metadata(inputImageFile);
     outputImageFile << magic_word << "\n" << width << " " << height << "\n" << newIntensity << "\n";
-    /*cout << magic_word << "\n" << width << "\n" << height << "\n" << newIntensity << "\n";*/
     const int colors = static_cast<int>(3*width*height);
     const vector data = {intensity, newIntensity, colors};
     if(intensity <= IntensityCutoff){
