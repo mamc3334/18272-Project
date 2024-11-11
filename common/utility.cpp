@@ -4,6 +4,9 @@
 
 #include "utility.hpp"
 #include <sys/stat.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 void validate_metadata (const string& word, const int width, const int height, const int intensity) {
@@ -16,21 +19,23 @@ void validate_metadata (const string& word, const int width, const int height, c
 Image_Attributes get_image_metadata(ifstream& imageFile)
 {
     string magic_word;
-    int width, height, intensity;
+    int width;
+    int height;
+    int intensity;
     imageFile >> magic_word >> width >> height >> intensity;
     validate_metadata(magic_word, width, height, intensity);
-    Image_Attributes output = {magic_word, static_cast<unsigned int>(width), static_cast<unsigned int>(height), intensity};
+    Image_Attributes output = {.magic_word=magic_word, .width=static_cast<unsigned int>(width), .height=static_cast<unsigned int>(height), .intensity=intensity};
     return output;
 }
 
-void setInFile(const string& in)
+void setInFile(const string& name)
 {
-    inFile = in;
+    inFile = name;
 }
 
-void setOutFile(const string& out)
+void setOutFile(const string& name)
 {
-    outFile = out;
+    outFile = name;
 }
 
 string getInFile()
