@@ -5,11 +5,15 @@
 #ifndef INTENSITYSCALING_H
 #define INTENSITYSCALING_H
 
+#include "utility.hpp"
+#include "binaryio.hpp"
 #include <vector>
-using namespace std;
+#include <fstream>
+
 
 void read_image_intensity_scaling (int newIntensity);
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
 void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile);
+
 
 #endif //INTENSITYSCALING_H
