@@ -1,8 +1,15 @@
-#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest.h>
 #include "../imgaos/aossize.hpp"  // Include your common header file
 #include "../utest-common/utest-helpers.hpp"
 
-TEST(AOSSizeTests, Old16Test){
+#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h>
+#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest.h>
+#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest-message.h>
+#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest-test-part.h>
+#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h>
+#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h>
+#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h>
+
+TEST(AOSSizeTests, Old16Test) {
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
   vector<vector<bigColor>> pixelArray(OldPhotoData.height, vector<bigColor>(OldPhotoData.width));
 

@@ -2,7 +2,7 @@
 // Created by mcgaf on 10/20/2024.
 //
 #include "aossize.hpp"
-#include "../common/binaryio.hpp"
+#include "../common/binaryio.cpp"
 #include <cmath>
 
 using namespace std;

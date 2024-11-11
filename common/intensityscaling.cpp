@@ -5,6 +5,7 @@
 using namespace std;
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "intensityscaling.hpp"
 
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {

@@ -3,6 +3,8 @@
 //
 
 #include "progargs.hpp"
+#include "utility.hpp"
+#include <iostream>
 
 void prog_paths(const string& inName, const string& outName)
 {
