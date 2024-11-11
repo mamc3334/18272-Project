@@ -4,6 +4,7 @@
 
 #include "utility.hpp"
 #include <sys/stat.h>
+#include <tuple>
 using namespace std;
 
 void validate_metadata (const string& word, const int width, const int height, const int intensity) {
@@ -20,6 +21,7 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
     imageFile >> magic_word >> width >> height >> intensity;
     validate_metadata(magic_word, width, height, intensity);
     Image_Attributes output = {magic_word, static_cast<unsigned int>(width), static_cast<unsigned int>(height), intensity};
+    imageFile.ignore(256,'\n');
     return output;
 }
 

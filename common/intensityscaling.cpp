@@ -5,6 +5,7 @@
 using namespace std;
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include "intensityscaling.hpp"
 
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
@@ -40,9 +41,6 @@ void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, o
 }
 
 void read_image_intensity_scaling (int newIntensity){
-    /*TODO: Maybe incorporate get_image_metadata() to reduce redundant code
-     * Use type casting to fix conversion errors (int, uint_16t, uint_8t)
-     */
     ifstream inputImageFile(getInFile());
     if(!inputImageFile.is_open()) {
         cerr << "Failed to open input file\n";
@@ -54,7 +52,8 @@ void read_image_intensity_scaling (int newIntensity){
         exit(-1);
     }
     auto [magic_word, width, height, intensity] = get_image_metadata(inputImageFile);
-    outputImageFile << magic_word << "\n" << width << "\n" << height << "\n" << newIntensity << "\n";
+    outputImageFile << magic_word << "\n" << width << " " << height << "\n" << newIntensity << "\n";
+    /*cout << magic_word << "\n" << width << "\n" << height << "\n" << newIntensity << "\n";*/
     const int colors = static_cast<int>(3*width*height);
     const vector data = {intensity, newIntensity, colors};
     if(intensity <= IntensityCutoff){
@@ -62,5 +61,6 @@ void read_image_intensity_scaling (int newIntensity){
     }else{ //intensity > 255
         intensity_greater_255(data, inputImageFile, outputImageFile);
     }
+    inputImageFile.close();
+    outputImageFile.close();
 }
-
