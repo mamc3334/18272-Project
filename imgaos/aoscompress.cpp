@@ -15,7 +15,7 @@ using namespace std;
 
 void compress(ifstream& inFile, ofstream& outFile) {
     Image_Attributes metadata = get_image_metadata(inFile);
-    validate_metadata(metadata);
+    //validate_metadata(metadata.magic_word, metadata.width, metadata.height, metadata.intensity);
     int intensity = metadata.intensity;
     unsigned int numPixels = metadata.width*metadata.height;
     if(intensity <= 255) { // use smallColor

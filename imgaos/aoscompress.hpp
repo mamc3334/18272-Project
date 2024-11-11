@@ -9,6 +9,7 @@
 #include<fstream>
 #include "../common/utility.hpp"
 #include <cstdint>
+#include <vector>
 
 using namespace std;
 
