@@ -14,6 +14,7 @@ using namespace std;
 // TODO: How to check if the size of colors is greater than 2^32? Does vector already have an error if that happens?
 
 void compress(ifstream& inFile, ofstream& outFile) {
+	cout << "Compressing..." << endl;
     Image_Attributes metadata = get_image_metadata(inFile);
     //validate_metadata(metadata.magic_word, metadata.width, metadata.height, metadata.intensity);
     int intensity = metadata.intensity;
@@ -157,9 +158,7 @@ void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
     outFile << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
     	smallColor color = colors[i];
-    	write_binary8(outFile, color.r);
-    	write_binary8(outFile, color.g);
-    	write_binary8(outFile, color.b);
+    	outFile << color.r << color.g << color.b;
     }
 }
 
@@ -169,10 +168,8 @@ void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
 void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
 	outFile << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
-      bigColor color = colors[i];
-      write_binary16(outFile, color.r);
-      write_binary16(outFile, color.g);
-      write_binary16(outFile, color.b);
+		bigColor color = colors[i];
+		outFile << color.r << color.g << color.b;
     }
 }
 
