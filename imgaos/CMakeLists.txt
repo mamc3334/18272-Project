@@ -2,6 +2,7 @@
 add_library(imgaos
         imageaos.cpp
         aossize.cpp
+        aosinfrequentcolor.cpp
         #        other1.cpp
 #        other2.cpp
 )
