@@ -47,6 +47,7 @@ void aos_cutfreq(int num)
         exit(-1);
     }
     const Image_Attributes oldImageData = get_image_metadata(imageFile);
+    cout <<num <<endl;
     /* TODO: Remove least used colors
         *
         *

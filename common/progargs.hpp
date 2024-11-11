@@ -6,7 +6,7 @@
 #define PROGARGS_HPP
 
 #include <fstream>
-#include "utility.hpp"
+#include <vector>
 using namespace std;
 
 constexpr int InfoArgs = 4;
