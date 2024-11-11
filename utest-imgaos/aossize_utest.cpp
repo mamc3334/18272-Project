@@ -1,13 +1,8 @@
-#include "../imgaos/aossize.hpp"  // Include your common header file
+#include <gtest/gtest.h>
+#include "../imgaos/aossize.hpp"
 #include "../utest-common/utest-helpers.hpp"
+#include <filesystem>
 
-#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h>
-#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest.h>
-#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest-message.h>
-#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest-test-part.h>
-#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h>
-#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/internal/gtest-internal.h>
-#include <cmake-build-release/_deps/googletest-src/googletest/include/gtest/internal/gtest-port.h>
 
 TEST(AOSSizeTests, Old16Test) {
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
@@ -34,7 +29,7 @@ TEST(AOSSizeTests, Old8Test){
 
   aossize_old_photo_8(pixelArray, OldPhotoData, mockDataFile);
 
-  const vector<vector<bigColor>> expectedPixelArray = {
+  const vector<vector<smallColor>> expectedPixelArray = {
     { {.r=10, .g=15, .b=20}, {.r=25, .g=30, .b=35} },
     { {.r=40, .g=45, .b=50}, {.r=55, .g=60, .b=65} }
   };
@@ -51,7 +46,7 @@ TEST(AOSSizeTests, Resize16Test) {
     { {.r=400, .g=450, .b=500}, {.r=550, .g=600, .b=650} }
   };
 
-  ofstream mockOutFile("../test-data/outputs/aossize_resize16_out.txt");
+  ofstream mockOutFile("../test-data/outputs/aossize_resize16_out.bin");
   ASSERT_TRUE(mockOutFile.is_open()) << "Failed to open output file";
 
   aossize_resize_16(pixelArray, OldPhotoData, NewPhotoData, mockOutFile);
