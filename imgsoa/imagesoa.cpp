@@ -39,10 +39,12 @@ void soa_resize(Image_Attributes& NewImageData)
 }
 
 void soa_cutfreq(int num) {
-
+  //TODO
+  cout <<num<<endl;
+  //TEMP
 }
 
 
 void soa_compress() {
-
+  //TODO
 }
