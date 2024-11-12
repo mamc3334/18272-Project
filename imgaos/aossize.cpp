@@ -61,10 +61,6 @@ void aossize_resize_8(const vector<vector<smallColor>>& pixelArray, const Image_
             const float x_hi = ceil(x_map);
             const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
             const smallColor pixel = interpolate_8(pixelArray, coords);
-            if (!outFile) {
-              cerr << "Error: Output file stream is in a bad state.\n";
-              return;
-            }
             write_binary8(outFile, pixel.r);
             write_binary8(outFile, pixel.g);
             write_binary8(outFile, pixel.b);

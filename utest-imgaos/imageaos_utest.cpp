@@ -2,52 +2,48 @@
 #include "../imgaos/imageaos.hpp"  // Include your common header file
 #include "../common/binaryio.hpp"
 
-TEST(ImageAOSTests, Resize16Test) {
-  setInFile("../test-data/test16.ppm");
-  setOutFile("../test-data/outputs/resize16.ppm");
-  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
+//Large 100 to 1000
+// TEST(ImageAOSTests, Resize16_100to1000_Test) {
+//   setInFile("../../test-data/lake-large-100.ppm");
+//   setOutFile("lake-large-output-1000.ppm");
+//   Image_Attributes newImageData = {.magic_word = "", .width=1000, .height=1000, .intensity = 0};
+//   aos_resize(newImageData);
+//
+//   const int result = system("diff -q ../../test-data/lake-large-1000.ppm lake-large-output-1000.ppm"); // NOLINT(*-env33-c)
+//   EXPECT_EQ(result, 0);
+// }
+//
+// //Large 1000 to 100
+// TEST(ImageAOSTests, Resize16_1000to100_Test) {
+//   setInFile("../../test-data/lake-large-1000.ppm");
+//   setOutFile("lake-large-output-100.ppm");
+//   Image_Attributes newImageData = {.magic_word = "", .width=100, .height=100, .intensity = 0};
+//   aos_resize(newImageData);
+//
+//   const int result = system("diff -q ../../test-data/lake-large-100.ppm lake-large-output-100.ppm"); // NOLINT(*-env33-c)
+//   EXPECT_EQ(result, 0);
+// }
+
+//Small 100 to 1000
+TEST(ImageAOSTests, Resize8_100to1000_Test) {
+  setInFile("../../test-data/lake-small-100.ppm");
+  setOutFile("lake-small-output-1000.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=1000, .height=1000, .intensity = 0};
   aos_resize(newImageData);
 
-  ifstream expectedFile("../test-data/expected/resize16.ppm");
-  ifstream outputFile(getOutFile());
-  ASSERT_TRUE(expectedFile.is_open()) << "Failed to open expected data file";
-  ASSERT_TRUE(outputFile.is_open()) << "Failed to open output file";
-
-  const Image_Attributes expectedData = get_image_metadata(expectedFile);
-  const Image_Attributes outputData = get_image_metadata(outputFile);
-
-  EXPECT_EQ(expectedData.magic_word, outputData.magic_word) << "Magic word does not match expected value";
-  EXPECT_EQ(expectedData.width, outputData.width) << "Image width does not match expected value";
-  EXPECT_EQ(expectedData.height, outputData.height) << "Image height does not match expected value";
-  EXPECT_EQ(expectedData.intensity, outputData.intensity) << "Image intensity does not match expected value";
-
-  for(unsigned int i = 0; i < 3 * expectedData.width * expectedData.height; i++) {
-    EXPECT_EQ(read_binary16(expectedFile), read_binary16(outputFile)) << "One or more pixels have a value that does not match expected value";
-  }
+  const int result = system("diff -q ../../test-data/lake-small-1000.ppm lake-small-output-1000.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
 }
 
-TEST(ImageAOSTests, Resize8Test) {
-  setInFile("../test-data/test8.ppm");
-  setOutFile("../test-data/outputs/resize8.ppm");
-  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
+//Small 100 to 1000
+TEST(ImageAOSTests, Resize8_1000to100_Test) {
+  setInFile("../../test-data/lake-small-1000.ppm");
+  setOutFile("lake-small-output-100.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=100, .height=100, .intensity = 0};
   aos_resize(newImageData);
 
-  ifstream expectedFile("../test-data/expected/resize8.ppm");
-  ifstream outputFile(getOutFile());
-  ASSERT_TRUE(expectedFile.is_open()) << "Failed to open expected data file";
-  ASSERT_TRUE(outputFile.is_open()) << "Failed to open output file";
-
-  const Image_Attributes expectedData = get_image_metadata(expectedFile);
-  const Image_Attributes outputData = get_image_metadata(outputFile);
-
-  EXPECT_EQ(expectedData.magic_word, outputData.magic_word) << "Magic word does not match expected value";
-  EXPECT_EQ(expectedData.width, outputData.width) << "Image width does not match expected value";
-  EXPECT_EQ(expectedData.height, outputData.height) << "Image height does not match expected value";
-  EXPECT_EQ(expectedData.intensity, outputData.intensity) << "Image intensity does not match expected value";
-
-  for(unsigned int i = 0; i < 3 * expectedData.width * expectedData.height; i++) {
-    EXPECT_EQ(read_binary8(expectedFile), read_binary8(outputFile)) << "One or more pixels have a value that does not match expected value";
-  }
+  const int result = system("diff -q ../../test-data/lake-small-100.ppm lake-small-output-100.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
 }
 
 TEST(ImageAOSTests, CutFreqTest) {
