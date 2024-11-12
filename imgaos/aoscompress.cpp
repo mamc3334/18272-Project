@@ -98,12 +98,12 @@ TODO: Instead of for loop, should this be a while loop to ensure no reading erro
 // Populates colors vector with list of 3-byte RGB values from inFile
 
 void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unsigned int numPixels) {
-    for(unsigned int i = 0; i < numPixels; i++) {
+	for(unsigned int i = 0; i < numPixels; i++) {
         uint8_t red = read_binary8(inFile);
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
         smallColor color = {red, green, blue};
-		if(contains_smallColor(colors, color)) {
+		if(!contains_smallColor(colors, color)) {
 			colors.push_back(color);
 		}
     }
@@ -117,7 +117,7 @@ void get_big_colors(ifstream& inFile, vector<bigColor>& colors, unsigned int num
         uint16_t green = read_binary16(inFile);
         uint16_t blue = read_binary16(inFile);
         bigColor color = {red, green, blue};
-		if(contains_bigColor(colors, color)) {
+		if(!contains_bigColor(colors, color)) {
 			colors.push_back(color);
 		}
     }
