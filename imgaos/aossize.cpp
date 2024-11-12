@@ -97,25 +97,15 @@ smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const Coo
   const smallColor pixelTR = pixelArray[static_cast<unsigned int>(coords.y_lo)][static_cast<unsigned int>(coords.x_hi)];
   const smallColor pixelBL = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_lo)];
   const smallColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
-  // const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
-  // const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
-  // const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
-  // const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
-  // const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
-  // const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
-  // const auto finalR = static_cast<uint8_t>(round((topR*(1-frac_y)) + (botR*frac_y)));
-  // const auto finalG = static_cast<uint8_t>(round((topG*(1-frac_y)) + (botG*frac_y)));
-  // const auto finalB = static_cast<uint8_t>(round((topB*(1-frac_y)) + (botB*frac_y)));
-
-  uint8_t finalR = static_cast<uint8_t>(std::round(((pixelTL.r * (1 - frac_x) + pixelTR.r * frac_x) * (1 - frac_y)) +
-                                                     ((pixelBL.r * (1 - frac_x) + pixelBR.r * frac_x) * frac_y)));
-
-  uint8_t finalG = static_cast<uint8_t>(std::round(((pixelTL.g * (1 - frac_x) + pixelTR.g * frac_x) * (1 - frac_y)) +
-                                                   ((pixelBL.g * (1 - frac_x) + pixelBR.g * frac_x) * frac_y)));
-
-  uint8_t finalB = static_cast<uint8_t>(std::round(((pixelTL.b * (1 - frac_x) + pixelTR.b * frac_x) * (1 - frac_y)) +
-                                                   ((pixelBL.b * (1 - frac_x) + pixelBR.b * frac_x) * frac_y)));
-
+  const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
+  const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
+  const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
+  const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
+  const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
+  const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
+  const auto finalR = static_cast<uint8_t>(round((topR*(1-frac_y)) + (botR*frac_y)));
+  const auto finalG = static_cast<uint8_t>(round((topG*(1-frac_y)) + (botG*frac_y)));
+  const auto finalB = static_cast<uint8_t>(round((topB*(1-frac_y)) + (botB*frac_y)));
 
   return {.r=finalR, .g=finalG, .b=finalB};
 }
