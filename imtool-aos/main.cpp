@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <span>
+#include <vector>
 using namespace std;
 
 #include "../common/progargs.hpp"
