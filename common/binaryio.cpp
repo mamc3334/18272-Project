@@ -40,7 +40,18 @@ void write_binary8 (std::ostream & output, std::uint8_t const & value) {
 }
 
 void write_binary32(std::ostream & output, int const & value) {
-    char const* three_bytes = reinterpret_cast<char const*>(&value);
+    char const* four_bytes = reinterpret_cast<char const*>(&value);
     // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
-    output.write(three_bytes, sizeof(value));
+    output.write(four_bytes, sizeof(value));
+}
+
+int read_binary32 (std::istream & input) {
+    int value;
+
+    // Converts pointer to a 16-bit integer to a pointer to a character
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+    char* four_bytes = reinterpret_cast<char*> (&value);
+    // Copies sizeof(value) bits from the input stream into the two_bytes char*
+    input.read(four_bytes, sizeof(value));
+    return value;
 }
