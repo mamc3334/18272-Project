@@ -106,50 +106,23 @@ void changeInfrequentColors(vector<color>& pixels, int n) {
     }
 }
 
-void writeToPPM(const vector<color>& pixels, const Image_Attributes& photoData, const string& outputFilePath){
+// Write modified pixel data to binary output file using write_binary8
+void writeBinary_8(const vector<color>& pixels, const Image_Attributes& photoData, const string& outputFilePath) {
     ofstream outFile(outputFilePath, ios::binary);
     if (!outFile.is_open()) {
         cerr << "Error: Unable to open file for writing.\n";
         return;
     }
 
-    // PPM header
+    // Write the PPM header using write_binary8
     outFile << "P6\n";
     outFile << photoData.width << " " << photoData.height << "\n";
-    outFile << "255\n"; // Max color value
+    outFile << "255\n";
 
-    // Write RGB pixel data
+    // Write pixel data
     for (const auto& pixel : pixels) {
-        outFile.put(static_cast<unsigned char>(pixel.r));
-        outFile.put(static_cast<unsigned char>(pixel.g));
-        outFile.put(static_cast<unsigned char>(pixel.b));
+        write_binary8(outFile, pixel.r);
+        write_binary8(outFile, pixel.g);
+        write_binary8(outFile, pixel.b);
     }
-
-    outFile.close();
-    cout << "Image written to " << outputFilePath << endl;
-}
-
-//TO BE FINISHED
-int main(int argc, char* argv[]) {
-	Image_Attributes photoData;
-	ifstream inFile("path_to_image.ppm", ios::binary);
-	if (!inFile.is_open()) {
-	    cerr << "Error: Unable to open file.\n";
-	    return 1;
-	}
-
-	// Initialize and populate pixels
-	vector<color> pixels;
-	populatePixels(pixels, photoData, inFile);
-
-	// Number of least frequent colors to remove
-	/int n = 5;
-
-	// Replace least frequent colors in the image
-	changeInfrequentColors(pixels, n);
-
-	// Output to new PPM file
-	writeToPPM(pixels, photoData, "output_image.ppm");
-
-	return 0;
 }

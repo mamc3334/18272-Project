@@ -29,6 +29,6 @@ vector<color> countColors(const vector<color>& pixels);
 void sortColors(vector<color>& pixels);
 double colorDistance(const color& c1, const color& c2);
 void changeInfrequentColors(vector<color>& colorList, int n);
-void writeToPPM(const vector<color>& pixels, const Image_Attributes& photoData, const string& outputFilePath);
+void writeBinary_8(const vector<color>& pixels, const Image_Attributes& photoData, ofstream& outputFilePath);
 
 #endif //AOSINFREQUENTCOLOR_HPP

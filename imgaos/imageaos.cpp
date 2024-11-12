@@ -47,23 +47,22 @@ void aos_cutfreq(int num)
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes oldImageData = get_image_metadata(imageFile);
+    const Image_Attributes photoData = get_image_metadata(imageFile);
     /* TODO: Remove least used colors
         *
         *
      */
-    // Initialize and populate pixels
+
+    ofstream outputImageFile(getOutFile());
+    if(!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+
     vector<color> pixels;
-    populatePixels(pixels, photoData, inFile);
-
-    // Number of least frequent colors to remove
-    int n = 5;
-
-    // Replace least frequent colors in the image
-    changeInfrequentColors(pixels, n);
-
-    // Output to new PPM file
-    writeToPPM(pixels, photoData, "output_image.ppm");
+    populatePixels(pixels, photoData, imageFile);
+    changeInfrequentColors(pixels, num);
+    writeBinary_8(pixels, photoData, outputImageFile);
 
 }
 
