@@ -9,6 +9,14 @@ add_executable(utest-imgaos
 # Library dependencies
 target_link_libraries (utest-imgaos
         PRIVATE
-        img-aos
+        imgaos
         GTest::gtest_main
-        Microsoft.GSL::GSL)
+        GTest::gtest
+)
+
+target_include_directories(utest-imgaos
+        PRIVATE
+        ${CMAKE_SOURCE_DIR}/imgaos
+)
+
+add_test(AOSCompressTests utest-imgaos COMMAND utest-imgaos)

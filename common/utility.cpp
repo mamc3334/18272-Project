@@ -4,6 +4,7 @@
 
 #include "utility.hpp"
 #include <sys/stat.h>
+#include <tuple>
 #include <iostream>
 #include <vector>
 
@@ -25,6 +26,7 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
     imageFile >> magic_word >> width >> height >> intensity;
     validate_metadata(magic_word, width, height, intensity);
     Image_Attributes output = {.magic_word=magic_word, .width=static_cast<unsigned int>(width), .height=static_cast<unsigned int>(height), .intensity=intensity};
+    imageFile.ignore(256,'\n');
     return output;
 }
 

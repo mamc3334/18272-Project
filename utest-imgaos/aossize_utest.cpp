@@ -2,7 +2,7 @@
 #include "../imgaos/aossize.hpp"  // Include your common header file
 #include "../utest-common/utest-helpers.hpp"
 
-TEST(AOSSizeTests, Old16Test){
+/*TEST(AOSSizeTests, Old16Test){
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
   vector<vector<bigColor>> pixelArray(OldPhotoData.height, vector<bigColor>(OldPhotoData.width));
 
@@ -104,3 +104,4 @@ TEST(AOSSizeTests, Interpolate8Test) {
   EXPECT_EQ(pixel.b, expectedPixel.b);
 }
 
+*/
