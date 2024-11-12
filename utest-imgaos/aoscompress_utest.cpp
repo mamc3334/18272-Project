@@ -75,3 +75,66 @@ TEST(AOSCompressTests, index_of_1bTest){
     EXPECT_EQ(found, expectedFound);
     EXPECT_EQ(index, expectedIndex);
 }
+
+
+TEST(AOSCompressTests, index_of_2bTest){
+    vector<smallColor> colors = {
+        smallColor(255, 0, 0),
+        smallColor(0, 255, 0),
+        smallColor(0, 0, 255),
+        smallColor(255, 0, 255),
+        smallColor(0, 255, 255),
+        smallColor(255, 0, 255)
+    };
+
+    smallColor targetColor = smallColor(0, 255, 0);
+    uint16_t index;
+    bool found = index_of_2b<smallColor>(colors, targetColor, index);
+    bool expectedFound = true;
+    uint16_t expectedIndex = 1;
+
+    EXPECT_EQ(found, expectedFound);
+    EXPECT_EQ(index, expectedIndex);
+
+    targetColor = smallColor(7, 7, 7);
+    found = index_of_2b<smallColor>(colors, targetColor, index);
+    expectedFound = false;
+    expectedIndex = 1;
+
+    EXPECT_EQ(found, expectedFound);
+    EXPECT_EQ(index, expectedIndex);
+}
+
+
+TEST(AOSCompressTests, index_of_4bTest){
+    vector<smallColor> colors = {
+        smallColor(255, 0, 0),
+        smallColor(0, 255, 0),
+        smallColor(0, 0, 255),
+        smallColor(255, 0, 255),
+        smallColor(0, 255, 255),
+        smallColor(255, 0, 255)
+    };
+
+    smallColor targetColor = smallColor(0, 255, 0);
+    int index;
+    bool found = index_of_4b<smallColor>(colors, targetColor, index);
+    bool expectedFound = true;
+    int expectedIndex = 1;
+
+    EXPECT_EQ(found, expectedFound);
+    EXPECT_EQ(index, expectedIndex);
+
+    targetColor = smallColor(7, 7, 7);
+    found = index_of_4b<smallColor>(colors, targetColor, index);
+    expectedFound = false;
+    expectedIndex = 1;
+
+    EXPECT_EQ(found, expectedFound);
+    EXPECT_EQ(index, expectedIndex);
+}
+
+
+TEST (AOSCompressTests, get_small_colorsTest) {
+
+}
