@@ -1,4 +1,4 @@
-#include <iostream>
+ #include <iostream>
 #include <cstring>
 #include <span>
 using namespace std;
@@ -25,8 +25,7 @@ int main(int argc, char *argv[]) {
           read_image_intensity_scaling(stoi(args[3]));
       } else if (args[2] == "resize") {
           prog_resize(argc, args);
-          Image_Attributes newImageData = {.width=static_cast<unsigned int>(stoi(args[3])), .height=static_cast<unsigned int>(stoi(args[4]))};
-          aos_resize(newImageData);
+           aos_resize(newImageData);
       } else if (args[2] == "cutfreq") {
           prog_cutfreq(argc, args);
           aos_cutfreq(stoi(args[3]));

@@ -3,6 +3,7 @@
 //
 #include "imageaos.hpp"
 #include "aossize.hpp"
+#include "aosinfrequentcolor.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -51,6 +52,19 @@ void aos_cutfreq(int num)
         *
         *
      */
+    // Initialize and populate pixels
+    vector<color> pixels;
+    populatePixels(pixels, photoData, inFile);
+
+    // Number of least frequent colors to remove
+    int n = 5;
+
+    // Replace least frequent colors in the image
+    changeInfrequentColors(pixels, n);
+
+    // Output to new PPM file
+    writeToPPM(pixels, photoData, "output_image.ppm");
+
 }
 
 void aos_compress()
