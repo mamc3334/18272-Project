@@ -11,7 +11,7 @@ using namespace std;
 #include "binaryio.hpp"
 
 void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
-    const int scalingFactor = data[1]/data[0];
+    const float scalingFactor = static_cast<float>(data[1]) / static_cast<float>(data[0]);
     if(data[1] <= IntensityCutoff){
         for(int i = 0;i < data[2]; i ++){
             const uint8_t oldColor = read_binary8 (inputImageFile);
