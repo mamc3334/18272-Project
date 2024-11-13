@@ -12,4 +12,6 @@ Examples:
     ./soa-ftest.sh ../../test-data/lake-small-1000.ppm lake-small-output-cutfreq.ppm cutfreq 15
 
 
-This test ensures no errors and displays execution time.
+This tests if there are errors and displays execution time.
+
+Test passes if executable runs successfully and execution time is within reason. 

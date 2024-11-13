@@ -13,3 +13,5 @@ Examples:
 
 
 This test ensures no errors and displays execution time.
+
+Test passes if executable runs successfully and execution time is within reason. 
