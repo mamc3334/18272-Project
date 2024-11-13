@@ -21,7 +21,7 @@ void soa_resize(Image_Attributes& NewImageData)
     }
     NewImageData.magic_word = OldImageData.magic_word;
     NewImageData.intensity = OldImageData.intensity;
-    outputImageFile << NewImageData.magic_word << "\n" << NewImageData.width << "\n" << NewImageData.height << "\n" << NewImageData.intensity << "\n";
+    outputImageFile << NewImageData.magic_word << "\n" << NewImageData.width << " " << NewImageData.height << "\n" << NewImageData.intensity << "\n";
     if(NewImageData.intensity > IntensityCutoff)
     {
         bigArray oldImage;
@@ -34,8 +34,6 @@ void soa_resize(Image_Attributes& NewImageData)
         soasize_old_image_8(oldImage, OldImageData, imageFile);
         soasize_resize_8(oldImage, OldImageData, NewImageData, outputImageFile);
     }
-    imageFile.close();
-    outputImageFile.close();
 }
 
 void soa_cutfreq(int num) {
