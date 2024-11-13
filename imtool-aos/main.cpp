@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <cstring>
 #include <span>
@@ -8,6 +9,7 @@ using namespace std;
 #include "../imgaos/imageaos.hpp"
 
 int main(int argc, char *argv[]) {
+    auto start = std::chrono::high_resolution_clock::now();
     if (argc < 4) {
       cerr << "Error:\tInvalid number of arguments:\t" << argc << "\n";
       exit(-1);
@@ -37,5 +39,8 @@ int main(int argc, char *argv[]) {
           cerr << "Error:\tInvalid option:\t" << args[2] << "\n";
           exit(-1);
       }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        std::cout << "Time of execution: " << duration.count() << " microseconds" << "\n";
     }
 }
