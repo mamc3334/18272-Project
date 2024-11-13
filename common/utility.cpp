@@ -55,7 +55,7 @@ void displayInfo()
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
-        exit(-1);
+        exit(1);
     }
     const Image_Attributes metadata = get_image_metadata(imageFile);
     imageFile.close();
