@@ -88,11 +88,11 @@ TEST(UtilityTests, OutFileSetterGetter) {
 //Tests for "displayInfo"
 
 TEST(UtilityTests, DisplayInfo_NotOpenFile) {
-    const string inputFile = "input_test.ppm";
+    const string inputFile = "input_test_that_does_not_exist.ppm";
     setInFile(inputFile);
 
     EXPECT_EXIT(displayInfo(),
-                ::testing::ExitedWithCode(-1),
+                ::testing::ExitedWithCode(1),
                 "Failed to open file\n");
 }
 
