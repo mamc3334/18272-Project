@@ -1,6 +1,6 @@
 // Created by ryanb on 10/22/2024.
 
-#include "aosinfrequentcolor.hpp"
+#include "soainfrequentcolor.hpp"
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
 #include <vector>
@@ -11,15 +11,6 @@
 
 using namespace std;
 
-//separate vectors for each color component
-struct ImageData {
-    vector<uint8_t> red;
-    vector<uint8_t> green;
-    vector<uint8_t> blue;
-    vector<int> count;
-    int width;
-    int height;
-};
 
 //Populates pixel data from input image (one byte per RGB value)
 void populatePixels_8(ImageData& imageData, const Image_Attributes& photoData, ifstream& inFile) {

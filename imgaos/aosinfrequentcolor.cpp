@@ -78,7 +78,7 @@ void sortColors(vector<color>& pixels) {
 }
 //Calculate the difference between two colors based on euclidian difference
 double colorDistance(const color& c1, const color& c2) {
-    return sqrt(pow(c2.r - c1.r, 2) + pow(c2.g - c1.g, 2) + pow(c2.b - c1.b, 2));
+    return ((c2.r - c1.r)*(c2.r - c1.r) + (c2.g - c1.g)*(c2.g - c1.g) + (c2.b - c1.b)*(c2.b - c1.b));
 }
 
 
@@ -93,7 +93,7 @@ void changeInfrequentColors(vector<color>& pixels, int n) {
     // Process only the n least frequent colors
     for (int i = 0; i < n; ++i) {
         color& targetColor = colorList[i];
-        int minDistance = 100000;//arbitrary big number
+        double minDistance = 100000;//arbitrary big number
         int closestIndex = -1;
 
         // Find the closest color among more frequent colors
@@ -127,7 +127,7 @@ void writeBinary_8(const vector<color>& pixels, const Image_Attributes& photoDat
     // Write the PPM header using write_binary8
     outFile << "P6\n";
     outFile << photoData.width << " " << photoData.height << "\n";
-    outFile << "255\n";
+    outFile << photoData.intensity << "\n";
 
     // Write pixel data
     for (const auto& pixel : pixels) {

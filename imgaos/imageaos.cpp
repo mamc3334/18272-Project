@@ -48,10 +48,6 @@ void aos_cutfreq(int num)
         exit(-1);
     }
     const Image_Attributes photoData = get_image_metadata(imageFile);
-    /* TODO: Remove least used colors
-        *
-        *
-     */
 
     ofstream outputImageFile(getOutFile());
     if(!outputImageFile.is_open()) {

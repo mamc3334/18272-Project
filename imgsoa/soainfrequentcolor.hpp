@@ -1,8 +1,8 @@
 // image_processing.hpp
 // Header file for image processing functions
 
-#ifndef IMAGE_PROCESSING_HPP
-#define IMAGE_PROCESSING_HPP
+#ifndef SOAINFREQUENTCOLOR_HPP
+#define SOAINFREQUENTCOLOR_HPP
 
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
@@ -32,4 +32,4 @@ void changeInfrequentColors(ImageData& imageData, int n);
 void writeBinary_8(const ImageData& imageData, const Image_Attributes& photoData, const std::string& outputFilePath);
 void writeBinary_16(const ImageData& imageData, const Image_Attributes& photoData, const std::string& outputFilePath);
 
-#endif // IMAGE_PROCESSING_HPP
+#endif // SOAINFREQUENTCOLOR_HPP
