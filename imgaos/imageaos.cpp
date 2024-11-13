@@ -5,6 +5,7 @@
 #include "aossize.hpp"
 #include <vector>
 #include <iostream>
+#include <sys/stat.h>
 using namespace std;
 
 
@@ -24,7 +25,7 @@ void aos_resize(Image_Attributes& newImageData)
     }
     newImageData.intensity = oldImageData.intensity;
     newImageData.magic_word = oldImageData.magic_word;
-    outputImageFile << newImageData.magic_word << "\n" << newImageData.width << "\n" << newImageData.height << "\n" << newImageData.intensity << "\n";
+    outputImageFile << newImageData.magic_word << "\n" << newImageData.width << " " << newImageData.height << "\n" << newImageData.intensity << "\n";
     if(newImageData.intensity > IntensityCutoff)
     {
         vector<vector<bigColor>> oldPhoto(oldImageData.height, vector<bigColor>(oldImageData.width));
@@ -47,6 +48,7 @@ void aos_cutfreq(int num)
         exit(-1);
     }
     const Image_Attributes oldImageData = get_image_metadata(imageFile);
+    cout <<num <<endl;
     /* TODO: Remove least used colors
         *
         *

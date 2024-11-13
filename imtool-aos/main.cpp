@@ -1,6 +1,8 @@
+#include <chrono>
 #include <iostream>
 #include <cstring>
 #include <span>
+#include <vector>
 using namespace std;
 
 #include "../common/progargs.hpp"
@@ -8,6 +10,7 @@ using namespace std;
 #include "../imgaos/imageaos.hpp"
 
 int main(int argc, char *argv[]) {
+    auto start = std::chrono::high_resolution_clock::now();
     if (argc < 4) {
       cerr << "Error:\tInvalid number of arguments:\t" << argc << "\n";
       exit(-1);
@@ -25,7 +28,7 @@ int main(int argc, char *argv[]) {
           read_image_intensity_scaling(stoi(args[3]));
       } else if (args[2] == "resize") {
           prog_resize(argc, args);
-          Image_Attributes newImageData = {.width=static_cast<unsigned int>(stoi(args[3])), .height=static_cast<unsigned int>(stoi(args[4]))};
+          Image_Attributes newImageData = {.magic_word = "",.width=static_cast<unsigned int>(stoi(args[3])), .height=static_cast<unsigned int>(stoi(args[4])), .intensity=0};
           aos_resize(newImageData);
       } else if (args[2] == "cutfreq") {
           prog_cutfreq(argc, args);
@@ -37,5 +40,8 @@ int main(int argc, char *argv[]) {
           cerr << "Error:\tInvalid option:\t" << args[2] << "\n";
           exit(-1);
       }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        std::cout << "Time of execution: " << duration.count() << " microseconds" << "\n";
     }
 }
