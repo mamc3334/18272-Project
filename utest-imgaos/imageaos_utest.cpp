@@ -2,52 +2,48 @@
 #include "../imgaos/imageaos.hpp"  // Include your common header file
 #include "../common/binaryio.hpp"
 
-TEST(ImageAOSTests, Resize16Test) {
-  setInFile("../test-data/test16.ppm");
-  setOutFile("../test-data/outputs/resize16.ppm");
-  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
+//Large 2 to 4
+TEST(ImageAOSTests, Resize16_2to4_Test) {
+  setInFile("../../test-data/big16-2.ppm");
+  setOutFile("big16-4-output.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 1000};
   aos_resize(newImageData);
 
-  ifstream expectedFile("../test-data/expected/resize16.ppm");
-  ifstream outputFile(getOutFile());
-  ASSERT_TRUE(expectedFile.is_open()) << "Failed to open expected data file";
-  ASSERT_TRUE(outputFile.is_open()) << "Failed to open output file";
-
-  const Image_Attributes expectedData = get_image_metadata(expectedFile);
-  const Image_Attributes outputData = get_image_metadata(outputFile);
-
-  EXPECT_EQ(expectedData.magic_word, outputData.magic_word) << "Magic word does not match expected value";
-  EXPECT_EQ(expectedData.width, outputData.width) << "Image width does not match expected value";
-  EXPECT_EQ(expectedData.height, outputData.height) << "Image height does not match expected value";
-  EXPECT_EQ(expectedData.intensity, outputData.intensity) << "Image intensity does not match expected value";
-
-  for(unsigned int i = 0; i < 3 * expectedData.width * expectedData.height; i++) {
-    EXPECT_EQ(read_binary16(expectedFile), read_binary16(outputFile)) << "One or more pixels have a value that does not match expected value";
-  }
+  const int result = system("diff -q ../../test-data/big16-4.ppm big16-4-output.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
 }
 
-TEST(ImageAOSTests, Resize8Test) {
-  setInFile("../test-data/test8.ppm");
-  setOutFile("../test-data/outputs/resize8.ppm");
-  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 0};
+//Large 4 to 2
+TEST(ImageAOSTests, Resize16_4to2_Test) {
+  setInFile("../../test-data/big16-4.ppm");
+  setOutFile("big16-2-output.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=2, .height=2, .intensity = 1000};
   aos_resize(newImageData);
 
-  ifstream expectedFile("../test-data/expected/resize8.ppm");
-  ifstream outputFile(getOutFile());
-  ASSERT_TRUE(expectedFile.is_open()) << "Failed to open expected data file";
-  ASSERT_TRUE(outputFile.is_open()) << "Failed to open output file";
+  const int result = system("diff -q ../../test-data/big16-2.ppm big16-2-output.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
+}
 
-  const Image_Attributes expectedData = get_image_metadata(expectedFile);
-  const Image_Attributes outputData = get_image_metadata(outputFile);
+//Small 2 to 4
+TEST(ImageAOSTests, Resize8_2to4_Test) {
+  setInFile("../../test-data/small8-2.ppm");
+  setOutFile("small8-4-output.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=4, .height=4, .intensity = 255};
+  aos_resize(newImageData);
 
-  EXPECT_EQ(expectedData.magic_word, outputData.magic_word) << "Magic word does not match expected value";
-  EXPECT_EQ(expectedData.width, outputData.width) << "Image width does not match expected value";
-  EXPECT_EQ(expectedData.height, outputData.height) << "Image height does not match expected value";
-  EXPECT_EQ(expectedData.intensity, outputData.intensity) << "Image intensity does not match expected value";
+  const int result = system("diff -q ../../test-data/small8-4.ppm small8-4-output.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
+}
 
-  for(unsigned int i = 0; i < 3 * expectedData.width * expectedData.height; i++) {
-    EXPECT_EQ(read_binary8(expectedFile), read_binary8(outputFile)) << "One or more pixels have a value that does not match expected value";
-  }
+//Small 4 to 2
+TEST(ImageAOSTests, Resize8_4to2_Test) {
+  setInFile("../../test-data/small8-4.ppm");
+  setOutFile("small8-2-output.ppm");
+  Image_Attributes newImageData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
+  aos_resize(newImageData);
+
+  const int result = system("diff -q ../../test-data/small8-2.ppm small8-2-output.ppm"); // NOLINT(*-env33-c)
+  EXPECT_EQ(result, 0);
 }
 
 TEST(ImageAOSTests, CutFreqTest) {
