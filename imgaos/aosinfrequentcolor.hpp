@@ -24,11 +24,13 @@ struct color {
     }
 };
 
-void populatePixels(vector<color>& pixels, const Image_Attributes& photoData, ifstream& inFile);
+void populatePixels_8(vector<color>& pixels, const Image_Attributes& photoData, ifstream& inFile);
+void populatePixels_16(vector<color>& pixels, const Image_Attributes& photoData, ifstream& inFile);
 vector<color> countColors(const vector<color>& pixels);
 void sortColors(vector<color>& pixels);
 double colorDistance(const color& c1, const color& c2);
 void changeInfrequentColors(vector<color>& colorList, int n);
 void writeBinary_8(const vector<color>& pixels, const Image_Attributes& photoData, ofstream& outputFilePath);
+void writeBinary_16(const vector<color>& pixels, const Image_Attributes& photoData, ofstream& outputFilePath);
 
 #endif //AOSINFREQUENTCOLOR_HPP

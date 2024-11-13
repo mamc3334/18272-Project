@@ -59,11 +59,17 @@ void aos_cutfreq(int num)
         exit(-1);
     }
 
-    vector<color> pixels;
-    populatePixels(pixels, photoData, imageFile);
-    changeInfrequentColors(pixels, num);
-    writeBinary_8(pixels, photoData, outputImageFile);
-
+    if(photoData.intensity > IntensityCutoff){
+        vector<color> pixels;
+        populatePixels_16(pixels, photoData, imageFile);
+        changeInfrequentColors(pixels, num);
+        writeBinary_16(pixels, photoData, outputImageFile);
+    }
+    else{
+        vector<color> pixels;
+        populatePixels_8(pixels, photoData, imageFile);
+        changeInfrequentColors(pixels, num);
+        writeBinary_8(pixels, photoData, outputImageFile);
 }
 
 void aos_compress()

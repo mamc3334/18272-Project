@@ -20,7 +20,7 @@ using namespace std;
 //replace the n least frequent (lowest count) pixels with the most similar pixel determined by euclidian (Sqrt((r2-r1)^2+((g2-g1)^2+(b2-b1)^2))
 
 
-void populatePixels(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
+void populatePixels_8(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
     pixels.resize(photoData.width * photoData.height);
     for(int i = 0; i < (photoData.height*photoData.width); i++){
@@ -28,6 +28,16 @@ void populatePixels(vector<color> &pixels, const Image_Attributes& photoData, if
         }
     inFile.close();
 }
+
+void populatePixels_16(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
+{
+    pixels.resize(photoData.width * photoData.height);
+    for(int i = 0; i < (photoData.height*photoData.width); i++){
+        pixels[i]= {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
+        }
+    inFile.close();
+}
+
 
 vector<color> countColors(const vector<color>& pixels) {
     vector<color> colorList;
@@ -124,5 +134,25 @@ void writeBinary_8(const vector<color>& pixels, const Image_Attributes& photoDat
         write_binary8(outFile, pixel.r);
         write_binary8(outFile, pixel.g);
         write_binary8(outFile, pixel.b);
+    }
+}
+
+void writeBinary_16(const vector<color>& pixels, const Image_Attributes& photoData, const string& outputFilePath) {
+    ofstream outFile(outputFilePath, ios::binary);
+    if (!outFile.is_open()) {
+        cerr << "Error: Unable to open file for writing.\n";
+        return;
+    }
+
+    // Write the PPM header using write_binary8
+    outFile << "P6\n";
+    outFile << photoData.width << " " << photoData.height << "\n";
+    outFile << photoData.intensity << "\n";
+
+    // Write pixel data
+    for (const auto& pixel : pixels) {
+        write_binary16(outFile, pixel.r);
+        write_binary16(outFile, pixel.g);
+        write_binary16(outFile, pixel.b);
     }
 }
