@@ -28,7 +28,7 @@ void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, o
 }
 
 void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, ofstream &outputImageFile) {
-    const int scalingFactor = data[1]/data[0];
+    const float scalingFactor = static_cast<float>(data[1]) / static_cast<float>(data[0]);
     if(data[1] <= IntensityCutoff){
         for(int i = 0;i < data[2]; i ++){
             const uint16_t oldColor = read_binary16 (inputImageFile);
