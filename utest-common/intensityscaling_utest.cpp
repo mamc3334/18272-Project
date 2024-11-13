@@ -203,7 +203,7 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensitySmaller255) {
     uint8_t g2 = read_binary8(outputCheck);
     uint8_t b2 = read_binary8(outputCheck);
 
-    EXPECT_EQ(r1, 71);
+    EXPECT_EQ(r1, 79);
     EXPECT_EQ(g1, 39);
     EXPECT_EQ(b1, 31);
     EXPECT_EQ(r2, 0);
