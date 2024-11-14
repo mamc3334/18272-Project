@@ -22,3 +22,4 @@ target_include_directories(utest-common
 
 add_test(IntensityScalingTests utest-common COMMAND utest-common)
 add_test(UtilityTests utest-common COMMAND utest-common)
+add_test(ProgArgsTest utest-common COMMAND utest-common)
