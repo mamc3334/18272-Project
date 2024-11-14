@@ -25,22 +25,14 @@ struct Image_Attributes {
 struct smallColor{
     uint8_t r, g, b;
     bool operator==(const smallColor &other) const {
-<<<<<<< HEAD
         return (r == other.r && g == other.g && b == other.b);
-=======
-      return (r == other.r && g == other.g && b == other.b);
->>>>>>> origin/main
     }
 };
 
 struct bigColor{
     uint16_t r, g, b;
     bool operator==(const bigColor &other) const {
-<<<<<<< HEAD
         return (r == other.r && g == other.g && b == other.b);
-=======
-      return (r == other.r && g == other.g && b == other.b);
->>>>>>> origin/main
     }
 };
 

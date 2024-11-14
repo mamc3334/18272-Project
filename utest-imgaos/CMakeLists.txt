@@ -16,12 +16,6 @@ target_link_libraries (utest-imgaos
 
 target_include_directories(utest-imgaos
         PRIVATE
-<<<<<<< HEAD
-        ${CMAKE_SOURCE_DIR}/imgaos
-)
-
-add_test(AOSCompressTests utest-imgaos COMMAND utest-imgaos)
-=======
         ${CMAKE_SOURCE_DIR}/utest-imgaos
 )
 
@@ -29,4 +23,3 @@ add_test(AOSSizeTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCompressTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCutFreqTests utest-imgaos COMMAND utest-imgaos)
 add_test(ImageAOSTests utest-imgaos COMMAND utest-imgaos)
->>>>>>> origin/main

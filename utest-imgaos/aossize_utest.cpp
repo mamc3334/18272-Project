@@ -5,13 +5,9 @@
 #include <filesystem>
 #include <fstream>
 
-<<<<<<< HEAD
-/*TEST(AOSSizeTests, Old16Test){
-=======
 //Tests reading 2x2 input data that has 2 bytes for each r,g,b
 TEST(AOSSizeTests, Old16Test) {
   // create metadata and pixelArray for input to tested function
->>>>>>> origin/main
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
   vector<vector<bigColor>> pixelArray(OldPhotoData.height, vector<bigColor>(OldPhotoData.width));
 
@@ -172,5 +168,3 @@ TEST(AOSSizeTests, Interpolate8Test) {
   EXPECT_EQ(pixel.g, expectedPixel.g);
   EXPECT_EQ(pixel.b, expectedPixel.b);
 }
-
-*/
