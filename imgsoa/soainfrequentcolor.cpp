@@ -100,7 +100,7 @@ void sortColors(ImageData& colorList) {
 }
 
 //Calculate Euclidean distance between two colors
-double colorDistance(uint8_t r1, uint8_t g1, uint8_t b1, uint8_t r2, uint8_t g2, uint8_t b2) {
+double colorDistance(uint16_t r1, uint16_t g1, uint16_t b1, uint16_t r2, uint16_t g2, uint16_t b2) {
     return sqrt(pow(r2 - r1, 2) + pow(g2 - g1, 2) + pow(b2 - b1, 2));
 }
 
@@ -155,7 +155,6 @@ void writeBinary_8(const ImageData& imageData, const Image_Attributes& photoData
     }
 
     outFile.close();
-    cout << "Image written to " << outputFilePath << endl;
 }
 
 //Write modified pixel data to binary output file using write_binary16 (two bytes per RGB value)

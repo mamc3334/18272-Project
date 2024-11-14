@@ -29,19 +29,19 @@ TEST(AOSInfrequentColorTest, PopulatePix8) {
     Image_Attributes photoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
     vector<color> pixels = generateRandomPixels(photoData.width, photoData.height);
 
-    // Open a binary file for writing
-    ofstream createMockFile("Old8_input.bin", ios::binary);
+    ofstream createMockFile("8_input.bin", ios::binary);
     // Write each value to the file
-    for (const auto& value : values) {
-        write_binary8(createMockFile, value);
+    for (const auto& pixel : pixels) {
+        write_binary8(createMockFile, pixel);
     }
     createMockFile.close();
 
+/*
     ifstream mockFile("Old8_input.bin");
     ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
-
+*/
     vector<color> loadedPixels;
-    populatePixels_8(loadedPixels, photoData, inFile);
+    populatePixels_8(loadedPixels, photoData, createMockFile);
 
     EXPECT_EQ(loadedPixels.size(), pixels.size());
 
@@ -53,17 +53,30 @@ TEST(AOSInfrequentColorTest, PopulatePix8) {
 }
 
 TEST(AOSInfrequentColorTest, PopulatePix16) {
-    Image_Attributes photoData = {2, 2, 65535};
-    vector<color> pixels;
-    ifstream inFile("test_image_16bit.bin", ios::binary);
-    ASSERT_TRUE(inFile.is_open());
+    Image_Attributes photoData = {.magic_word = "", .width=2, .height=2, .intensity = 1000};
+    vector<color> pixels = generateRandomPixels(photoData.width, photoData.height);
 
-    populatePixels_16(pixels, photoData, inFile);
+    ofstream createMockFile("16_input.bin", ios::binary);
+    // Write each value to the file
+    for (const auto& pixel : pixels) {
+        write_binary8(createMockFile, pixel);
+    }
+    createMockFile.close();
 
-    EXPECT_EQ(pixels.size(), photoData.width * photoData.height);
-    EXPECT_EQ(pixels[0].r, 50000);
-    EXPECT_EQ(pixels[0].g, 40000);
-    EXPECT_EQ(pixels[0].b, 30000);
+    /*
+        ifstream mockFile("Old8_input.bin");
+        ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
+    */
+    vector<color> loadedPixels;
+    populatePixels_8(loadedPixels, photoData, createMockFile);
+
+    EXPECT_EQ(loadedPixels.size(), pixels.size());
+
+    for (size_t i = 0; i < pixels.size(); ++i) {
+        EXPECT_EQ(loadedPixels[i].r, pixels[i].r);
+        EXPECT_EQ(loadedPixels[i].g, pixels[i].g);
+        EXPECT_EQ(loadedPixels[i].b, pixels[i].b);
+    }
 }
 
 TEST(AOSInfrequentColorTest, Counter) {

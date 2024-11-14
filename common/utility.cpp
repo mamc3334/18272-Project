@@ -4,6 +4,10 @@
 
 #include "utility.hpp"
 #include <sys/stat.h>
+#include <tuple>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
 void validate_metadata (const string& word, const int width, const int height, const int intensity) {
@@ -16,21 +20,24 @@ void validate_metadata (const string& word, const int width, const int height, c
 Image_Attributes get_image_metadata(ifstream& imageFile)
 {
     string magic_word;
-    int width, height, intensity;
+    int width;
+    int height;
+    int intensity;
     imageFile >> magic_word >> width >> height >> intensity;
     validate_metadata(magic_word, width, height, intensity);
-    Image_Attributes output = {magic_word, static_cast<unsigned int>(width), static_cast<unsigned int>(height), intensity};
+    Image_Attributes output = {.magic_word=magic_word, .width=static_cast<unsigned int>(width), .height=static_cast<unsigned int>(height), .intensity=intensity};
+    imageFile.ignore(256,'\n');
     return output;
 }
 
-void setInFile(const string& in)
+void setInFile(const string& name)
 {
-    inFile = in;
+    inFile = name;
 }
 
-void setOutFile(const string& out)
+void setOutFile(const string& name)
 {
-    outFile = out;
+    outFile = name;
 }
 
 string getInFile()
@@ -48,7 +55,7 @@ void displayInfo()
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
-        exit(-1);
+        exit(1);
     }
     const Image_Attributes metadata = get_image_metadata(imageFile);
     imageFile.close();
@@ -56,7 +63,7 @@ void displayInfo()
         "Input:   " << getInFile() << "\n" <<
             "Output:   " << getOutFile() << "\n" <<
                 "Operation:   " << "info\n" <<
-                    "Magic Word:  " << metadata.magic_word <<
+                    "Magic Word:  " << metadata.magic_word << "\n"
                         "Image Size:   " << metadata.width << "x" << metadata.height << "\n" <<
                             "Max Level:   " << metadata.intensity << "\n";
 

@@ -4,7 +4,7 @@
 
 #ifndef IMAGEAOS_HPP
 #define IMAGEAOS_HPP
-#include "common/utility.hpp"
+#include "../common/utility.hpp"
 
 void aos_resize(Image_Attributes& newImageData);
 
