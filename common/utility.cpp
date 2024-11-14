@@ -63,7 +63,7 @@ void displayInfo()
         "Input:   " << getInFile() << "\n" <<
             "Output:   " << getOutFile() << "\n" <<
                 "Operation:   " << "info\n" <<
-                    "Magic Word:  " << metadata.magic_word <<
+                    "Magic Word:  " << metadata.magic_word << "\n" <<
                         "Image Size:   " << metadata.width << "x" << metadata.height << "\n" <<
                             "Max Level:   " << metadata.intensity << "\n";
 
