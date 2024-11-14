@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
           aos_resize(newImageData);
       } else if (args[2] == "cutfreq") {
           prog_cutfreq(argc, args);
-          aos_cutfreq(stoi(args[3]));
+          aos_cutfreq(static_cast<size_t>(stoi(args[3])));
       } else if (args[2] == "compress") {
           prog_compress(argc);
           aos_compress();
