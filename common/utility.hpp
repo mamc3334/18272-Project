@@ -41,7 +41,7 @@ struct bigColor{
 
 // These hashing algorithms were written by ChatGPT
 // Gets std hash of uint8_t/uint16_t for all three color copmonents, shifts so they don't overlap, XORs
-// Adds to namespace std for use in unordered set
+// Adds to namespace std for use in unordered set/map
 namespace std {
     template <>
     struct hash<smallColor> {
