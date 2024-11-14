@@ -9,6 +9,7 @@
 #include "../common/utility.hpp"
 #include "../common/binaryio.hpp"
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -24,7 +25,8 @@ void compress(ifstream& inFile, ofstream& outFile) {
     unsigned int numPixels = metadata.width*metadata.height;
     if(intensity <= 255) { // use smallColor
         vector<smallColor> colors;
-        get_small_colors(inFile, colors, numPixels);
+		unordered_map<smallColor, int> colorIndexMap;
+        get_small_colors(inFile, colors, colorIndexMap, numPixels);
         uint8_t indexByteLength = getIndexByteLength(colors.size());
         write_metadata(outFile, metadata);
         write_small_colors(outFile, colors);
@@ -100,16 +102,19 @@ TODO: Instead of for loop, should this be a while loop to ensure no reading erro
 
 // Populates colors vector with list of 3-byte RGB values from inFile
 
-void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unsigned int numPixels) {
+void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unordered_map<smallColor, int>& colorIndexMap, unsigned int numPixels) {
+	int index = 0;
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint8_t red = read_binary8(inFile);
-        uint8_t green = read_binary8(inFile);
-        uint8_t blue = read_binary8(inFile);
-        smallColor color = {red, green, blue};
-		if(!contains_smallColor(colors, color)) {
+		uint8_t red = read_binary8(inFile);
+		uint8_t green = read_binary8(inFile);
+		uint8_t blue = read_binary8(inFile);
+		smallColor color = {red, green, blue};
+		if(colorIndexMap.find(color) == colorIndexMap.end()) {
+			colorIndexMap[color] = index;
 			colors.push_back(color);
+			index++;
 		}
-    }
+	}
 }
 
 // Populates colors vector with list of 6-byte RGB values from inFile
