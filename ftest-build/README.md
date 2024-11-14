@@ -1,6 +1,4 @@
 ## Avignon Functional Tests
-
-### MUST BUILD FIRST 
 **Usage:**  
 1. Always run using sbatch
 2. Run from project root directory (18272-Project)
