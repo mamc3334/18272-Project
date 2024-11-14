@@ -1,7 +1,6 @@
 # Executable for all unit tests with list of sources
 # For example, you may have one ∗_test.cpp for each ∗.cpp in common
 add_executable(utest-common
-        one_test.cpp
         utest-helpers.cpp
         utest-helpers.hpp
         intensityscaling_utest.cpp

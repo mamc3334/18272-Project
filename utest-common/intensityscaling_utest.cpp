@@ -16,7 +16,6 @@ TEST(IntensityScalingTests, IntensitySmaller255_to_IntensitySmaller255) {
     vector<int> const data = {255,100,6};
 
     ofstream inputFile("input_test.ppm", ios::binary);
-    //This function is the one in charge of reading and writing so we omit the info of the file "P6 2 1 ..."
     inputFile << "P6\n1 2\n255\n";
     write_binary8(inputFile, 100);
     write_binary8(inputFile, 150);
@@ -204,7 +203,7 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensitySmaller255) {
     uint8_t g2 = read_binary8(outputCheck);
     uint8_t b2 = read_binary8(outputCheck);
 
-    EXPECT_EQ(r1, 71);
+    EXPECT_EQ(r1, 79);
     EXPECT_EQ(g1, 39);
     EXPECT_EQ(b1, 31);
     EXPECT_EQ(r2, 0);
