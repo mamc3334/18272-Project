@@ -3,6 +3,9 @@
 //
 
 #include "aoscompress.hpp"
+
+#include <iomanip>
+
 #include "../common/utility.hpp"
 #include "../common/binaryio.hpp"
 #include <vector>
@@ -169,7 +172,9 @@ void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
 	outFile << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
 		bigColor color = colors[i];
-		outFile << color.r << color.g << color.b;
+    	outFile << std::setw(5) << std::setfill('0') << color.r << " "
+			   << std::setw(5) << std::setfill('0') << color.g << " "
+			   << std::setw(5) << std::setfill('0') << color.b << "\n";
     }
 }
 
@@ -235,7 +240,6 @@ void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, vector<smallColo
 		if(found) {
 			write_binary32(outFile, index);
 		} else {
-        	cerr << "Invalid color index: " << index << "\n";
             exit(1);
 		}
     }
@@ -258,16 +262,16 @@ void write_big_pixels(ifstream& inFile, ofstream& outFile, vector<bigColor>& col
 
 void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint16_t red = read_binary8(inFile);
-        uint16_t green = read_binary8(inFile);
-        uint16_t blue = read_binary8(inFile);
+        uint16_t red = read_binary16(inFile);
+        uint16_t green = read_binary16(inFile);
+        uint16_t blue = read_binary16(inFile);
         bigColor color = {red, green, blue};
         uint8_t index;
         bool found = index_of_1b<bigColor>(colors, color, index);
 		if(found) {
 			write_binary8(outFile, index);
 		} else {
-        	cerr << "Invalid color index: " << index << "\n";
+        	cerr << "Invalid color: " << color.r << " " << color.g << " " << color.b << "\n";
             exit(1);
 		}
     }
@@ -275,9 +279,9 @@ void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, vector<bigColor>& 
 
 void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint16_t red = read_binary8(inFile);
-        uint16_t green = read_binary8(inFile);
-        uint16_t blue = read_binary8(inFile);
+        uint16_t red = read_binary16(inFile);
+        uint16_t green = read_binary16(inFile);
+        uint16_t blue = read_binary16(inFile);
         bigColor color = {red, green, blue};
         uint16_t index;
         bool found = index_of_2b<bigColor>(colors, color, index);
@@ -292,9 +296,9 @@ void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, vector<bigColor>& 
 
 void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, vector<bigColor>& colors, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint16_t red = read_binary8(inFile);
-        uint16_t green = read_binary8(inFile);
-        uint16_t blue = read_binary8(inFile);
+        uint16_t red = read_binary16(inFile);
+        uint16_t green = read_binary16(inFile);
+        uint16_t blue = read_binary16(inFile);
         bigColor color = {red, green, blue};
         int index;
         bool found = index_of_4b<bigColor>(colors, color, index);
