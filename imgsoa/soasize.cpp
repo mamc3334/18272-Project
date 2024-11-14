@@ -55,14 +55,12 @@ void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData
  */
 void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageData, const Image_Attributes& NewImageData, ofstream& outFile)
 {
-    for(unsigned int i = 0; i < NewImageData.height; i++)
-    {
+    for(unsigned int i = 0; i < NewImageData.height; i++) {
       // map y-coord or row
         const float y_map = static_cast<float>(i)*static_cast<float>(OldImageData.height-1)/static_cast<float>(NewImageData.height-1);
         const float y_lo = floor(y_map);
         const float y_hi = ceil(y_map);
-        for(unsigned int j = 0; j < NewImageData.width; j++)
-        {
+        for(unsigned int j = 0; j < NewImageData.width; j++) {
             // map x-coord or col
             const float x_map= static_cast<float>(j)*static_cast<float>(OldImageData.width-1)/static_cast<float>(NewImageData.width-1);
             const float x_lo = floor(x_map);
