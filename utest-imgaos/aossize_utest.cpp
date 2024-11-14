@@ -168,4 +168,3 @@ TEST(AOSSizeTests, Interpolate8Test) {
   EXPECT_EQ(pixel.g, expectedPixel.g);
   EXPECT_EQ(pixel.b, expectedPixel.b);
 }
-

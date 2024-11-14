@@ -3,6 +3,7 @@
 //
 #include "imageaos.hpp"
 #include "aossize.hpp"
+#include "aoscompress.hpp"
 #include <vector>
 #include <iostream>
 #include <sys/stat.h>
@@ -73,7 +74,13 @@ void aos_compress()
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes oldImageData = get_image_metadata(imageFile);
+    ofstream outputImageFile(getOutFile());
+    if(!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+
+    compress(imageFile, outputImageFile);
     /* TODO: Compress
         * maybe similar to cutfreq
         *

@@ -6,7 +6,7 @@ add_executable(utest-common
         intensityscaling_utest.cpp
         utility_utest.cpp
         progargs_utest.cpp
-        )
+)
 # Library dependencies
 target_link_libraries (utest-common
         PRIVATE
