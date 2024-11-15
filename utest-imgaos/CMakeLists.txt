@@ -4,8 +4,6 @@ add_executable(utest-imgaos
         aoscompress_utest.cpp
         aosinfrequentcolor_utest.cpp
         aossize_utest.cpp
-        imageaos_utest.cpp
-        KDTree_utest.cpp
 )
 # Library dependencies
 target_link_libraries (utest-imgaos
@@ -23,4 +21,5 @@ target_include_directories(utest-imgaos
 add_test(AOSSizeTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCompressTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCutFreqTests utest-imgaos COMMAND utest-imgaos)
+add_test(AosInfrequentColorTest utest-imgaos COMMAND utest-imgaos)
 add_test(ImageAOSTests utest-imgaos COMMAND utest-imgaos)

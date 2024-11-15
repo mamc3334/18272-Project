@@ -16,4 +16,4 @@ target_include_directories(ftest-aos
         ${CMAKE_SOURCE_DIR}/ftest-aos
 )
 
-add_test(ResizeFuncTest ftest-aos COMMAND ftest-aos)
+add_test(ResizeFuncTestAOS ftest-aos COMMAND ftest-aos)
