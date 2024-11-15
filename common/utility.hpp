@@ -62,6 +62,26 @@ namespace std {
                     std::hash<uint16_t>()(color.b);
         }
     };
+
+    template <>
+    struct hash<std::tuple<uint8_t, uint8_t, uint8_t>> {
+        std::size_t operator()(const std::tuple<uint8_t, uint8_t, uint8_t>& t) const {
+            // Combine hash values of the three uint16_t elements
+            return (std::hash<uint8_t>()(std::get<0>(t)) << 16) ^
+                   (std::hash<uint8_t>()(std::get<1>(t)) << 8) ^
+                    std::hash<uint8_t>()(std::get<2>(t));
+        }
+    };
+
+    template <>
+    struct hash<std::tuple<uint16_t, uint16_t, uint16_t>> {
+        std::size_t operator()(const std::tuple<uint16_t, uint16_t, uint16_t>& t) const {
+            // Combine hash values of the three uint16_t elements
+            return (std::hash<uint16_t>()(std::get<0>(t)) << 32) ^
+                   (std::hash<uint16_t>()(std::get<1>(t)) << 16) ^
+                    std::hash<uint16_t>()(std::get<2>(t));
+        }
+    };
 }
 
 
