@@ -81,5 +81,17 @@ void soa_cutfreq(size_t num) {
 
 
 void soa_compress() {
-  //TODO
+    ifstream imageFile(getInFile(), ios::binary);
+    if(!imageFile.is_open()) {
+        cerr << "Failed to open file\n";
+        exit(-1);
+    }
+    ofstream outputImageFile(getOutFile(), ios::binary);
+    if(!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+
+    compress(imageFile, outputImageFile);
+
 }
