@@ -19,7 +19,7 @@ TEST(SoAInfrequentColorTest, ChangeInfrequentColors8) {
 }
 
 TEST(SoAInfrequentColorTest, ChangeInfrequentColors16) {
-    SoA_16 pixels = {{100, 100, 200}, {200, 200, 300}, {300, 300, 400}};
+    SoA_16 pixels = {{10, 10, 20}, {20, 20, 30}, {30, 30, 40}};
 
     changeInfrequentColors_16(pixels, 1);
 
