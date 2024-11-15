@@ -15,11 +15,11 @@ TEST(SoAInfrequentColorTest, ChangeInfrequentColors8) {
     // Verify that 1 color was replaced with black
     EXPECT_EQ(pixels.r[2], 0);
     EXPECT_EQ(pixels.g[2], 0);
-    EXPECT_EQ(pixels.b[2], 0);
+    EXPECT_EQ(pixcels.b[2], 0);
 }
 
 TEST(SoAInfrequentColorTest, ChangeInfrequentColors16) {
-    SoA_16 pixels = {{100, 100, 200}, {200, 200, 300}, {300, 300, 400}};
+    SoA_16 pixels = {{10, 10, 20}, {20, 20, 30}, {30, 30, 40}};
 
     changeInfrequentColors_16(pixels, 1);
 

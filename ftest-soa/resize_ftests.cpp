@@ -33,7 +33,7 @@ int resize(string one, string two){
   return count;
 }
 
-TEST(ResizeFuncTest, LakeSmall100){
+TEST(ResizeFuncTestSOA, LakeSmall100){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/lake-small.ppm lake-small-resize-100.ppm resize 100 100");
@@ -47,7 +47,7 @@ TEST(ResizeFuncTest, LakeSmall100){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, LakeSmall1000){
+TEST(ResizeFuncTestSOA, LakeSmall1000){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/lake-small.ppm lake-small-resize-1000.ppm resize 1000 1000");
@@ -61,7 +61,7 @@ TEST(ResizeFuncTest, LakeSmall1000){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, LakeLarge100){
+TEST(ResizeFuncTestSOA, LakeLarge100){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/lake-large.ppm lake-large-resize-100.ppm resize 100 100");
@@ -75,7 +75,7 @@ TEST(ResizeFuncTest, LakeLarge100){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, LakeLarge1000){
+TEST(ResizeFuncTestSOA, LakeLarge1000){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/lake-large.ppm lake-large-resize-1000.ppm resize 1000 1000");
@@ -89,7 +89,7 @@ TEST(ResizeFuncTest, LakeLarge1000){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, DeerSmall100){
+TEST(ResizeFuncTestSOA, DeerSmall100){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/deer-small.ppm deer-small-resize-100.ppm resize 100 100");
@@ -103,7 +103,7 @@ TEST(ResizeFuncTest, DeerSmall100){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, DeerSmall1000){
+TEST(ResizeFuncTestSOA, DeerSmall1000){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/deer-small.ppm deer-small-resize-1000.ppm resize 1000 1000");
@@ -117,7 +117,7 @@ TEST(ResizeFuncTest, DeerSmall1000){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, DeerLarge100){
+TEST(ResizeFuncTestSOA, DeerLarge100){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/deer-large.ppm deer-large-resize-100.ppm resize 100 100");
@@ -131,7 +131,7 @@ TEST(ResizeFuncTest, DeerLarge100){
   ASSERT_EQ(pass, 0);
 }
 
-TEST(ResizeFuncTest, DeerLarge1000){
+TEST(ResizeFuncTestSOA, DeerLarge1000){
   // ReSharper disable once CppDFAUnusedValue
   // NOLINTNEXTLINE(*-env33-c)
   const int exec_status = system("../imtool-soa/imtool-soa ../../images/deer-large.ppm deer-large-resize-1000.ppm resize 1000 1000");
