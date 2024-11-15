@@ -1,11 +1,19 @@
-# Executable for all functional tests with list of sources
+# Executable for all unit tests with list of sources
 # For example, you may have one ∗_test.cpp for each ∗.cpp in common
 add_executable(ftest-aos
-        one_test.cpp
-        )
+        resize_ftests.cpp
+)
 # Library dependencies
 target_link_libraries (ftest-aos
         PRIVATE
-        common
+        imgaos
         GTest::gtest_main
-        Microsoft.GSL::GSL)
+        GTest::gtest
+)
+
+target_include_directories(ftest-aos
+        PRIVATE
+        ${CMAKE_SOURCE_DIR}/ftest-aos
+)
+
+add_test(ResizeFuncTest ftest-aos COMMAND ftest-aos)

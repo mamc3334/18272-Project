@@ -6,10 +6,13 @@
 #include <fstream>
 #include <imgsoa/soasize.hpp>
 
+//Tests reading 2x2 input data that has 2 bytes for each r,g,b
 TEST(SOASizeTests, Old16Test) {
+  // create metadata and bigArray struct for input to tested function
   const Image_Attributes OldImageData = {.magic_word = "", .width=2, .height=2, .intensity = 1000};
   bigArray oldImage;
 
+  // create the 2x2 input binary data
   const vector<uint16_t> values = {100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650};
   // Open a binary file for writing
   ofstream createMockFile("Old16_input.bin", ios::binary);
@@ -19,20 +22,25 @@ TEST(SOASizeTests, Old16Test) {
   }
   createMockFile.close();
 
+  //open the input file
   ifstream mockFile("Old16_input.bin");
   ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
-
+  //read the input file
   soasize_old_image_16(oldImage, OldImageData, mockFile);
 
+  //create the expected struct from reading the file
   const bigArray expectedImage = {.r={100,250,400,550},.g={150,300,450,600}, .b={200,350,500,650}};
-
+  // actual and expected should be equal
   ASSERT_EQ(expectedImage, oldImage);
 }
 
+//Tests reading 2x2 input data that has 1 byte for each r,g,b
 TEST(SOASizeTests, Old8Test) {
+  // create metadata and struct for input to tested function
   const Image_Attributes OldImageData = {.magic_word = "", .width=2, .height=2, .intensity = 255};
   smallArray oldImage;
 
+  // create the 2x2 input binary data
   const vector<uint8_t> values = {10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65};
   // Open a binary file for writing
   ofstream createMockFile("Old8_input.bin", ios::binary);
@@ -42,16 +50,19 @@ TEST(SOASizeTests, Old8Test) {
   }
   createMockFile.close();
 
+  //open the input file
   ifstream mockFile("Old8_input.bin");
   ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
-
+  //read the input file
   soasize_old_image_8(oldImage, OldImageData, mockFile);
 
+  //create the expected struct from reading the file
   const smallArray expectedImage = {.r={10,25,40,55},.g={15,30,45,60}, .b={20,35,50,65}};
-
+  // actual and expected should be equal
   ASSERT_EQ(expectedImage, oldImage);
 }
 
+// Tests the resize function for 4x4 image to a 2x2 image. Both require 2 bytes for r,g,b
 TEST(SOASizeTests, Resize16Test) {
   //Create input data for resize
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=4, .height=4, .intensity = 1500};
@@ -71,10 +82,13 @@ TEST(SOASizeTests, Resize16Test) {
   ASSERT_TRUE(mockOutput.is_open()) << "Failed to open output file";
   soasize_resize_16(oldImage, OldPhotoData, NewPhotoData, mockOutput);
 
+  // diff -q command should have 0 exit code
+  // NOLINTNEXTLINE(*-env33-c)
   const int exitCode = WEXITSTATUS(system("diff -q Resize16_output.bin Resize16_expected.bin"));
   EXPECT_EQ(exitCode, 0) << "Files are not identical.";
 }
 
+// Tests the resize function for 4x4 image to a 2x2 image. Both require 1 byte for r,g,b
 TEST(SOASizeTests, Resize8Test) {
   //Create input data for resize
   const Image_Attributes OldPhotoData = {.magic_word = "", .width=4, .height=4, .intensity = 1500};
@@ -94,10 +108,13 @@ TEST(SOASizeTests, Resize8Test) {
   ASSERT_TRUE(mockOutput.is_open()) << "Failed to open output file";
   soasize_resize_8(oldImage, OldPhotoData, NewPhotoData, mockOutput);
 
+  //diff command should have 0 exit code
+  // NOLINTNEXTLINE(*-env33-c)
   const int exitCode = WEXITSTATUS(system("diff -q Resize8_output.bin Resize8_expected.bin"));
   EXPECT_EQ(exitCode, 0) << "Files are not identical.";
 }
 
+//Tests the interpolation function for uint16_t
 TEST(SOASizeTests, Interpolate16Test) {
   //2x2 pixel image
   const bigArray image = {.r={100,250,400,550},.g={150,300,450,600}, .b={200,350,500,650}};
@@ -105,9 +122,11 @@ TEST(SOASizeTests, Interpolate16Test) {
   // Midpoints between corner pixels (0,1), (1,1), (1,0), (0,0)
   constexpr Coords coords = {.x_map=0.5, .x_lo=0, .x_hi=1, .y_map=0.5, .y_lo=0, .y_hi=1};
 
+  //run interpolation
   const bigColor pixel = interpolate_16(image, coords, 2);
+  // create expected pixel from interpolation
   constexpr bigColor expectedPixel = {.r=325, .g=375, .b=425};
-
+  // actual should equal expected
   EXPECT_EQ(pixel.r, expectedPixel.r);
   EXPECT_EQ(pixel.g, expectedPixel.g);
   EXPECT_EQ(pixel.b, expectedPixel.b);
@@ -119,10 +138,11 @@ TEST(SOASizeTests, Interpolate8Test) {
 
   // Midpoints between corner pixels (0,1), (1,1), (1,0), (0,0)
   constexpr Coords coords = {.x_map=0.5, .x_lo=0, .x_hi=1, .y_map=0.5, .y_lo=0, .y_hi=1};
-
+  // run interpolation for midpoint
   const smallColor pixel = interpolate_8(image, coords, 2);
+  // create expected result
   constexpr smallColor expectedPixel = {.r=33, .g=38, .b=43};
-
+  // actual should equal expected
   EXPECT_EQ(pixel.r, expectedPixel.r);
   EXPECT_EQ(pixel.g, expectedPixel.g);
   EXPECT_EQ(pixel.b, expectedPixel.b);

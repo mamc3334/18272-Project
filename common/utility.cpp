@@ -55,7 +55,7 @@ void displayInfo()
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
-        exit(-1);
+        exit(1);
     }
     const Image_Attributes metadata = get_image_metadata(imageFile);
     imageFile.close();
@@ -63,7 +63,7 @@ void displayInfo()
         "Input:   " << getInFile() << "\n" <<
             "Output:   " << getOutFile() << "\n" <<
                 "Operation:   " << "info\n" <<
-                    "Magic Word:  " << metadata.magic_word <<
+                    "Magic Word:  " << metadata.magic_word << "\n" <<
                         "Image Size:   " << metadata.width << "x" << metadata.height << "\n" <<
                             "Max Level:   " << metadata.intensity << "\n";
 

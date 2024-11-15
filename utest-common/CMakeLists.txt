@@ -6,7 +6,7 @@ add_executable(utest-common
         intensityscaling_utest.cpp
         utility_utest.cpp
         progargs_utest.cpp
-        )
+)
 # Library dependencies
 target_link_libraries (utest-common
         PRIVATE
@@ -22,3 +22,4 @@ target_include_directories(utest-common
 
 add_test(IntensityScalingTests utest-common COMMAND utest-common)
 add_test(UtilityTests utest-common COMMAND utest-common)
+add_test(ProgArgsTest utest-common COMMAND utest-common)
