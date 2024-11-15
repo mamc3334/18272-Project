@@ -12,7 +12,6 @@
 #ifndef AOSCOMPRESS_HPP
 #define AOSCOMPRESS_HPP
 
-#include<iostream>
 #include<fstream>
 #include "../common/utility.hpp"
 #include <cstdint>
