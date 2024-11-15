@@ -11,6 +11,7 @@
 #include <vector>
 #include <unordered_map>
 #include <tuple>
+#include<iostream>
 
 using namespace std;
 
@@ -60,7 +61,7 @@ void get_small_colors(ifstream& inFile, vector<uint8_t>& reds, vector<uint8_t>& 
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
         tuple<uint8_t, uint8_t, uint8_t> color = {red, green, blue};
-		if(colorIndexMap.find(color) == colorIndexMap.end()) {
+		if(!colorIndexMap.contains(color)) {
 			colorIndexMap[color] = index;
 			reds.push_back(red);
 			greens.push_back(green);
@@ -79,7 +80,7 @@ void get_big_colors(ifstream& inFile, vector<uint16_t>& reds, vector<uint16_t>& 
 		uint16_t green = read_binary8(inFile);
 		uint16_t blue = read_binary8(inFile);
 		tuple<uint16_t, uint16_t, uint16_t> color = {red, green, blue};
-		if(colorIndexMap.find(color) == colorIndexMap.end()) {
+		if(!colorIndexMap.contains(color)) {
 			colorIndexMap[color] = index;
 			reds.push_back(red);
 			greens.push_back(green);
@@ -105,7 +106,7 @@ uint8_t getIndexByteLength(size_t colorSize) {
 
 // Writes metadata to output file
 
-void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
+void write_metadata(ofstream& outFile, const Image_Attributes& metadata) {
 	outFile << "C6 " << metadata.width << " " << metadata.height << " " << metadata.intensity << " ";
 }
 
@@ -114,7 +115,7 @@ void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
 
 // Writes sequence of colors, using 3 bytes to match intensity <= 255
 
-void write_small_colors(ofstream& outFile, vector<uint8_t>& reds, vector<uint8_t>& greens, vector<uint8_t>& blues) {
+void write_small_colors(ofstream& outFile, const vector<uint8_t>& reds, const vector<uint8_t>& greens, const vector<uint8_t>& blues) {
     outFile << std::dec << reds.size() << "\n";
     for(size_t i = 0; i < reds.size(); i++) {
     	outFile << reds[i] << greens[i] << blues[i];
@@ -124,7 +125,7 @@ void write_small_colors(ofstream& outFile, vector<uint8_t>& reds, vector<uint8_t
 
 // Writes sequence of colors, using 6 bytes to match intensity > 255
 
-void write_big_colors(ofstream& outFile, vector<uint16_t>& reds, vector<uint16_t>& greens, vector<uint16_t>& blues) {
+void write_big_colors(ofstream& outFile, const vector<uint16_t>& reds, const vector<uint16_t>& greens, const vector<uint16_t>& blues) {
 	outFile << std::dec << reds.size() << "\n";
     for(size_t i = 0; i < reds.size(); i++) {
     	outFile << std::setw(5) << std::setfill('0') << reds[i] << " "
