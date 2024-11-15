@@ -1,4 +1,4 @@
-#include <cmake-build-debug/_deps/googletest-src/googletest/include/gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "../imgaos/aoscompress.hpp"  // Include your common header file
 #include "../utest-common/utest-helpers.hpp"
 #include "common/binaryio.hpp"
