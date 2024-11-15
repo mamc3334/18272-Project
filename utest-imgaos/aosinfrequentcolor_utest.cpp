@@ -1,4 +1,5 @@
 #include "../imgaos/aosinfrequentcolor.hpp"
+#include "../imgaos/KDTree.hpp"
 #include "common/binaryio.hpp"
 #include <cstdlib>
 #include <filesystem>
@@ -99,6 +100,14 @@ TEST(AOSCUTFREQTEST, CountColors) {
 }
 
 
+TEST(AOSInfrequentColorTest, CountColors) {
+    std::vector<color> pixels = {{1, 1, 1}, {1, 1, 1}, {2, 2, 2}};
+    auto colorMap = countColors(pixels);
+
+    ASSERT_EQ(colorMap.size(), 2);
+    EXPECT_EQ(colorMap[color{1, 1, 1}], 2);
+    EXPECT_EQ(colorMap[color{2, 2, 2}], 1);
+}
 /*
 TEST(AOSInfrequentColorTest, SortColors) {
     vector<color> pixels = {

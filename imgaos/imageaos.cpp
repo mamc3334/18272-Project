@@ -5,6 +5,8 @@
 #include "aossize.hpp"
 #include "aoscompress.hpp"
 #include "aosinfrequentcolor.hpp"
+#include "utility.hpp"
+#include "KDTree.hpp"
 #include <vector>
 #include <iostream>
 #include <sys/stat.h>
@@ -69,15 +71,15 @@ void aos_cutfreq(size_t num) {
     outputImageFile << photoData.magic_word << "\n" << photoData.width << " " << photoData.height << "\n" << photoData.intensity << "\n";
 
     if(photoData.intensity > IntensityCutoff){
-        vector<color> pixels;
+        vector<bigColor> pixels;
         populatePixels_16(pixels, photoData, imageFile);
-        changeInfrequentColors(pixels, num);
+        changeInfrequentColors_16(pixels, num);
         writeBinary_16(pixels, outputImageFile);
     }
     else{
-        vector<color> pixels;
+        vector<smallColor> pixels;
         populatePixels_8(pixels, photoData, imageFile);
-        changeInfrequentColors(pixels, num);
+        changeInfrequentColors_8(pixels, num);
         writeBinary_8(pixels, outputImageFile);
     }
 }

@@ -23,19 +23,32 @@ struct color {
     }
 };
 
-struct colorHash {
-    size_t operator()(const color& c) const {
+
+struct colorHash_8 {
+    size_t operator()(const smallColor& c) const {
         return hash<int>()(c.r) ^ hash<int>()(c.g) ^ hash<int>()(c.b);
     }
 };
 
-void populatePixels_8(vector<color>& pixels, const Image_Attributes& photoData, ifstream& inFile);
-void populatePixels_16(vector<color>& pixels, const Image_Attributes& photoData, ifstream& inFile);
-unordered_map<color, int, colorHash> countColors(const vector<color>& pixels);
-void sortColors(vector<color>& pixels);
-double colorDistance(const color& c1, const color& c2);
-void changeInfrequentColors(vector<color>& colorList, const size_t n);
-void writeBinary_8(const vector<color>& pixels, ofstream& outFile);
-void writeBinary_16(const vector<color>& pixels, ofstream& outFile);
+struct colorHash_16 {
+    size_t operator()(const bigColor& c) const {
+        return hash<int>()(c.r) ^ hash<int>()(c.g) ^ hash<int>()(c.b);
+    }
+};
+
+void populatePixels_8(vector<smallColor>& pixels, const Image_Attributes& photoData, ifstream& inFile);
+void populatePixels_16(vector<bigColor>& pixels, const Image_Attributes& photoData, ifstream& inFile);
+unordered_map<color, int, colorHash_8> countColors_8(const vector<color>& pixels);
+unordered_map<color, int, colorHash_16> countColors_16(const vector<color>& pixels);
+
+//void sortColors(vector<color>& pixels);
+double colorDistance_8(const smallColor& c1, const smallColor& c2);
+double colorDistance_16(const bigColor& c1, const bigColor& c2);
+
+void changeInfrequentColors_8(vector<smallColor>& colorList, const size_t n);
+void changeInfrequentColors_16(vector<bigColor>& colorList, const size_t n);
+
+void writeBinary_8(const vector<smallColor>& pixels, ofstream& outFile);
+void writeBinary_16(const vector<bigColor>& pixels, ofstream& outFile);
 
 #endif //AOSINFREQUENTCOLOR_HPP

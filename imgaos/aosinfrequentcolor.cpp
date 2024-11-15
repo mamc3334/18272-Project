@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void populatePixels_8(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
+void populatePixels_8(vector<smallColor> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
     pixels.resize(photoData.width * photoData.height);
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
@@ -19,7 +19,7 @@ void populatePixels_8(vector<color> &pixels, const Image_Attributes& photoData, 
     }
 }
 
-void populatePixels_16(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
+void populatePixels_16(vector<bigColor> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
     pixels.resize(photoData.width * photoData.height);
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
@@ -28,8 +28,18 @@ void populatePixels_16(vector<color> &pixels, const Image_Attributes& photoData,
 }
 
 // Updated countColors function using unordered_map for color frequencies
-unordered_map<color, int, colorHash> countColors(const vector<color>& pixels) {
-    unordered_map<color, int, colorHash> colorMap;
+unordered_map<smallColor, int, colorHash_8> countColors_8(const vector<smallColor>& pixels) {
+    unordered_map<smallColor, int, colorHash_8> colorMap;
+
+    for (const auto& pixel : pixels) {
+        colorMap[pixel]++;  // Increment the count for the color in the map
+    }
+
+    return colorMap;
+}
+
+unordered_map<bigColor, int, colorHash_16> countColors_16(const vector<bigColor>& pixels) {
+    unordered_map<bigColor, int, colorHash_16> colorMap;
 
     for (const auto& pixel : pixels) {
         colorMap[pixel]++;  // Increment the count for the color in the map
@@ -67,22 +77,27 @@ void sortColors(vector<color>& pixels) {
     }
 }
 */
-double colorDistance(const color& c1, const color& c2) {
+double colorDistance_8(const smallColor& c1, const smallColor& c2) {
     return ((c2.r - c1.r) * (c2.r - c1.r) + (c2.g - c1.g) * (c2.g - c1.g) + (c2.b - c1.b) * (c2.b - c1.b));
 }
 
-void changeInfrequentColors(std::vector<color>& pixels, const size_t n) {
+double colorDistance_16(const bigColor& c1, const bigColor& c2) {
+    return ((c2.r - c1.r) * (c2.r - c1.r) + (c2.g - c1.g) * (c2.g - c1.g) + (c2.b - c1.b) * (c2.b - c1.b));
+}
+
+
+void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
     // Count color frequencies
-    unordered_map<color, int, colorHash> colorMap = countColors(pixels);
+    unordered_map<smallColor, int, colorHash_8> colorMap = countColors_8(pixels);
 
     // If `n` is greater than or equal to the number of unique colors, replace all colors with black
     if (n >= colorMap.size()) {
-        std::fill(pixels.begin(), pixels.end(), color{0, 0, 0});
+        std::fill(pixels.begin(), pixels.end(), smallColor{0, 0, 0});
         return;
     }
 
     // Build a min-heap to find the n least frequent colors
-    using ColorFreqPair = std::pair<color, int>;
+    using ColorFreqPair = std::pair<smallColor, int>;
     auto comp = [](const ColorFreqPair& a, const ColorFreqPair& b) {
         return a.second > b.second || (a.second == b.second && (a.first.b < b.first.b ||
             (a.first.b == b.first.b && (a.first.g < b.first.g || (a.first.g == b.first.g && a.first.r < b.first.r)))));
@@ -97,8 +112,8 @@ void changeInfrequentColors(std::vector<color>& pixels, const size_t n) {
     }
 
     // Store the infrequent colors and frequent colors
-    std::vector<color> infrequentColors;
-    std::vector<color> frequentColors;
+    std::vector<smallColor> infrequentColors;
+    std::vector<smallColor> frequentColors;
     while (!minHeap.empty()) {
         infrequentColors.push_back(minHeap.top().first);
         minHeap.pop();
@@ -110,12 +125,12 @@ void changeInfrequentColors(std::vector<color>& pixels, const size_t n) {
     }
 
     // Construct KDTree with frequent colors
-    KDTree kdTree(frequentColors);
+    KDTreeSmallColor kdTree(frequentColors);
 
     // Map each infrequent color to the closest frequent color
-    std::unordered_map<color, color, colorHash> colorReplacementMap;
-    for (const color& infrequentColor : infrequentColors) {
-        color closestColor = kdTree.nearestNeighbor(infrequentColor);
+    std::unordered_map<smallColor, smallColor, colorHash_8> colorReplacementMap;
+    for (const smallColor& infrequentColor : infrequentColors) {
+        smallColor closestColor = kdTree.nearestNeighbor(infrequentColor);
         colorReplacementMap[infrequentColor] = closestColor;
     }
 
@@ -127,8 +142,63 @@ void changeInfrequentColors(std::vector<color>& pixels, const size_t n) {
     }
 }
 
+void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
+    // Count color frequencies
+    unordered_map<bigColor, int, colorHash_16> colorMap = countColors_16(pixels);
 
-void writeBinary_8(const vector<color>& pixels, ofstream& outFile) {
+    // If `n` is greater than or equal to the number of unique colors, replace all colors with black
+    if (n >= colorMap.size()) {
+        std::fill(pixels.begin(), pixels.end(), bigColor{0, 0, 0});
+        return;
+    }
+
+    // Build a min-heap to find the n least frequent colors
+    using ColorFreqPair = std::pair<bigColor, int>;
+    auto comp = [](const ColorFreqPair& a, const ColorFreqPair& b) {
+        return a.second > b.second || (a.second == b.second && (a.first.b < b.first.b ||
+            (a.first.b == b.first.b && (a.first.g < b.first.g || (a.first.g == b.first.g && a.first.r < b.first.r)))));
+    };
+    std::priority_queue<ColorFreqPair, std::vector<ColorFreqPair>, decltype(comp)> minHeap(comp);
+
+    for (const auto& entry : colorMap) {
+        minHeap.push(entry);
+        if (minHeap.size() > n) {
+            minHeap.pop();
+        }
+    }
+
+    // Store the infrequent colors and frequent colors
+    std::vector<bigColor> infrequentColors;
+    std::vector<bigColor> frequentColors;
+    while (!minHeap.empty()) {
+        infrequentColors.push_back(minHeap.top().first);
+        minHeap.pop();
+    }
+    for (const auto& entry : colorMap) {
+        if (std::find(infrequentColors.begin(), infrequentColors.end(), entry.first) == infrequentColors.end()) {
+            frequentColors.push_back(entry.first);
+        }
+    }
+
+    // Construct KDTree with frequent colors
+    KDTreeBigColor kdTree(frequentColors);
+
+    // Map each infrequent color to the closest frequent color
+    std::unordered_map<bigColor, bigColor, colorHash_16> colorReplacementMap;
+    for (const bigColor& infrequentColor : infrequentColors) {
+        bigColor closestColor = kdTree.nearestNeighbor(infrequentColor);
+        colorReplacementMap[infrequentColor] = closestColor;
+    }
+
+    // Replace infrequent colors in the pixels using the replacement map
+    for (auto& pixel : pixels) {
+        if (colorReplacementMap.find(pixel) != colorReplacementMap.end()) {
+            pixel = colorReplacementMap[pixel];
+        }
+    }
+}
+
+void writeBinary_8(const vector<smallColor>& pixels, ofstream& outFile) {
     for (const auto& pixel : pixels) {
         write_binary8(outFile, static_cast<uint8_t>(pixel.r));
         write_binary8(outFile, static_cast<uint8_t>(pixel.g));
@@ -136,7 +206,7 @@ void writeBinary_8(const vector<color>& pixels, ofstream& outFile) {
     }
 }
 
-void writeBinary_16(const vector<color>& pixels, ofstream& outFile) {
+void writeBinary_16(const vector<bigColor>& pixels, ofstream& outFile) {
     for (const auto& pixel : pixels) {
         write_binary16(outFile, static_cast<uint16_t>(pixel.r));
         write_binary16(outFile, static_cast<uint16_t>(pixel.g));
