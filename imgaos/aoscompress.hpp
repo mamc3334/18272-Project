@@ -41,5 +41,6 @@ void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, unordered_map<bigC
 void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, unordered_map<bigColor, int>& colorIndexMap, unsigned int numPixels);
 void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, unordered_map<bigColor, int>& colorIndexMap, unsigned int numPixels);
 void write_big_pixels(ifstream& infile, ofstream& outfile, unordered_map<bigColor, int>& colorIndexMap, uint8_t numPixels);
+// void uncompress(ifstream& inFile, ofstream& outFile);
 
 #endif //AOSCOMPRESS_HPP

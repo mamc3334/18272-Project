@@ -15,29 +15,17 @@ using namespace std;
 
 // Overarching compression function, reads input and writes complete output to output file
 
-// TODO: How to check if the size of colors is greater than 2^32? Does vector already have an error if that happens?
-
 void compress(ifstream& inFile, ofstream& outFile) {
-
-	ifstream input("../../images/deer-small.ppm");
-	Image_Attributes actual = get_image_metadata(input);
-	for(int i = 0; i < 1000; i++){
-		cout << static_cast<int>(read_binary8(input)) << " " << static_cast<int>(read_binary8(input)) << " " << static_cast<int>(read_binary8(input))<<endl;
-	}
-
-	cout << "Compressing..." << endl;
     Image_Attributes metadata = get_image_metadata(inFile);
     //validate_metadata(metadata.magic_word, metadata.width, metadata.height, metadata.intensity);
     int intensity = metadata.intensity;
     unsigned int numPixels = metadata.width*metadata.height;
-	numPixels = 100;
-	cout << "Pixel number: " << numPixels << endl;
     if(intensity <= 255) { // use smallColor
         vector<smallColor> colors;
     	unordered_map<smallColor, int> colorIndexMap;
         get_small_colors(inFile, colors, colorIndexMap, numPixels);
         uint8_t indexByteLength = getIndexByteLength(colors.size());
-        write_metadata(outFile, metadata);
+    	write_metadata(outFile, metadata);
         write_small_colors(outFile, colors);
 
     	inFile.close();
@@ -72,12 +60,9 @@ void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unordered_ma
         uint8_t blue = read_binary8(inFile);
         smallColor color = {red, green, blue};
 		if(colorIndexMap.find(color) == colorIndexMap.end()) {
-			cout << "Unique color " << unsigned(red) << " " << unsigned(green) << " " << unsigned(blue) << endl;
 			colorIndexMap[color] = index;
 			colors.push_back(color);
 			index++;
-		} else {
-			cout << "Duplicate color " << unsigned(red) << " " << unsigned(green) << " " << unsigned(blue) << endl;
 		}
     }
 }
@@ -112,12 +97,6 @@ uint8_t getIndexByteLength(size_t colorSize) {
   }
 }
 
-/*
-TODO:
-Write new magic word, width, height, intensity
-Write length of color vector
-Write pixel indices using the correct length (indexByteLength)
- */
 
 // Writes metadata to output file
 
@@ -131,7 +110,7 @@ void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
 // Writes sequence of colors, using 3 bytes to match intensity <= 255
 
 void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
-    outFile << colors.size() << "\n";
+    outFile << std::dec << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
     	smallColor color = colors[i];
     	outFile << color.r << color.g << color.b;
@@ -142,7 +121,7 @@ void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
 // Writes sequence of colors, using 6 bytes to match intensity > 255
 
 void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
-	outFile << colors.size() << "\n";
+	outFile << std::dec << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
 		bigColor color = colors[i];
     	outFile << std::setw(5) << std::setfill('0') << color.r << " "
@@ -250,4 +229,43 @@ void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, unordered_map<bigC
 		int index = colorIndexMap[color];
 		write_binary32(outFile, index);
 	}
+}
+
+
+
+void uncompress(ifstream& inFile, ofstream& outFile) {
+    string magicWord;
+	int height, width, intensity, numColors;
+	inFile >> magicWord >> height >> width >> intensity >> numColors;
+	if (magicWord == "C6") {
+		outFile << "P6 ";
+	} else {
+		cerr << "Error: Incorrect magicWord: " << magicWord << "\n";
+	}
+
+	outFile << height << " " << width << " " << intensity << "\n";
+	//uint8_t indexByteLength = getIndexByteLength(static_cast<size_t>(numColors));
+	int numPixels = width*height;
+	if (intensity < 256) {
+		uint8_t red, green, blue;
+		vector<smallColor> colors;
+		for (int i = 0; i < numColors; i++) {
+			inFile >> red >> green >> blue;
+			colors.push_back({red, green, blue});
+		}
+		smallColor color;
+		uint16_t index;
+		for (int i = 0; i < numPixels; i++) {
+			index = read_binary16(inFile);
+			color = colors[index];
+			red = color.r;
+			green = color.g;
+			blue = color.b;
+			outFile << red << green << blue;
+		}
+
+	} else {
+
+	}
+
 }
