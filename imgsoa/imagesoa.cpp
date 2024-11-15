@@ -52,11 +52,35 @@ void soa_resize(Image_Attributes& NewImageData)
     }
 }
 
-void soa_cutfreq(int num) {
-  //TODO
-  cout <<num<<endl;
-  //TEMP
+void soa_cutfreq(size_t num) {
+    ifstream imageFile(getInFile());
+    if (!imageFile.is_open()) {
+        cerr << "Failed to open file\n";
+        exit(-1);
+    }
+    const Image_Attributes photoData = get_image_metadata(imageFile);
+
+    ofstream outputImageFile(getOutFile());
+    if (!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+    outputImageFile << photoData.magic_word << "\n" << photoData.width << " " << photoData.height << "\n" << photoData.intensity << "\n";
+
+    if (photoData.intensity > IntensityCutoff) {
+        SoA_16 pixels;
+        populatePixels_16(pixels, photoData, imageFile);
+        changeInfrequentColors_16(pixels, num);
+        writeBinary_16(pixels, outputImageFile);
+    } else {
+        SoA_8 pixels;
+        populatePixels_8(pixels, photoData, imageFile);
+        changeInfrequentColors_8(pixels, num);
+        writeBinary_8(pixels, outputImageFile);
+    }
 }
+
+
 
 
 void soa_compress() {
