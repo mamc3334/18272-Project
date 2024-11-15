@@ -11,6 +11,7 @@ using namespace std;
 
 /* This is the general function that handles both cases for the soaresize using the input of the new width and height
 */
+
 void soa_resize(Image_Attributes& NewImageData)
 {
     // open input image
@@ -52,6 +53,7 @@ void soa_resize(Image_Attributes& NewImageData)
     }
 }
 
+/*
 void soa_cutfreq(size_t num) {
     ifstream imageFile(getInFile());
     if (!imageFile.is_open()) {
@@ -79,7 +81,7 @@ void soa_cutfreq(size_t num) {
         writeBinary_8(pixels, outputImageFile);
     }
 }
-
+*/
 
 
 

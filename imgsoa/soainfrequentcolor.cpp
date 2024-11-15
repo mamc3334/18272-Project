@@ -1,3 +1,4 @@
+/*
 #include "soainfrequentcolor.hpp"
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
@@ -157,3 +158,4 @@ void writeBinary_16(const SoA_16& pixels, ofstream& outFile) {
         write_binary16(outFile, pixels.b[i]);
     }
 }
+*/

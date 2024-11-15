@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
           // create new image metadata and then resize
           Image_Attributes newImageData = {.magic_word = "",.width=static_cast<unsigned int>(stoi(args[3])), .height=static_cast<unsigned int>(stoi(args[4])), .intensity=0};
           soa_resize(newImageData);
-        } else if (args[2] == "cutfreq") {
-          prog_cutfreq(argc, args);
-          soa_cutfreq(static_cast<size_t>(stoi(args[3])));
-        } else if (args[2] == "compress") {
+        } //else if (args[2] == "cutfreq") {
+          //prog_cutfreq(argc, args);
+          //soa_cutfreq(static_cast<size_t>(stoi(args[3])));
+         else if (args[2] == "compress") {
           prog_compress(argc);
           soa_compress();
         } else {

@@ -1,3 +1,4 @@
+/*
 #include "aosinfrequentcolor.hpp"
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
@@ -97,8 +98,8 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
             pixel = colorReplacementMap[pixel];
         }
     }
-}
 
+}
 void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
     unordered_map<bigColor, int, colorHash_16> colorMap = countColors_16(pixels);
     if (n >= colorMap.size()) {
@@ -155,3 +156,4 @@ void writeBinary_16(const vector<bigColor>& pixels, ofstream& outFile) {
         write_binary16(outFile, static_cast<uint16_t>(pixel.b));
     }
 }
+*/

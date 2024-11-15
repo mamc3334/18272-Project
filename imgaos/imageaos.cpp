@@ -54,7 +54,7 @@ void aos_resize(Image_Attributes& newImageData)
         aossize_resize_8(sOldPhoto, oldImageData, newImageData, outputImageFile);
     }
 }
-
+/*
 void aos_cutfreq(size_t num) {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
@@ -83,6 +83,7 @@ void aos_cutfreq(size_t num) {
         writeBinary_8(pixels, outputImageFile);
     }
 }
+*/
 
 void aos_compress()
 {
