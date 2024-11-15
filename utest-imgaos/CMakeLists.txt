@@ -23,4 +23,5 @@ target_include_directories(utest-imgaos
 add_test(AOSSizeTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCompressTests utest-imgaos COMMAND utest-imgaos)
 add_test(AOSCutFreqTests utest-imgaos COMMAND utest-imgaos)
+add_test(AosInfrequentColorTest utest-imgaos COMMAND utest-imgaos)
 add_test(ImageAOSTests utest-imgaos COMMAND utest-imgaos)
