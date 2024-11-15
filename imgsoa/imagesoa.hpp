@@ -12,7 +12,7 @@
 
 void soa_resize(Image_Attributes& NewImageData);
 
-void soa_cutfreq(int num);
+void soa_cutfreq(size_t num);
 
 void soa_compress();
 
