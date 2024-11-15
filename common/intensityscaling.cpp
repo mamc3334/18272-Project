@@ -61,7 +61,7 @@ void read_image_intensity_scaling (int newIntensity){
     outputImageFile << magic_word << "\n" << width << " " << height << "\n" << newIntensity << "\n";
 
     const int colors = static_cast<int>(3*width*height);
-    const vector data = {intensity, newIntensity, colors};
+    const vector<int> data = {intensity, newIntensity, colors};
 
     if(intensity <= IntensityCutoff){
         intensity_smaller_255(data, inputImageFile, outputImageFile);

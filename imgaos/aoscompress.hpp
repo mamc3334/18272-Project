@@ -29,8 +29,8 @@ void get_big_colors(ifstream& inFile, vector<bigColor>& colors, unordered_map<bi
 uint8_t getIndexByteLength(size_t colorSize);
 
 void write_metadata(ofstream& outFile, const Image_Attributes& metadata);
-void write_small_colors(ofstream& outFile, vector<smallColor>& colors);
-void write_big_colors(ofstream& outFile, vector<bigColor>& colors);
+void write_small_colors(ofstream& outFile, const vector<smallColor>& colors);
+void write_big_colors(ofstream& outFile, const vector<bigColor>& colors);
 
 void write_small_pixels(ifstream& inFile, ofstream& outFile, unordered_map<smallColor, int>& colorIndexMap, unsigned int numPixels, uint8_t indexByteLength);
 void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, unordered_map<smallColor, int>& colorIndexMap, unsigned int numPixels);
