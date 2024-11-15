@@ -269,3 +269,4 @@ void uncompress(ifstream& inFile, ofstream& outFile) {
 	}
 
 }
+

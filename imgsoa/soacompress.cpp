@@ -75,9 +75,9 @@ void get_small_colors(ifstream& inFile, vector<uint8_t>& reds, vector<uint8_t>& 
 void get_big_colors(ifstream& inFile, vector<uint16_t>& reds, vector<uint16_t>& greens, vector<uint16_t>& blues, unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int>& colorIndexMap, unsigned int numPixels) {
 	int index = 0;
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint16_t red = read_binary8(inFile);
-		uint16_t green = read_binary8(inFile);
-		uint16_t blue = read_binary8(inFile);
+		uint16_t red = read_binary16(inFile);
+		uint16_t green = read_binary16(inFile);
+		uint16_t blue = read_binary16(inFile);
 		tuple<uint16_t, uint16_t, uint16_t> color = {red, green, blue};
 		if(colorIndexMap.find(color) == colorIndexMap.end()) {
 			colorIndexMap[color] = index;
