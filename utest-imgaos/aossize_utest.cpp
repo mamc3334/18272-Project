@@ -94,8 +94,8 @@ TEST(AOSSizeTests, Resize16Test) {
 
   // diff -q command should have 0 exit code
   // NOLINTNEXTLINE(*-env33-c)
-  const int result = system("diff -q Resize16_expected.bin Resize16_output.bin");
-  EXPECT_EQ(result, 0);
+  const int exitCode = system("diff -q Resize16_expected.bin Resize16_output.bin");
+  EXPECT_EQ(exitCode, 0);
 }
 
 // Tests the resize function for 4x4 image to a 2x2 image. Both require 1 byte for r,g,b
@@ -125,8 +125,8 @@ TEST(AOSSizeTests, Resize8Test) {
 
   //diff command should have 0 exit code
   // NOLINTNEXTLINE(*-env33-c)
-  const int result = system("diff -q Resize8_expected.bin Resize8_output.bin");
-  EXPECT_EQ(result, 0);
+  const int exitCode = system("diff -q Resize8_expected.bin Resize8_output.bin");
+  EXPECT_EQ(exitCode, 0);
 }
 
 //Tests the interpolation function for uint16_t
