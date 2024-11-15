@@ -8,7 +8,7 @@
 
 void aos_resize(Image_Attributes& newImageData);
 
-void aos_cutfreq(int num);
+void aos_cutfreq(size_t num);
 
 void aos_compress();
 
