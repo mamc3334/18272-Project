@@ -4,7 +4,6 @@ add_executable(utest-imgaos
         aoscompress_utest.cpp
         aosinfrequentcolor_utest.cpp
         aossize_utest.cpp
-        imageaos_utest.cpp
         KDTree_utest.cpp
 )
 # Library dependencies

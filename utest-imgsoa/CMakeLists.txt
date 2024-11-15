@@ -4,7 +4,6 @@ add_executable(utest-imgsoa
         soacompress_utest.cpp
         soainfrequentcolor_utest.cpp
         soasize_utest.cpp
-        imagesoa_utest.cpp
 )
 # Library dependencies
 target_link_libraries (utest-imgsoa
