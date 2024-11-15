@@ -18,7 +18,7 @@ run_test() {
   cmp -s "$outputFile" "$expectedFile"
   local ret_cmp=$?
 
-  if [ $ret_cmp == 1 ]; then
+  if [ $ret_cmp == 0 ]; then
     echo "Test passed"
   else
     echo "Test failed"
