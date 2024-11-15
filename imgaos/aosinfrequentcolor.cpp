@@ -49,26 +49,21 @@ unordered_map<bigColor, int, colorHash_16> countColors_16(const vector<bigColor>
 }
 
 
-double colorDistance_8(const smallColor& c1, const smallColor& c2) {
-    return ((c2.r - c1.r) * (c2.r - c1.r) + (c2.g - c1.g) * (c2.g - c1.g) + (c2.b - c1.b) * (c2.b - c1.b));
+double colorDistance_8(const smallColor& color1, const smallColor& color2) {
+    return ((color2.r - color1.r) * (color2.r - color1.r) + (color2.g - color1.g) * (color2.g - color1.g) + (color2.b - color1.b) * (color2.b - color1.b));
 }
 
-double colorDistance_16(const bigColor& c1, const bigColor& c2) {
-    return ((c2.r - c1.r) * (c2.r - c1.r) + (c2.g - c1.g) * (c2.g - c1.g) + (c2.b - c1.b) * (c2.b - c1.b));
+double colorDistance_16(const bigColor& color1, const bigColor& color2) {
+    return ((color2.r - color1.r) * (color2.r - color1.r) + (color2.g - color1.g) * (color2.g - color1.g) + (color2.b - color1.b) * (color2.b - color1.b));
 }
 
 
 void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
-    // Count color frequencies
     unordered_map<smallColor, int, colorHash_8> colorMap = countColors_8(pixels);
-
-    // If `n` is greater than or equal to the number of unique colors, replace all colors with black
     if (n >= colorMap.size()) {
         std::fill(pixels.begin(), pixels.end(), smallColor{0, 0, 0});
         return;
     }
-
-    // Build a min-heap to find the n least frequent colors
     std::vector<std::pair<smallColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
     std::nth_element(
         colorFreqList.begin(),
@@ -83,29 +78,20 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
             if (a.first.g != b.first.g) return a.first.g < b.first.g;
             return a.first.r < b.first.r;
         });
-
-    // Extract the n least frequent colors
     std::vector<smallColor> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
         infrequentColors.push_back(colorFreqList[i].first);
     }
-
-    // Store the remaining colors as frequent colors
     std::vector<smallColor> frequentColors;
     for (size_t i = n; i < colorFreqList.size(); ++i) {
         frequentColors.push_back(colorFreqList[i].first);
     }
-    // Construct KDTree with frequent colors
     KDTreeSmallColor kdTree(frequentColors);
-
-    // Map each infrequent color to the closest frequent color
     std::unordered_map<smallColor, smallColor, colorHash_8> colorReplacementMap;
     for (const smallColor& infrequentColor : infrequentColors) {
         smallColor closestColor = kdTree.nearestNeighbor(infrequentColor);
         colorReplacementMap[infrequentColor] = closestColor;
     }
-
-    // Replace infrequent colors in the pixels using the replacement map
     for (auto& pixel : pixels) {
         if (colorReplacementMap.find(pixel) != colorReplacementMap.end()) {
             pixel = colorReplacementMap[pixel];
@@ -114,16 +100,11 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
 }
 
 void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
-    // Count color frequencies
     unordered_map<bigColor, int, colorHash_16> colorMap = countColors_16(pixels);
-
-    // If `n` is greater than or equal to the number of unique colors, replace all colors with black
     if (n >= colorMap.size()) {
         std::fill(pixels.begin(), pixels.end(), bigColor{0, 0, 0});
         return;
     }
-
-    // Build a min-heap to find the n least frequent colors
     std::vector<std::pair<bigColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
     std::nth_element(
         colorFreqList.begin(),
@@ -138,30 +119,20 @@ void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
             if (a.first.g != b.first.g) return a.first.g < b.first.g;
             return a.first.r < b.first.r;
         });
-
-    // Extract the n least frequent colors
     std::vector<bigColor> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
         infrequentColors.push_back(colorFreqList[i].first);
     }
-
-    // Store the remaining colors as frequent colors
     std::vector<bigColor> frequentColors;
     for (size_t i = n; i < colorFreqList.size(); ++i) {
         frequentColors.push_back(colorFreqList[i].first);
     }
-
-    // Construct KDTree with frequent colors
     KDTreeBigColor kdTree(frequentColors);
-
-    // Map each infrequent color to the closest frequent color
     std::unordered_map<bigColor, bigColor, colorHash_16> colorReplacementMap;
     for (const bigColor& infrequentColor : infrequentColors) {
         bigColor closestColor = kdTree.nearestNeighbor(infrequentColor);
         colorReplacementMap[infrequentColor] = closestColor;
     }
-
-    // Replace infrequent colors in the pixels using the replacement map
     for (auto& pixel : pixels) {
         if (colorReplacementMap.find(pixel) != colorReplacementMap.end()) {
             pixel = colorReplacementMap[pixel];

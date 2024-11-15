@@ -7,179 +7,69 @@
 #include <random>
 #include <gtest/gtest.h>
 
+TEST(AosInfrequentColorTest, ChangeInfrequentColors16) {
+    std::vector<bigColor> pixels = {{1000, 2000, 3000}, {1000, 2000, 3000}, {4000, 5000, 6000}};
+    changeInfrequentColors_16(pixels, 1);
 
-/*
-//generate a random color
-color generateRandomColor() {
-    static random_device rd;
-    static mt19937 gen(rd());
-    static uniform_int_distribution<uint8_t> dis(0, 255);
+    bigColor expected = {1000, 2000, 3000};//the only color
 
-    return {dis(gen), dis(gen), dis(gen)};
-}
-
-//generate random pixels for the image
-vector<color> generateRandomPixels(int width, int height) {
-    vector<color> pixels(width * height);
-    for (auto &pixel : pixels) {
-        pixel = generateRandomColor();
-    }
-    return pixels;
-}
-
-
-TEST(AOSInfrequentColorTest, PopulatePix8) {
-    Image_Attributes photoData = {.magic_word = "", .width=2, .height=2, .intensity = 0};
-    vector<color> pixels = generateRandomPixels(photoData.width, photoData.height);
-
-    ofstream createMockFile("8_input.bin", ios::binary);
-    // Write each value to the file
     for (const auto& pixel : pixels) {
-        write_binary8(createMockFile, pixel);
-    }
-    //createMockFile.close();
-
-
-    ifstream mockFile("Old8_input.bin");
-    ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
-
-    vector<color> loadedPixels;
-    populatePixels_8(loadedPixels, photoData, createMockFile);
-
-    EXPECT_EQ(loadedPixels.size(), pixels.size());
-
-    for (size_t i = 0; i < pixels.size(); ++i) {
-        EXPECT_EQ(loadedPixels[i].r, pixels[i].r);
-        EXPECT_EQ(loadedPixels[i].g, pixels[i].g);
-        EXPECT_EQ(loadedPixels[i].b, pixels[i].b);
+        ASSERT_TRUE(pixel == expected);
     }
 }
 
-TEST(AOSInfrequentColorTest, PopulatePix16) {
-    Image_Attributes photoData = {.magic_word = "", .width=2, .height=2, .intensity = 1000};
-    vector<color> pixels = generateRandomPixels(photoData.width, photoData.height);
+TEST(AosInfrequentColorTest, ChangeInfrequentColors8) {
+    std::vector<smallColor> pixels = {{100, 200, 100}, {100, 200, 100}, {200, 200, 200}};
+    changeInfrequentColors_8(pixels, 1);
 
-    ofstream createMockFile("16_input.bin", ios::binary);
-    // Write each value to the file
+    smallColor expected = {100, 200, 100};//the only color
+
     for (const auto& pixel : pixels) {
-        write_binary8(createMockFile, pixel);
-    }
-    createMockFile.close();
-
-
-        ifstream mockFile("Old8_input.bin");
-        ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data";
-
-    vector<color> loadedPixels;
-    populatePixels_8(loadedPixels, photoData, createMockFile);
-
-    EXPECT_EQ(loadedPixels.size(), pixels.size());
-
-    for (size_t i = 0; i < pixels.size(); ++i) {
-        EXPECT_EQ(loadedPixels[i].r, pixels[i].r);
-        EXPECT_EQ(loadedPixels[i].g, pixels[i].g);
-        EXPECT_EQ(loadedPixels[i].b, pixels[i].b);
+        ASSERT_TRUE(pixel == expected);
     }
 }
 
-*/
-
-TEST(AOSCUTFREQTEST, CountColors) {
-    color red{255, 0, 0};
-    color green{0, 255, 0};
-    color blue{0, 0, 255};
-    color black{0, 0, 0};
-
-    vector<color> pixels = {red, green, blue, red, green, black, black, black};
-    auto colorCounts = countColors(pixels);
-
-    EXPECT_EQ(colorCounts[red], 2);
-    EXPECT_EQ(colorCounts[green], 2);
-    EXPECT_EQ(colorCounts[blue], 1);
-    EXPECT_EQ(colorCounts[black], 3);
-}
 
 
-TEST(AOSInfrequentColorTest, CountColors) {
-    std::vector<color> pixels = {{1, 1, 1}, {1, 1, 1}, {2, 2, 2}};
-    auto colorMap = countColors(pixels);
+TEST(AosInfrequentColorTest, CountColors16) {
+    std::vector<bigColor> pixels = {{100, 200, 300}, {100, 200, 300}, {400, 500, 600}};
+    auto colorMap = countColors_16(pixels);
+
+    bigColor firstColor =  {100, 200, 300};
+    bigColor secondColor = {400, 500, 600};
 
     ASSERT_EQ(colorMap.size(), 2);
-    EXPECT_EQ(colorMap[color{1, 1, 1}], 2);
-    EXPECT_EQ(colorMap[color{2, 2, 2}], 1);
-}
-/*
-TEST(AOSInfrequentColorTest, SortColors) {
-    vector<color> pixels = {
-        {255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {128, 128, 128}
-    };
-    sortColors(pixels);
-
-    EXPECT_EQ(pixels[0].count, 1); // Green should be first
-    EXPECT_EQ(pixels[1].count, 2); // Blue should come next
-    EXPECT_EQ(pixels[2].count, 2); // Gray should come after Blue
-    EXPECT_EQ(pixels[3].count, 3); // Red should be last
+    EXPECT_EQ(colorMap[firstColor], 2);
+    EXPECT_EQ(colorMap[secondColor], 1);
 }
 
-TEST(AOSInfrequentColorTest, ColorDistance) {
-    color c1 = {255, 0, 0, 0};
-    color c2 = {0, 255, 0, 0};
-    double distance = colorDistance(c1, c2);
+TEST(AosInfrequentColorTest, CountColors8) {
+    std::vector<smallColor> pixels = {{10, 20, 30}, {10, 20, 30}, {40, 50, 60}};
+    auto colorMap = countColors_8(pixels);
 
-    EXPECT_NEAR(distance, sqrt(255*255 + 255*255), 1e-5);
-}
+    smallColor firstColor =  {10, 20, 30};
+    smallColor secondColor = {40, 50, 60};
 
-TEST(AOSInfrequentColorTest, ChangeInfrequentColors) {
-    vector<color> pixels = {{255, 0, 0, 0}, {0, 255, 0, 0}, {255, 0, 0, 0}, {0, 0, 255}};
-    int n = 1;
-    changeInfrequentColors(pixels, n);
-
-    // Ensure that the least frequent color (blue) is replaced with a close match
-    EXPECT_EQ(pixels[3], pixels[0]); // Assuming red is the closest
-}
-
-TEST(AOSInfrequentColorTest, WriteBinary8) {
-    vector<color> pixels = {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {255, 255, 255}};
-    Image_Attributes photoData = {2, 2, 255};
-    string outputPath = "test_output_8bit.ppm";
-
-    writeBinary_8(pixels, photoData, outputPath);
-
-    ifstream inFile(outputPath, ios::binary);
-    ASSERT_TRUE(inFile.is_open());
-
-    // Verify the header and content
-    string header;
-    getline(inFile, header);
-    EXPECT_EQ(header, "P6");
-}
-
-TEST(AOSInfrequentColorTest, WriteBinary16) {
-    vector<color> pixels = {{50000, 40000, 30000}, {30000, 20000, 10000}};
-    Image_Attributes photoData = {2, 1, 65535};
-    string outputPath = "test_output_16bit.ppm";
-
-    writeBinary_16(pixels, photoData, outputPath);
-
-    ifstream inFile(outputPath, ios::binary);
-    ASSERT_TRUE(inFile.is_open());
-
-    string header;
-    getline(inFile, header);
-    EXPECT_EQ(header, "P6");
+    ASSERT_EQ(colorMap.size(), 2);
+    EXPECT_EQ(colorMap[firstColor], 2);
+    EXPECT_EQ(colorMap[secondColor], 1);
 }
 
 
-TEST(AOSInfrequentColorTest, SortColors) {
-    vector<color> pixels = {
-        {255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {128, 128, 128}
-    };
-    sortColors(pixels);
 
-    EXPECT_EQ(pixels[0].count, 1); // Green should be first
-    EXPECT_EQ(pixels[1].count, 2); // Blue should come next
-    EXPECT_EQ(pixels[2].count, 2); // Gray should come after Blue
-    EXPECT_EQ(pixels[3].count, 3); // Red should be last
+TEST(AosInfrequentColorTest, ColorDistance8) {
+    smallColor c1 = {10, 20, 30};
+    smallColor c2 = {40, 50, 60};
+    double distance = colorDistance_8(c1, c2);
+
+    EXPECT_EQ(distance, 2700);  // (40-10)^2 + (50-20)^2 + (60-30)^2
 }
 
-*/
+TEST(AosInfrequentColorTest, ColorDistance16) {
+    bigColor c1 = {100, 200, 300};
+    bigColor c2 = {400, 500, 600};
+    double distance = colorDistance_16(c1, c2);
+
+    EXPECT_EQ(distance, 270000);  // (40-10)^2 + (50-20)^2 + (60-30)^2
+}
+

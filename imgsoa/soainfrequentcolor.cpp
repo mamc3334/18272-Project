@@ -33,22 +33,31 @@ void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstre
     }
 }
 
-// Count colors (frequency map)
 unordered_map<int, int> countColors_8(const SoA_8& pixels) {
     unordered_map<int, int> colorMap;
+
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        int colorHash = ((pixels.r[i] & 0xFF) << 16) |
+                        ((pixels.g[i] & 0xFF) << 8)  |
+                        (pixels.b[i] & 0xFF);
+
         colorMap[colorHash]++;
     }
+
     return colorMap;
 }
 
 unordered_map<int, int> countColors_16(const SoA_16& pixels) {
     unordered_map<int, int> colorMap;
+
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        int colorHash = ((pixels.r[i] & 0xFF) << 16) |
+                        ((pixels.g[i] & 0xFF) << 8)  |
+                        (pixels.b[i] & 0xFF);
+
         colorMap[colorHash]++;
     }
+
     return colorMap;
 }
 
