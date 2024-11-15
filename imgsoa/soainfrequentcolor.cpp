@@ -1,177 +1,150 @@
-// Created by ryanb on 10/22/2024.
-
 #include "soainfrequentcolor.hpp"
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
-#include <vector>
-#include <iostream>
-#include <cmath>
-#include <fstream>
-#include <algorithm>
+#include <queue>
 
 using namespace std;
 
+// Populate pixels for 8-bit colors
+void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream& inFile) {
+    size_t pixelCount = photoData.width * photoData.height;
+    pixels.r.resize(pixelCount);
+    pixels.g.resize(pixelCount);
+    pixels.b.resize(pixelCount);
 
-//Populates pixel data from input image (one byte per RGB value)
-void populatePixels_8(ImageData& imageData, const Image_Attributes& photoData, ifstream& inFile) {
-    imageData.width = photoData.width;
-    imageData.height = photoData.height;
-    int totalPixels = photoData.width * photoData.height;
-
-    imageData.red.resize(totalPixels);
-    imageData.green.resize(totalPixels);
-    imageData.blue.resize(totalPixels);
-
-    for (int i = 0; i < totalPixels; ++i) {
-        imageData.red[i] = read_binary8(inFile);
-        imageData.green[i] = read_binary8(inFile);
-        imageData.blue[i] = read_binary8(inFile);
-    }
-    inFile.close();
-}
-
-//Populates pixel data from input image (two bytes per RGB value)
-void populatePixels_16(ImageData& imageData, const Image_Attributes& photoData, ifstream& inFile) {
-    imageData.width = photoData.width;
-    imageData.height = photoData.height;
-    int totalPixels = photoData.width * photoData.height;
-
-    imageData.red.resize(totalPixels);
-    imageData.green.resize(totalPixels);
-    imageData.blue.resize(totalPixels);
-
-    for (int i = 0; i < totalPixels; ++i) {
-        imageData.red[i] = read_binary16(inFile);
-        imageData.green[i] = read_binary16(inFile);
-        imageData.blue[i] = read_binary16(inFile);
-    }
-    inFile.close();
-}
-
-//Counts unique colors and their frequencies
-ImageData countColors(const ImageData& imageData) {
-    ImageData colorList;
-    int totalPixels = imageData.width * imageData.height;
-
-    for (int i = 0; i < totalPixels; ++i) {
-        bool found = false;
-        for (int j = 0; j < colorList.red.size(); ++j) {
-            if (colorList.red[j] == imageData.red[i] &&
-                colorList.green[j] == imageData.green[i] &&
-                colorList.blue[j] == imageData.blue[i]) {
-                colorList.count[j]++;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            colorList.red.push_back(imageData.red[i]);
-            colorList.green.push_back(imageData.green[i]);
-            colorList.blue.push_back(imageData.blue[i]);
-            colorList.count.push_back(1);
-        }
-    }
-    return colorList;
-}
-
-//Sort the colors by count, then by RGB values
-void sortColors(ImageData& colorList) {
-    int totalColors = colorList.red.size();
-    vector<int> indices(totalColors);
-
-    for (int i = 0; i < totalColors; ++i) {
-        indices[i] = i;
-    }
-    sort(indices.begin(), indices.end(), [&](int a, int b) {
-        if (colorList.count[a] != colorList.count[b]) return colorList.count[a] < colorList.count[b];
-        if (colorList.red[a] != colorList.red[b]) return colorList.red[a] < colorList.red[b];
-        if (colorList.green[a] != colorList.green[b]) return colorList.green[a] < colorList.green[b];
-        return colorList.blue[a] < colorList.blue[b];
-    });
-
-    ImageData sortedList = colorList;
-    for (int i = 0; i < totalColors; ++i) {
-        sortedList.red[i] = colorList.red[indices[i]];
-        sortedList.green[i] = colorList.green[indices[i]];
-        sortedList.blue[i] = colorList.blue[indices[i]];
-        sortedList.count[i] = colorList.count[indices[i]];
-    }
-    colorList = sortedList;
-}
-
-//Calculate Euclidean distance between two colors
-double colorDistance(uint16_t r1, uint16_t g1, uint16_t b1, uint16_t r2, uint16_t g2, uint16_t b2) {
-    return sqrt(pow(r2 - r1, 2) + pow(g2 - g1, 2) + pow(b2 - b1, 2));
-}
-
-//Replace the least frequent colors with the closest color (determined by Euclidian distance)
-void changeInfrequentColors(ImageData& imageData, int n) {
-    ImageData colorList = countColors(imageData);
-    sortColors(colorList);
-
-    for (int i = 0; i < n; ++i) {
-        uint8_t targetR = colorList.red[i];
-        uint8_t targetG = colorList.green[i];
-        uint8_t targetB = colorList.blue[i];
-
-        int minDistance = 100000; //arbitrary big number
-        int closestIndex = -1;
-
-        for (int j = n; j < colorList.red.size(); ++j) {
-            double distance = colorDistance(targetR, targetG, targetB,
-                                            colorList.red[j], colorList.green[j], colorList.blue[j]);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestIndex = j;
-            }
-        }
-
-        if (closestIndex != -1) {
-            for (int k = 0; k < imageData.red.size(); ++k) {
-                if (imageData.red[k] == targetR && imageData.green[k] == targetG && imageData.blue[k] == targetB) {
-                    imageData.red[k] = colorList.red[closestIndex];
-                    imageData.green[k] = colorList.green[closestIndex];
-                    imageData.blue[k] = colorList.blue[closestIndex];
-                }
-            }
-        }
+    for (size_t i = 0; i < pixelCount; ++i) {
+        pixels.r[i] = read_binary8(inFile);
+        pixels.g[i] = read_binary8(inFile);
+        pixels.b[i] = read_binary8(inFile);
     }
 }
 
-//Write modified pixel data to binary output file using write_binary8 (one byte per RGB value)
-void writeBinary_8(const ImageData& imageData, const Image_Attributes& photoData, const string& outputFilePath) {
-    ofstream outFile(outputFilePath, ios::binary);
-    if (!outFile.is_open()) {
-        cerr << "Error: Unable to open file for writing.\n";
+// Populate pixels for 16-bit colors
+void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstream& inFile) {
+    size_t pixelCount = photoData.width * photoData.height;
+    pixels.r.resize(pixelCount);
+    pixels.g.resize(pixelCount);
+    pixels.b.resize(pixelCount);
+
+    for (size_t i = 0; i < pixelCount; ++i) {
+        pixels.r[i] = read_binary16(inFile);
+        pixels.g[i] = read_binary16(inFile);
+        pixels.b[i] = read_binary16(inFile);
+    }
+}
+
+// Count colors (frequency map)
+unordered_map<int, int> countColors_8(const SoA_8& pixels) {
+    unordered_map<int, int> colorMap;
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        colorMap[colorHash]++;
+    }
+    return colorMap;
+}
+
+unordered_map<int, int> countColors_16(const SoA_16& pixels) {
+    unordered_map<int, int> colorMap;
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        colorMap[colorHash]++;
+    }
+    return colorMap;
+}
+
+// Compute color distance
+double colorDistance_8(size_t index1, size_t index2, const SoA_8& pixels) {
+    int dr = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
+    int dg = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
+    int db = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
+    return dr * dr + dg * dg + db * db;
+}
+
+double colorDistance_16(size_t index1, size_t index2, const SoA_16& pixels) {
+    int dr = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
+    int dg = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
+    int db = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
+    return dr * dr + dg * dg + db * db;
+}
+
+// Change infrequent colors
+void changeInfrequentColors_8(SoA_8& pixels, size_t n) {
+    unordered_map<int, int> colorMap = countColors_8(pixels);
+
+    if (n >= colorMap.size()) {
+        fill(pixels.r.begin(), pixels.r.end(), 0);
+        fill(pixels.g.begin(), pixels.g.end(), 0);
+        fill(pixels.b.begin(), pixels.b.end(), 0);
         return;
     }
 
-    outFile << "P6\n" << photoData.width << " " << photoData.height << "\n255\n";
+    vector<pair<int, int>> colorFreqList(colorMap.begin(), colorMap.end());
+    nth_element(
+        colorFreqList.begin(),
+        colorFreqList.begin() + static_cast<vector<pair<int, int>>::difference_type>(n),
+        colorFreqList.end(),
+        [](const pair<int, int>& a, const pair<int, int>& b) { return a.second < b.second; });
 
-    for (int i = 0; i < imageData.red.size(); ++i) {
-        write_binary8(outFile, imageData.red[i]);
-        write_binary8(outFile, imageData.green[i]);
-        write_binary8(outFile, imageData.blue[i]);
+    unordered_map<int, int> infrequentColors;
+    for (size_t i = 0; i < n; ++i) {
+        infrequentColors[colorFreqList[i].first] = 1;
     }
 
-    outFile.close();
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        if (infrequentColors.find(colorHash) != infrequentColors.end()) {
+            pixels.r[i] = 0;
+            pixels.g[i] = 0;
+            pixels.b[i] = 0;
+        }
+    }
 }
 
-//Write modified pixel data to binary output file using write_binary16 (two bytes per RGB value)
-void writeBinary_16(const ImageData& imageData, const Image_Attributes& photoData, const string& outputFilePath) {
-    ofstream outFile(outputFilePath, ios::binary);
-    if (!outFile.is_open()) {
-        cerr << "Error: Unable to open file for writing.\n";
+void changeInfrequentColors_16(SoA_16& pixels, size_t n) {
+    unordered_map<int, int> colorMap = countColors_16(pixels);
+
+    if (n >= colorMap.size()) {
+        fill(pixels.r.begin(), pixels.r.end(), 0);
+        fill(pixels.g.begin(), pixels.g.end(), 0);
+        fill(pixels.b.begin(), pixels.b.end(), 0);
         return;
     }
 
-    outFile << "P6\n" << photoData.width << " " << photoData.height << "\n" << photoData.intensity << "\n";
+    vector<pair<int, int>> colorFreqList(colorMap.begin(), colorMap.end());
+    nth_element(
+        colorFreqList.begin(),
+        colorFreqList.begin() + static_cast<vector<pair<int, int>>::difference_type>(n),
+        colorFreqList.end(),
+        [](const pair<int, int>& a, const pair<int, int>& b) { return a.second < b.second; });
 
-    for (int i = 0; i < imageData.red.size(); ++i) {
-        write_binary16(outFile, imageData.red[i]);
-        write_binary16(outFile, imageData.green[i]);
-        write_binary16(outFile, imageData.blue[i]);
+    unordered_map<int, int> infrequentColors;
+    for (size_t i = 0; i < n; ++i) {
+        infrequentColors[colorFreqList[i].first] = 1;
     }
 
-    outFile.close();
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        if (infrequentColors.find(colorHash) != infrequentColors.end()) {
+            pixels.r[i] = 0;
+            pixels.g[i] = 0;
+            pixels.b[i] = 0;
+        }
+    }
+}
+
+// Write binary
+void writeBinary_8(const SoA_8& pixels, ofstream& outFile) {
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        write_binary8(outFile, pixels.r[i]);
+        write_binary8(outFile, pixels.g[i]);
+        write_binary8(outFile, pixels.b[i]);
+    }
+}
+
+void writeBinary_16(const SoA_16& pixels, ofstream& outFile) {
+    for (size_t i = 0; i < pixels.r.size(); ++i) {
+        write_binary16(outFile, pixels.r[i]);
+        write_binary16(outFile, pixels.g[i]);
+        write_binary16(outFile, pixels.b[i]);
+    }
 }

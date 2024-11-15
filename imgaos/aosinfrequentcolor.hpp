@@ -15,6 +15,7 @@
 
 using namespace std;
 
+/*
 struct color {
     int r, g, b;
 
@@ -22,7 +23,7 @@ struct color {
         return r == other.r && g == other.g && b == other.b;
     }
 };
-
+*/
 
 struct colorHash_8 {
     size_t operator()(const smallColor& c) const {
@@ -38,8 +39,8 @@ struct colorHash_16 {
 
 void populatePixels_8(vector<smallColor>& pixels, const Image_Attributes& photoData, ifstream& inFile);
 void populatePixels_16(vector<bigColor>& pixels, const Image_Attributes& photoData, ifstream& inFile);
-unordered_map<color, int, colorHash_8> countColors_8(const vector<color>& pixels);
-unordered_map<color, int, colorHash_16> countColors_16(const vector<color>& pixels);
+unordered_map<smallColor, int, colorHash_8> countColors_8(const vector<smallColor>& pixels);
+unordered_map<bigColor, int, colorHash_16> countColors_16(const vector<bigColor>& pixels);
 
 //void sortColors(vector<color>& pixels);
 double colorDistance_8(const smallColor& c1, const smallColor& c2);

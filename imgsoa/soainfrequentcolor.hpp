@@ -1,6 +1,3 @@
-// image_processing.hpp
-// Header file for image processing functions
-
 #ifndef SOAINFREQUENTCOLOR_HPP
 #define SOAINFREQUENTCOLOR_HPP
 
@@ -12,24 +9,26 @@
 #include <fstream>
 #include <algorithm>
 
-// Structure of Arrays for storing image data
-struct ImageData {
-    std::vector<uint8_t> red;
-    std::vector<uint8_t> green;
-    std::vector<uint8_t> blue;
-    std::vector<int> count;  // Frequency count for each unique color
-    int width;
-    int height;
+using namespace std;
+
+// Struct to hold separate arrays for red, green, and blue channels
+struct SoA_8 {
+    vector<uint8_t> r, g, b;
 };
 
+struct SoA_16 {
+    vector<uint16_t> r, g, b;
+};
 
-void populatePixels_8(ImageData& imageData, const Image_Attributes& photoData, std::ifstream& inFile);
-void populatePixels_16(ImageData& imageData, const Image_Attributes& photoData, std::ifstream& inFile);
-ImageData countColors(const ImageData& imageData);
-void sortColors(ImageData& colorList);
-double colorDistance(uint8_t r1, uint8_t g1, uint8_t b1, uint8_t r2, uint8_t g2, uint8_t b2);
-void changeInfrequentColors(ImageData& imageData, int n);
-void writeBinary_8(const ImageData& imageData, const Image_Attributes& photoData, const std::string& outputFilePath);
-void writeBinary_16(const ImageData& imageData, const Image_Attributes& photoData, const std::string& outputFilePath);
+void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream& inFile);
+void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstream& inFile);
+unordered_map<int, int> countColors_8(const SoA_8& pixels);
+unordered_map<int, int> countColors_16(const SoA_16& pixels);
+double colorDistance_8(size_t index1, size_t index2, const SoA_8& pixels);
+double colorDistance_16(size_t index1, size_t index2, const SoA_16& pixels);
+void changeInfrequentColors_8(SoA_8& pixels, size_t n);
+void changeInfrequentColors_16(SoA_16& pixels, size_t n);
+void writeBinary_8(const SoA_8& pixels, ofstream& outFile);
+void writeBinary_16(const SoA_16& pixels, ofstream& outFile);
 
 #endif // SOAINFREQUENTCOLOR_HPP

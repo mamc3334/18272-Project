@@ -48,35 +48,7 @@ unordered_map<bigColor, int, colorHash_16> countColors_16(const vector<bigColor>
     return colorMap;
 }
 
-// Sort the colors by their frequency and then by color components
-/*
-void sortColors(vector<color>& pixels) {
-    unordered_map<color, int, colorHash> colorMap = countColors(pixels);
 
-    vector<pair<color, int>> colorCountPairs;
-    for (const auto& entry : colorMap) {
-        colorCountPairs.push_back(entry);
-    }
-
-    std::sort(colorCountPairs.begin(), colorCountPairs.end(), [](const pair<color, int>& a, const pair<color, int>& b) {
-        if (a.second != b.second) {
-            return a.second < b.second;
-        }
-        if (a.first.r != b.first.r) {
-            return a.first.r < b.first.r;
-        }
-        if (a.first.g != b.first.g) {
-            return a.first.g < b.first.g;
-        }
-        return a.first.b < b.first.b;
-    });
-
-    pixels.clear();
-    for (const auto& entry : colorCountPairs) {
-        pixels.push_back(entry.first);
-    }
-}
-*/
 double colorDistance_8(const smallColor& c1, const smallColor& c2) {
     return ((c2.r - c1.r) * (c2.r - c1.r) + (c2.g - c1.g) * (c2.g - c1.g) + (c2.b - c1.b) * (c2.b - c1.b));
 }
@@ -97,33 +69,32 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
     }
 
     // Build a min-heap to find the n least frequent colors
-    using ColorFreqPair = std::pair<smallColor, int>;
-    auto comp = [](const ColorFreqPair& a, const ColorFreqPair& b) {
-        return a.second > b.second || (a.second == b.second && (a.first.b < b.first.b ||
-            (a.first.b == b.first.b && (a.first.g < b.first.g || (a.first.g == b.first.g && a.first.r < b.first.r)))));
-    };
-    std::priority_queue<ColorFreqPair, std::vector<ColorFreqPair>, decltype(comp)> minHeap(comp);
+    std::vector<std::pair<smallColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
+    std::nth_element(
+        colorFreqList.begin(),
+        colorFreqList.begin() + static_cast<std::vector<std::pair<smallColor, int>>::difference_type>(n),
+        colorFreqList.end(),
+        [](const std::pair<smallColor, int>& a, const std::pair<smallColor, int>& b) {
+            if (a.second != b.second) {
+                return a.second < b.second; // Primary comparison: frequency
+            }
+            // Tie-breaking: lexicographic order by smallColor (b, g, r)
+            if (a.first.b != b.first.b) return a.first.b < b.first.b;
+            if (a.first.g != b.first.g) return a.first.g < b.first.g;
+            return a.first.r < b.first.r;
+        });
 
-    for (const auto& entry : colorMap) {
-        minHeap.push(entry);
-        if (minHeap.size() > n) {
-            minHeap.pop();
-        }
-    }
-
-    // Store the infrequent colors and frequent colors
+    // Extract the n least frequent colors
     std::vector<smallColor> infrequentColors;
-    std::vector<smallColor> frequentColors;
-    while (!minHeap.empty()) {
-        infrequentColors.push_back(minHeap.top().first);
-        minHeap.pop();
-    }
-    for (const auto& entry : colorMap) {
-        if (std::find(infrequentColors.begin(), infrequentColors.end(), entry.first) == infrequentColors.end()) {
-            frequentColors.push_back(entry.first);
-        }
+    for (size_t i = 0; i < n; ++i) {
+        infrequentColors.push_back(colorFreqList[i].first);
     }
 
+    // Store the remaining colors as frequent colors
+    std::vector<smallColor> frequentColors;
+    for (size_t i = n; i < colorFreqList.size(); ++i) {
+        frequentColors.push_back(colorFreqList[i].first);
+    }
     // Construct KDTree with frequent colors
     KDTreeSmallColor kdTree(frequentColors);
 
@@ -153,31 +124,31 @@ void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
     }
 
     // Build a min-heap to find the n least frequent colors
-    using ColorFreqPair = std::pair<bigColor, int>;
-    auto comp = [](const ColorFreqPair& a, const ColorFreqPair& b) {
-        return a.second > b.second || (a.second == b.second && (a.first.b < b.first.b ||
-            (a.first.b == b.first.b && (a.first.g < b.first.g || (a.first.g == b.first.g && a.first.r < b.first.r)))));
-    };
-    std::priority_queue<ColorFreqPair, std::vector<ColorFreqPair>, decltype(comp)> minHeap(comp);
+    std::vector<std::pair<bigColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
+    std::nth_element(
+        colorFreqList.begin(),
+        colorFreqList.begin() + static_cast<std::vector<std::pair<bigColor, int>>::difference_type>(n),
+        colorFreqList.end(),
+        [](const std::pair<bigColor, int>& a, const std::pair<bigColor, int>& b) {
+            if (a.second != b.second) {
+                return a.second < b.second;
+            }
 
-    for (const auto& entry : colorMap) {
-        minHeap.push(entry);
-        if (minHeap.size() > n) {
-            minHeap.pop();
-        }
-    }
+            if (a.first.b != b.first.b) return a.first.b < b.first.b;
+            if (a.first.g != b.first.g) return a.first.g < b.first.g;
+            return a.first.r < b.first.r;
+        });
 
-    // Store the infrequent colors and frequent colors
+    // Extract the n least frequent colors
     std::vector<bigColor> infrequentColors;
-    std::vector<bigColor> frequentColors;
-    while (!minHeap.empty()) {
-        infrequentColors.push_back(minHeap.top().first);
-        minHeap.pop();
+    for (size_t i = 0; i < n; ++i) {
+        infrequentColors.push_back(colorFreqList[i].first);
     }
-    for (const auto& entry : colorMap) {
-        if (std::find(infrequentColors.begin(), infrequentColors.end(), entry.first) == infrequentColors.end()) {
-            frequentColors.push_back(entry.first);
-        }
+
+    // Store the remaining colors as frequent colors
+    std::vector<bigColor> frequentColors;
+    for (size_t i = n; i < colorFreqList.size(); ++i) {
+        frequentColors.push_back(colorFreqList[i].first);
     }
 
     // Construct KDTree with frequent colors

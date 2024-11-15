@@ -2,7 +2,7 @@
 #include <limits>
 #include <algorithm>
 
-// ---------------------- KDTreeSmallColor Implementation ----------------------
+//KDTreeSmallColor Implementation
 
 KDTreeSmallColor::KDTreeSmallColor(const std::vector<smallColor>& colors) {
     std::vector<smallColor> colorsCopy = colors;
@@ -63,7 +63,7 @@ double KDTreeSmallColor::colorDistance(const smallColor& c1, const smallColor& c
     return (c1.r - c2.r) * (c1.r - c2.r) + (c1.g - c2.g) * (c1.g - c2.g) + (c1.b - c2.b) * (c1.b - c2.b);
 }
 
-// ---------------------- KDTreeBigColor Implementation ----------------------
+//KDTreeBigColor Implementation
 
 KDTreeBigColor::KDTreeBigColor(const std::vector<bigColor>& colors) {
     std::vector<bigColor> colorsCopy = colors;

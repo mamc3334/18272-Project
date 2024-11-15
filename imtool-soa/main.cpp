@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
           soa_resize(newImageData);
         } else if (args[2] == "cutfreq") {
           prog_cutfreq(argc, args);
-          soa_cutfreq(stoi(args[3]));
+          soa_cutfreq(static_cast<size_t>(stoi(args[3])));
         } else if (args[2] == "compress") {
           prog_compress(argc);
           soa_compress();
