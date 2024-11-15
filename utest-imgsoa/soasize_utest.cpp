@@ -84,7 +84,7 @@ TEST(SOASizeTests, Resize16Test) {
 
   // diff -q command should have 0 exit code
   // NOLINTNEXTLINE(*-env33-c)
-  const int exitCode = WEXITSTATUS(system("diff -q Resize16_output.bin Resize16_expected.bin"));
+  const int exitCode = system("diff -q Resize16_output.bin Resize16_expected.bin");
   EXPECT_EQ(exitCode, 0) << "Files are not identical.";
 }
 
@@ -110,7 +110,7 @@ TEST(SOASizeTests, Resize8Test) {
 
   //diff command should have 0 exit code
   // NOLINTNEXTLINE(*-env33-c)
-  const int exitCode = WEXITSTATUS(system("diff -q Resize8_output.bin Resize8_expected.bin"));
+  const int exitCode = system("diff -q Resize8_output.bin Resize8_expected.bin");
   EXPECT_EQ(exitCode, 0) << "Files are not identical.";
 }
 

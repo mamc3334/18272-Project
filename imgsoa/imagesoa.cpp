@@ -2,6 +2,9 @@
 // Created by finnb on 10/7/2024.
 //
 #include "imagesoa.hpp"
+#include "soasize.hpp"
+#include "soainfrequentcolor.hpp"
+#include "soacompress.hpp"
 #include <vector>
 #include <iostream>
 using namespace std;

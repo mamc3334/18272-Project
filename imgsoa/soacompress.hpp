@@ -12,7 +12,6 @@
 #ifndef AOSCOMPRESS_HPP
 #define AOSCOMPRESS_HPP
 
-#include<iostream>
 #include<fstream>
 #include "../common/utility.hpp"
 #include <cstdint>
@@ -28,9 +27,9 @@ void get_big_colors(ifstream& inFile, vector<uint16_t>& reds, vector<uint16_t>& 
 
 uint8_t getIndexByteLength(size_t colorSize);
 
-void write_metadata(ofstream& outFile, Image_Attributes& metadata);
-void write_small_colors(ofstream& outFile, vector<uint8_t>& reds, vector<uint8_t>& greens, vector<uint8_t>& blues);
-void write_big_colors(ofstream& outFile, vector<uint16_t>& reds, vector<uint16_t>& greens, vector<uint16_t>& blues);
+void write_metadata(ofstream& outFile, const Image_Attributes& metadata);
+void write_small_colors(ofstream& outFile, const vector<uint8_t>& reds, const vector<uint8_t>& greens, const vector<uint8_t>& blues);
+void write_big_colors(ofstream& outFile, const vector<uint16_t>& reds, const vector<uint16_t>& greens, const vector<uint16_t>& blues);
 
 void write_small_pixels(ifstream& inFile, ofstream& outFile, unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int>& colorIndexMap, unsigned int numPixels, uint8_t indexByteLength);
 void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int>& colorIndexMap, unsigned int numPixels);
