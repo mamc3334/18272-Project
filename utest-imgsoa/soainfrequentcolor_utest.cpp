@@ -15,7 +15,7 @@ TEST(SoAInfrequentColorTest, ChangeInfrequentColors8) {
     // Verify that 1 color was replaced with black
     EXPECT_EQ(pixels.r[2], 0);
     EXPECT_EQ(pixels.g[2], 0);
-    EXPECT_EQ(pixels.b[2], 0);
+    EXPECT_EQ(pixcels.b[2], 0);
 }
 
 TEST(SoAInfrequentColorTest, ChangeInfrequentColors16) {

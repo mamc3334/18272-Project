@@ -16,4 +16,4 @@ target_include_directories(ftest-soa
         ${CMAKE_SOURCE_DIR}/ftest-soa
 )
 
-add_test(ResizeFuncTest ftest-soa COMMAND ftest-soa)
+add_test(ResizeFuncTestSOA ftest-soa COMMAND ftest-soa)
