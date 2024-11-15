@@ -17,7 +17,6 @@ void populatePixels_8(vector<color> &pixels, const Image_Attributes& photoData, 
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
         pixels[i] = {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
     }
-    inFile.close();
 }
 
 void populatePixels_16(vector<color> &pixels, const Image_Attributes& photoData, ifstream& inFile)
@@ -26,7 +25,6 @@ void populatePixels_16(vector<color> &pixels, const Image_Attributes& photoData,
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
         pixels[i] = {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
     }
-    inFile.close();
 }
 
 // Updated countColors function using unordered_map for color frequencies
