@@ -2,8 +2,8 @@
 //
 // Created by eloim on 22/10/2024.
 //
-using namespace std;
 #include <iostream>
+using namespace std;
 #include <fstream>
 #include <unistd.h>
 #include "intensityscaling.hpp"
