@@ -6,9 +6,8 @@
 #include <sys/stat.h>
 #include <tuple>
 #include <iostream>
-#include <vector>
 #include<fstream>
-
+#include <vector>
 
 using namespace std;
 
@@ -34,22 +33,24 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
 
 void setInFile(const string& name)
 {
-    inFile = name;
+    getInFile() = name;
 }
 
 void setOutFile(const string& name)
 {
-    outFile = name;
+    getOutFile() = name;
 }
 
 string getInFile()
 {
-    return inFile;
+  const static string inFile;
+  return inFile;
 }
 
 string getOutFile()
 {
-    return outFile;
+  const static string outFile;
+  return outFile;
 }
 
 void displayInfo()

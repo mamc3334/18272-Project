@@ -67,7 +67,7 @@ namespace std {
 
   template <>
   struct hash<std::tuple<uint8_t, uint8_t, uint8_t>> {
-      std::size_t operator()(std::tuple<uint8_t, uint8_t, uint8_t> & tup) const {
+      std::size_t operator()(const std::tuple<uint8_t, uint8_t, uint8_t> & tup) const {
         // Combine hash values of the three uint16_t elements
         return (std::hash<uint8_t>()(std::get<0>(tup)) << ByteCutoff4) ^
                (std::hash<uint8_t>()(std::get<1>(tup)) << ByteCutoff2) ^
@@ -77,7 +77,7 @@ namespace std {
 
   template <>
   struct hash<std::tuple<uint16_t, uint16_t, uint16_t>> {
-      std::size_t operator()(std::tuple<uint16_t, uint16_t, uint16_t> & tup) const {
+      std::size_t operator()(const std::tuple<uint16_t, uint16_t, uint16_t> & tup) const {
         // Combine hash values of the three uint16_t elements
         return (std::hash<uint16_t>()(std::get<0>(tup)) << ByteCutoff8) ^
                (std::hash<uint16_t>()(std::get<1>(tup)) << ByteCutoff4) ^
@@ -86,9 +86,6 @@ namespace std {
   };
 }  // namespace std
 
-//Need to avoid global variables in order to access files from smaller functions
-extern string inFile; // NOLINT(*-avoid-non-const-global-variables)
-extern string outFile; // NOLINT(*-avoid-non-const-global-variables)
 
 void validate_metadata (const string& word, int width, int height, int intensity);
 Image_Attributes get_image_metadata (ifstream& imageFile);
