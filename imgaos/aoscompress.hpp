@@ -14,9 +14,6 @@
 
 using namespace std;
 
-constexpr int ByteCutoff4 = 16;
-constexpr int ByteCutoff2 = 8;
-
 
 void compress(ifstream& inFile, ofstream& outFile);
 

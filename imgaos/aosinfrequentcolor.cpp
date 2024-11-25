@@ -13,7 +13,7 @@ using namespace std;
 
 void populatePixels_8(vector<smallColor> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
-    pixels.resize(static_cast<unsigned long>(photoData.width * photoData.height));
+    pixels.resize(static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height));
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
         pixels[i] = {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
     }
@@ -21,7 +21,7 @@ void populatePixels_8(vector<smallColor> &pixels, const Image_Attributes& photoD
 
 void populatePixels_16(vector<bigColor> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
-    pixels.resize(photoData.width * photoData.height);
+    pixels.resize(static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height));
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
         pixels[i] = {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
     }
@@ -50,33 +50,34 @@ unordered_map<bigColor, int, colorHash_16> countColors_16(const vector<bigColor>
 
 
 double colorDistance_8(const smallColor& color1, const smallColor& color2) {
-    return ((color2.r - color1.r) * (color2.r - color1.r) + (color2.g - color1.g) * (color2.g - color1.g) + (color2.b - color1.b) * (color2.b - color1.b));
+    return (((color2.r - color1.r) * (color2.r - color1.r)) + ((color2.g - color1.g) * (color2.g - color1.g)) + ((color2.b - color1.b) * (color2.b - color1.b)));
 }
 
 double colorDistance_16(const bigColor& color1, const bigColor& color2) {
-    return ((color2.r - color1.r) * (color2.r - color1.r) + (color2.g - color1.g) * (color2.g - color1.g) + (color2.b - color1.b) * (color2.b - color1.b));
+    return (((color2.r - color1.r) * (color2.r - color1.r)) + ((color2.g - color1.g) * (color2.g - color1.g)) + ((color2.b - color1.b) * (color2.b - color1.b)));
 }
 
 
 void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
     unordered_map<smallColor, int, colorHash_8> colorMap = countColors_8(pixels);
     if (n >= colorMap.size()) {
-        std::fill(pixels.begin(), pixels.end(), smallColor{0, 0, 0});
+        std::fill(pixels.begin(), pixels.end(), smallColor{.r=0, .g=0, .b=0});
         return;
     }
     std::vector<std::pair<smallColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
-    std::nth_element(
-        colorFreqList.begin(),
-        colorFreqList.begin() + static_cast<std::vector<std::pair<smallColor, int>>::difference_type>(n),
-        colorFreqList.end(),
-        [](const std::pair<smallColor, int>& a, const std::pair<smallColor, int>& b) {
-            if (a.second != b.second) {
-                return a.second < b.second; // Primary comparison: frequency
+    std::nth_element(colorFreqList.begin(),colorFreqList.begin() + static_cast<std::vector<std::pair<smallColor, int>>::difference_type>(n),colorFreqList.end(),
+        [](const std::pair<smallColor, int>& one, const std::pair<smallColor, int>& two) {
+            if (one.second != two.second) {
+                return one.second < two.second; // Primary comparison: frequency
             }
             // Tie-breaking: lexicographic order by smallColor (b, g, r)
-            if (a.first.b != b.first.b) return a.first.b < b.first.b;
-            if (a.first.g != b.first.g) return a.first.g < b.first.g;
-            return a.first.r < b.first.r;
+            if (one.first.b != two.first.b) {
+              return one.first.b < two.first.b;
+            }
+            if (one.first.g != two.first.g) {
+              return one.first.g < two.first.g;
+            }
+            return one.first.r < two.first.r;
         });
     std::vector<smallColor> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
@@ -86,10 +87,10 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
     for (size_t i = n; i < colorFreqList.size(); ++i) {
         frequentColors.push_back(colorFreqList[i].first);
     }
-    KDTreeSmallColor kdTree(frequentColors);
+    KDTreeSmallColor const kdTree(frequentColors);
     std::unordered_map<smallColor, smallColor, colorHash_8> colorReplacementMap;
     for (const smallColor& infrequentColor : infrequentColors) {
-        smallColor closestColor = kdTree.nearestNeighbor(infrequentColor);
+        smallColor const closestColor = kdTree.nearestNeighbor(infrequentColor);
         colorReplacementMap[infrequentColor] = closestColor;
     }
     for (auto& pixel : pixels) {
@@ -102,22 +103,23 @@ void changeInfrequentColors_8(std::vector<smallColor>& pixels, const size_t n) {
 void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
     unordered_map<bigColor, int, colorHash_16> colorMap = countColors_16(pixels);
     if (n >= colorMap.size()) {
-        std::fill(pixels.begin(), pixels.end(), bigColor{0, 0, 0});
+        std::fill(pixels.begin(), pixels.end(), bigColor{.r=0, .g=0, .b=0});
         return;
     }
     std::vector<std::pair<bigColor, int>> colorFreqList(colorMap.begin(), colorMap.end());
-    std::nth_element(
-        colorFreqList.begin(),
-        colorFreqList.begin() + static_cast<std::vector<std::pair<bigColor, int>>::difference_type>(n),
-        colorFreqList.end(),
-        [](const std::pair<bigColor, int>& a, const std::pair<bigColor, int>& b) {
-            if (a.second != b.second) {
-                return a.second < b.second;
+    std::nth_element(colorFreqList.begin(), colorFreqList.begin() + static_cast<std::vector<std::pair<bigColor, int>>::difference_type>(n), colorFreqList.end(),
+        [](const std::pair<bigColor, int>& one, const std::pair<bigColor, int>& two) {
+            if (one.second != two.second) {
+                return one.second < two.second;
             }
 
-            if (a.first.b != b.first.b) return a.first.b < b.first.b;
-            if (a.first.g != b.first.g) return a.first.g < b.first.g;
-            return a.first.r < b.first.r;
+            if (one.first.b != two.first.b) {
+              return one.first.b < two.first.b;
+            }
+            if (one.first.g != two.first.g) {
+              return one.first.g < two.first.g;
+            }
+            return one.first.r < two.first.r;
         });
     std::vector<bigColor> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
@@ -127,10 +129,10 @@ void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
     for (size_t i = n; i < colorFreqList.size(); ++i) {
         frequentColors.push_back(colorFreqList[i].first);
     }
-    KDTreeBigColor kdTree(frequentColors);
+    KDTreeBigColor const kdTree(frequentColors);
     std::unordered_map<bigColor, bigColor, colorHash_16> colorReplacementMap;
     for (const bigColor& infrequentColor : infrequentColors) {
-        bigColor closestColor = kdTree.nearestNeighbor(infrequentColor);
+        bigColor const closestColor = kdTree.nearestNeighbor(infrequentColor);
         colorReplacementMap[infrequentColor] = closestColor;
     }
     for (auto& pixel : pixels) {

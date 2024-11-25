@@ -128,12 +128,12 @@ bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const Coords
   const bigColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
 
   //first round of interpolation - x
-  const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
-  const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
-  const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
-  const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
-  const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
-  const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
+  const float topR = (static_cast<float>(pixelTL.r)*(1-frac_x)) + (static_cast<float>(pixelTR.r)*frac_x);
+  const float topG = (static_cast<float>(pixelTL.g)*(1-frac_x)) + (static_cast<float>(pixelTR.g)*frac_x);
+  const float topB = (static_cast<float>(pixelTL.b)*(1-frac_x)) + (static_cast<float>(pixelTR.b)*frac_x);
+  const float botR = (static_cast<float>(pixelBL.r)*(1-frac_x)) + (static_cast<float>(pixelBR.r)*frac_x);
+  const float botG = (static_cast<float>(pixelBL.g)*(1-frac_x)) + (static_cast<float>(pixelBR.g)*frac_x);
+  const float botB = (static_cast<float>(pixelBL.b)*(1-frac_x)) + (static_cast<float>(pixelBR.b)*frac_x);
 
   //Second round of interpolation - y
   const auto finalR = static_cast<uint16_t>(round((topR*(1-frac_y)) + (botR*frac_y)));
@@ -162,12 +162,12 @@ smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const Coo
   const smallColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
 
   //first round of interpolation - x
-  const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
-  const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
-  const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
-  const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
-  const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
-  const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
+  const float topR = (static_cast<float>(pixelTL.r)*(1-frac_x)) + (static_cast<float>(pixelTR.r)*frac_x);
+  const float topG = (static_cast<float>(pixelTL.g)*(1-frac_x)) + (static_cast<float>(pixelTR.g)*frac_x);
+  const float topB = (static_cast<float>(pixelTL.b)*(1-frac_x)) + (static_cast<float>(pixelTR.b)*frac_x);
+  const float botR = (static_cast<float>(pixelBL.r)*(1-frac_x)) + (static_cast<float>(pixelBR.r)*frac_x);
+  const float botG = (static_cast<float>(pixelBL.g)*(1-frac_x)) + (static_cast<float>(pixelBR.g)*frac_x);
+  const float botB = (static_cast<float>(pixelBL.b)*(1-frac_x)) + (static_cast<float>(pixelBR.b)*frac_x);
 
   //second round of interpolation - y
   const auto finalR = static_cast<uint8_t>(round((topR*(1-frac_y)) + (botR*frac_y)));

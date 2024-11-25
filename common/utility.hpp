@@ -12,6 +12,8 @@ using namespace std;
 #define UTILITY_HPP
 
 constexpr int IntensityCutoff = 255;
+constexpr int ByteCutoff4 = 16;
+constexpr int ByteCutoff2 = 8;
 
 struct Coords {
   float x_map,x_lo,x_hi,y_map,y_lo,y_hi;
