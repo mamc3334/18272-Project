@@ -3,10 +3,11 @@
 //
 
 #include "binaryio.hpp"
+#include <fstream>
 
 
 std::uint16_t read_binary16 (std::istream & input) {
-    std::uint16_t value;
+    std::uint16_t value = 0;
 
     // Converts pointer to a 16-bit integer to a pointer to a character
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
@@ -23,7 +24,7 @@ void write_binary16 (std::ostream & output, std::uint16_t const & value) {
 }
 
 std::uint8_t read_binary8 (std::istream & input) {
-    std::uint8_t value;
+    std::uint8_t value = 0;
 
     // Converts pointer to a 16-bit integer to a pointer to a character
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
@@ -40,13 +41,13 @@ void write_binary8 (std::ostream & output, std::uint8_t const & value) {
 }
 
 void write_binary32(std::ostream & output, int const & value) {
-    char const* four_bytes = reinterpret_cast<char const*>(&value);
     // NOLINTNEXTLINE(cppcoreguidelines−pro−type−reinterpret−cast)
+    char const* four_bytes = reinterpret_cast<char const*>(&value);
     output.write(four_bytes, sizeof(value));
 }
 
 int read_binary32 (std::istream & input) {
-    int value;
+    int value = 0;
 
     // Converts pointer to a 16-bit integer to a pointer to a character
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
