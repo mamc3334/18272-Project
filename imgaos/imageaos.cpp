@@ -4,6 +4,9 @@
 #include "imageaos.hpp"
 #include "aossize.hpp"
 #include "aoscompress.hpp"
+#include "aosinfrequentcolor.hpp"
+#include "utility.hpp"
+#include "KDTree.hpp"
 #include <vector>
 #include <iostream>
 #include <sys/stat.h>
@@ -52,19 +55,33 @@ void aos_resize(Image_Attributes& newImageData)
     }
 }
 
-void aos_cutfreq(int num)
-{
+void aos_cutfreq(size_t num) {
     ifstream imageFile(getInFile());
     if(!imageFile.is_open()) {
         cerr << "Failed to open file\n";
         exit(-1);
     }
-    const Image_Attributes oldImageData = get_image_metadata(imageFile);
-    cout <<num;
-    /* TODO: Remove least used colors
-        *
-        *
-     */
+    const Image_Attributes photoData = get_image_metadata(imageFile);
+
+    ofstream outputImageFile(getOutFile());
+    if(!outputImageFile.is_open()) {
+        cerr << "Failed to open output file\n";
+        exit(-1);
+    }
+    outputImageFile << photoData.magic_word << "\n" << photoData.width << " " << photoData.height << "\n" << photoData.intensity << "\n";
+
+    if(photoData.intensity > IntensityCutoff){
+        vector<bigColor> pixels;
+        populatePixels_16(pixels, photoData, imageFile);
+        changeInfrequentColors_16(pixels, num);
+        writeBinary_16(pixels, outputImageFile);
+    }
+    else{
+        vector<smallColor> pixels;
+        populatePixels_8(pixels, photoData, imageFile);
+        changeInfrequentColors_8(pixels, num);
+        writeBinary_8(pixels, outputImageFile);
+    }
 }
 
 void aos_compress()
