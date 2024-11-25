@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../imgSOA/soacompress.hpp"  // Include your common header file
+#include "../imgsoa/soacompress.hpp"  // Include your common header file
 #include "../utest-common/utest-helpers.hpp"
 #include "common/binaryio.hpp"
 
@@ -23,7 +23,7 @@ TEST (SOACompressTests, get_small_colorsTest) {
 
     ASSERT_TRUE(writeMockFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary8(writeMockFile, value);
+        BINARY::write_binary8(writeMockFile, value);
     }
 
     writeMockFile.close();
@@ -40,7 +40,7 @@ TEST (SOACompressTests, get_small_colorsTest) {
     vector<uint8_t> const expectedGreens = {150, 255, 100, 0, 0, 0, 200};
     vector<uint8_t> const expectedBlues = {200, 255, 100, 0, 255, 0, 200};
 
-    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> expectedColorIndexMap;
+    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> expectedColorIndexMap;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -73,7 +73,7 @@ TEST (SOACompressTests, get_big_colorsTest) {
 
     ASSERT_TRUE(writeMockFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary16(writeMockFile, value);
+        BINARY::write_binary16(writeMockFile, value);
     }
 
     writeMockFile.close();
@@ -90,7 +90,7 @@ TEST (SOACompressTests, get_big_colorsTest) {
     vector<uint16_t> const expectedGreens = {1500, 400, 100, 0, 0, 0, 200};
     vector<uint16_t> const expectedBlues = {2000, 400, 100, 0, 255, 0, 200};
 
-    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> expectedColorIndexMap;
+    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> expectedColorIndexMap;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -220,7 +220,7 @@ TEST (SOACompressTests, write_small_pixels_1bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -234,7 +234,7 @@ TEST (SOACompressTests, write_small_pixels_1bTest) {
     ofstream writeMockInputFile("write_small_pixels_1bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary8(writeMockInputFile, value);
+        BINARY::write_binary8(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_small_pixels_1bTestInput.ppm");
@@ -251,7 +251,7 @@ TEST (SOACompressTests, write_small_pixels_1bTest) {
     uint8_t index = 0;
     vector<uint8_t> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary8(mockOutputFile);
+        index = BINARY::read_binary8(mockOutputFile);
         indices.push_back(index);
     }
 
@@ -277,7 +277,7 @@ TEST (SOACompressTests, write_small_pixels_2bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -291,7 +291,7 @@ TEST (SOACompressTests, write_small_pixels_2bTest) {
     ofstream writeMockInputFile("write_small_pixels_2bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary8(writeMockInputFile, value);
+        BINARY::write_binary8(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_small_pixels_2bTestInput.ppm");
@@ -308,7 +308,7 @@ TEST (SOACompressTests, write_small_pixels_2bTest) {
     uint16_t index = 0;
     vector<uint16_t> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary16(mockOutputFile);
+        index = BINARY::read_binary16(mockOutputFile);
         indices.push_back(index);
     }
 
@@ -334,7 +334,7 @@ TEST (SOACompressTests, write_small_pixels_4bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -349,7 +349,7 @@ TEST (SOACompressTests, write_small_pixels_4bTest) {
     ofstream writeMockInputFile("write_small_pixels_4bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary8(writeMockInputFile, value);
+        BINARY::write_binary8(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_small_pixels_4bTestInput.ppm");
@@ -366,7 +366,7 @@ TEST (SOACompressTests, write_small_pixels_4bTest) {
     int index = 0;
     vector<int> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary32(mockOutputFile);
+        index = BINARY::read_binary32(mockOutputFile);
         indices.push_back(index);
     }
 
@@ -393,7 +393,7 @@ TEST (SOACompressTests, write_big_pixels_1bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -407,7 +407,7 @@ TEST (SOACompressTests, write_big_pixels_1bTest) {
     ofstream writeMockInputFile("write_big_pixels_1bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary16(writeMockInputFile, value);
+        BINARY::write_binary16(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_big_pixels_1bTestInput.ppm");
@@ -424,7 +424,7 @@ TEST (SOACompressTests, write_big_pixels_1bTest) {
     uint8_t index = 0;
     vector<uint8_t> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary8(mockOutputFile);
+        index = BINARY::read_binary8(mockOutputFile);
         indices.push_back(index);
     }
 
@@ -450,7 +450,7 @@ TEST (SOACompressTests, write_big_pixels_2bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -464,7 +464,7 @@ TEST (SOACompressTests, write_big_pixels_2bTest) {
     ofstream writeMockInputFile("write_big_pixels_2bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary16(writeMockInputFile, value);
+        BINARY::write_binary16(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_big_pixels_2bTestInput.ppm");
@@ -481,7 +481,7 @@ TEST (SOACompressTests, write_big_pixels_2bTest) {
     uint16_t index = 0;
     vector<uint16_t> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary16(mockOutputFile);
+        index = BINARY::read_binary16(mockOutputFile);
         indices.push_back(index);
     }
 
@@ -507,7 +507,7 @@ TEST (SOACompressTests, write_big_pixels_4bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -521,7 +521,7 @@ TEST (SOACompressTests, write_big_pixels_4bTest) {
     ofstream writeMockInputFile("write_big_pixels_4bTestInput.ppm");
     ASSERT_TRUE(writeMockInputFile.is_open()) << "Failed to open test data\n";
     for (const auto& value : values) {
-        write_binary16(writeMockInputFile, value);
+        BINARY::write_binary16(writeMockInputFile, value);
     }
     writeMockInputFile.close();
     ifstream mockInputFile("write_big_pixels_4bTestInput.ppm");
@@ -538,7 +538,7 @@ TEST (SOACompressTests, write_big_pixels_4bTest) {
     int index = 0;
     vector<int> indices;
     for (size_t i = 0; i < numPixels; i++) {
-        index = read_binary32(mockOutputFile);
+        index = BINARY::read_binary32(mockOutputFile);
         indices.push_back(index);
     }
 

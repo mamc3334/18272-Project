@@ -14,9 +14,9 @@ void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream
     pixels.b.resize(pixelCount);
 
     for (size_t i = 0; i < pixelCount; ++i) {
-        pixels.r[i] = read_binary8(inFile);
-        pixels.g[i] = read_binary8(inFile);
-        pixels.b[i] = read_binary8(inFile);
+        pixels.r[i] = BINARY::read_binary8(inFile);
+        pixels.g[i] = BINARY::read_binary8(inFile);
+        pixels.b[i] = BINARY::read_binary8(inFile);
     }
 }
 
@@ -28,9 +28,9 @@ void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstre
     pixels.b.resize(pixelCount);
 
     for (size_t i = 0; i < pixelCount; ++i) {
-        pixels.r[i] = read_binary16(inFile);
-        pixels.g[i] = read_binary16(inFile);
-        pixels.b[i] = read_binary16(inFile);
+        pixels.r[i] = BINARY::read_binary16(inFile);
+        pixels.g[i] = BINARY::read_binary16(inFile);
+        pixels.b[i] = BINARY::read_binary16(inFile);
     }
 }
 
@@ -145,16 +145,16 @@ void changeInfrequentColors_16(SoA_16& pixels, size_t n) {
 // Write binary
 void writeBinary_8(const SoA_8& pixels, ofstream& outFile) {
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        write_binary8(outFile, pixels.r[i]);
-        write_binary8(outFile, pixels.g[i]);
-        write_binary8(outFile, pixels.b[i]);
+        BINARY::write_binary8(outFile, pixels.r[i]);
+        BINARY::write_binary8(outFile, pixels.g[i]);
+        BINARY::write_binary8(outFile, pixels.b[i]);
     }
 }
 
 void writeBinary_16(const SoA_16& pixels, ofstream& outFile) {
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        write_binary16(outFile, pixels.r[i]);
-        write_binary16(outFile, pixels.g[i]);
-        write_binary16(outFile, pixels.b[i]);
+        BINARY::write_binary16(outFile, pixels.r[i]);
+        BINARY::write_binary16(outFile, pixels.g[i]);
+        BINARY::write_binary16(outFile, pixels.b[i]);
     }
 }

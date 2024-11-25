@@ -18,9 +18,9 @@ void soasize_old_image_16(bigArray& image, const Image_Attributes& OldImageData,
 {
     unsigned int count=0;
     while(count<OldImageData.height*OldImageData.width){
-        image.r.push_back(read_binary16(inFile));
-        image.g.push_back(read_binary16(inFile));
-        image.b.push_back(read_binary16(inFile));
+        image.r.push_back(BINARY::read_binary16(inFile));
+        image.g.push_back(BINARY::read_binary16(inFile));
+        image.b.push_back(BINARY::read_binary16(inFile));
         count++;
     }
     inFile.close();
@@ -37,9 +37,9 @@ void soasize_old_image_8(smallArray& image, const Image_Attributes& OldImageData
 {
     unsigned int count=0;
     while(count<OldImageData.height*OldImageData.width){
-        image.r.push_back(read_binary8(inFile));
-        image.g.push_back(read_binary8(inFile));
-        image.b.push_back(read_binary8(inFile));
+        image.r.push_back(BINARY::read_binary8(inFile));
+        image.g.push_back(BINARY::read_binary8(inFile));
+        image.b.push_back(BINARY::read_binary8(inFile));
         count++;
     }
     inFile.close();
@@ -68,9 +68,9 @@ void soasize_resize_16(const bigArray& image, const Image_Attributes& OldImageDa
             const Coords coords = {.x_map=x_map, .x_lo=x_lo, .x_hi=x_hi, .y_map=y_map, .y_lo=y_lo, .y_hi=y_hi};
             // generate new pixel using bilinear interpolation of 4 nearest pixels.
             const bigColor pixel = interpolate_16(image, coords, static_cast<float>(OldImageData.width));
-            write_binary16(outFile, pixel.r);
-            write_binary16(outFile, pixel.g);
-            write_binary16(outFile, pixel.b);
+            BINARY::write_binary16(outFile, pixel.r);
+            BINARY::write_binary16(outFile, pixel.g);
+            BINARY::write_binary16(outFile, pixel.b);
         }
     }
     outFile.close();
@@ -99,9 +99,9 @@ void soasize_resize_8(const smallArray& image, const Image_Attributes& OldImageD
             const Coords coords = {.x_map=x_map, .x_lo=x_lo, .x_hi=x_hi, .y_map=y_map, .y_lo=y_lo, .y_hi=y_hi};
             // generate new pixel using bilinear interpolation
             const smallColor pixel = interpolate_8(image, coords, static_cast<float>(OldImageData.width));
-            write_binary8(outFile, pixel.r);
-            write_binary8(outFile, pixel.g);
-            write_binary8(outFile, pixel.b);
+            BINARY::write_binary8(outFile, pixel.r);
+            BINARY::write_binary8(outFile, pixel.g);
+            BINARY::write_binary8(outFile, pixel.b);
         }
     }
     outFile.close();

@@ -66,8 +66,8 @@ namespace std {
   };
 
   template <>
-  struct hash<std::tuple<uint8_t, uint8_t, uint8_t>> {
-      std::size_t operator()(std::tuple<uint8_t, uint8_t, uint8_t> const & tup) const {
+  struct hash<std::tuple<const uint8_t, const uint8_t, const uint8_t>> {
+      std::size_t operator()(std::tuple<const uint8_t, const uint8_t, const uint8_t> const & tup) const {
         // Combine hash values of the three uint16_t elements
         return (std::hash<uint8_t>()(std::get<0>(tup)) << ByteCutoff4) ^
                (std::hash<uint8_t>()(std::get<1>(tup)) << ByteCutoff2) ^
@@ -76,8 +76,8 @@ namespace std {
   };
 
   template <>
-  struct hash<std::tuple<uint16_t, uint16_t, uint16_t>> {
-      std::size_t operator()(std::tuple<uint16_t, uint16_t, uint16_t> const & tup) const {
+  struct hash<std::tuple<const uint16_t, const uint16_t, const uint16_t>> {
+      std::size_t operator()(std::tuple<const uint16_t, const uint16_t, const uint16_t> const & tup) const {
         // Combine hash values of the three uint16_t elements
         return (std::hash<uint16_t>()(std::get<0>(tup)) << ByteCutoff8) ^
                (std::hash<uint16_t>()(std::get<1>(tup)) << ByteCutoff4) ^

@@ -60,9 +60,9 @@ void compress(ifstream& inFile, ofstream& outFile) {
 void get_small_colors(ifstream& inFile, vector<uint8_t>& reds, vector<uint8_t>& greens, vector<uint8_t>& blues, unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int>& colorIndexMap, unsigned int numPixels) {
 	int index = 0;
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint8_t const red = read_binary8(inFile);
-        uint8_t const green = read_binary8(inFile);
-        uint8_t const blue = read_binary8(inFile);
+        uint8_t const red = BINARY::read_binary8(inFile);
+        uint8_t const green = BINARY::read_binary8(inFile);
+        uint8_t const blue = BINARY::read_binary8(inFile);
         tuple<const uint8_t, const uint8_t, const uint8_t> const color = {red, green, blue};
 		if (!colorIndexMap.contains(color)) {
 			colorIndexMap[color] = index;
@@ -79,9 +79,9 @@ void get_small_colors(ifstream& inFile, vector<uint8_t>& reds, vector<uint8_t>& 
 void get_big_colors(ifstream& inFile, vector<uint16_t>& reds, vector<uint16_t>& greens, vector<uint16_t>& blues, unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int>& colorIndexMap, unsigned int numPixels) {
 	int index = 0;
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint16_t const red = read_binary16(inFile);
-		uint16_t const green = read_binary16(inFile);
-		uint16_t const blue = read_binary16(inFile);
+		uint16_t const red = BINARY::read_binary16(inFile);
+		uint16_t const green = BINARY::read_binary16(inFile);
+		uint16_t const blue = BINARY::read_binary16(inFile);
 		tuple<const uint16_t, const uint16_t, const uint16_t> const color = {red, green, blue};
 		if (!colorIndexMap.contains(color)) {
 			colorIndexMap[color] = index;
@@ -158,36 +158,36 @@ void write_small_pixels(ifstream& inFile, ofstream& outFile, unsigned int numPix
 
 void write_small_pixels_1b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-        uint8_t const red = read_binary8(inFile);
-        uint8_t const green = read_binary8(inFile);
-        uint8_t const blue = read_binary8(inFile);
+        uint8_t const red = BINARY::read_binary8(inFile);
+        uint8_t const green = BINARY::read_binary8(inFile);
+        uint8_t const blue = BINARY::read_binary8(inFile);
         tuple<const uint8_t, const uint8_t, const uint8_t> const color = {red, green, blue};
 		int const index32 = colorIndexMap[color];
         auto index = static_cast<uint8_t>(index32);
-		write_binary8(outFile, index);
+		BINARY::write_binary8(outFile, index);
     }
 }
 
 void write_small_pixels_2b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint8_t const red = read_binary8(inFile);
-		uint8_t const green = read_binary8(inFile);
-		uint8_t const blue = read_binary8(inFile);
+		uint8_t const red = BINARY::read_binary8(inFile);
+		uint8_t const green = BINARY::read_binary8(inFile);
+		uint8_t const blue = BINARY::read_binary8(inFile);
 		tuple<const uint8_t, const uint8_t, const uint8_t> const color = {red, green, blue};
 		int const index32 = colorIndexMap[color];
 		auto index = static_cast<uint16_t>(index32);
-		write_binary16(outFile, index);
+		BINARY::write_binary16(outFile, index);
 	}
 }
 
 void write_small_pixels_4b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint8_t const red = read_binary8(inFile);
-		uint8_t const green = read_binary8(inFile);
-		uint8_t const blue = read_binary8(inFile);
+		uint8_t const red = BINARY::read_binary8(inFile);
+		uint8_t const green = BINARY::read_binary8(inFile);
+		uint8_t const blue = BINARY::read_binary8(inFile);
 		tuple<const uint8_t, const uint8_t, const uint8_t> const color = {red, green, blue};
 		int const index = colorIndexMap[color];
-		write_binary32(outFile, index);
+		BINARY::write_binary32(outFile, index);
 	}
 }
 
@@ -207,35 +207,35 @@ void write_big_pixels(ifstream& inFile, ofstream& outFile, unsigned int numPixel
 
 void write_big_pixels_1b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint16_t const red = read_binary16(inFile);
-		uint16_t const green = read_binary16(inFile);
-		uint16_t const blue = read_binary16(inFile);
+		uint16_t const red = BINARY::read_binary16(inFile);
+		uint16_t const green = BINARY::read_binary16(inFile);
+		uint16_t const blue = BINARY::read_binary16(inFile);
 		tuple<const uint16_t, const uint16_t, const uint16_t> const color = {red, green, blue};
 		int const index32 = colorIndexMap[color];
 		auto index = static_cast<uint8_t>(index32);
-		write_binary8(outFile, index);
+		BINARY::write_binary8(outFile, index);
 	}
 }
 
 void write_big_pixels_2b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<uint16_t const, uint16_t const, uint16_t const>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint16_t const red = read_binary16(inFile);
-		uint16_t const green = read_binary16(inFile);
-		uint16_t const blue = read_binary16(inFile);
+		uint16_t const red = BINARY::read_binary16(inFile);
+		uint16_t const green = BINARY::read_binary16(inFile);
+		uint16_t const blue = BINARY::read_binary16(inFile);
 		tuple<uint16_t const, uint16_t const, uint16_t const> const color = {red, green, blue};
 		int const index32 = colorIndexMap[color];
 		auto index = static_cast<uint16_t>(index32);
-		write_binary16(outFile, index);
+		BINARY::write_binary16(outFile, index);
 	}
 }
 
 void write_big_pixels_4b(ifstream& inFile, ofstream& outFile, unordered_map<tuple<uint16_t const, uint16_t const, uint16_t const>, int>& colorIndexMap, unsigned int numPixels) {
 	for(unsigned int i = 0; i < numPixels; i++) {
-		uint16_t const red = read_binary16(inFile);
-		uint16_t const green = read_binary16(inFile);
-		uint16_t const blue = read_binary16(inFile);
+		uint16_t const red = BINARY::read_binary16(inFile);
+		uint16_t const green = BINARY::read_binary16(inFile);
+		uint16_t const blue = BINARY::read_binary16(inFile);
 		tuple<uint16_t const, uint16_t const, uint16_t const> const color = {red, green, blue};
 		int const index = colorIndexMap[color];
-		write_binary32(outFile, index);
+		BINARY::write_binary32(outFile, index);
 	}
 }

@@ -17,12 +17,12 @@ TEST(IntensityScalingTests, IntensitySmaller255_to_IntensitySmaller255) {
 
     ofstream inputFile("input_test.ppm", ios::binary);
     inputFile << "P6\n1 2\n255\n";
-    write_binary8(inputFile, 100);
-    write_binary8(inputFile, 150);
-    write_binary8(inputFile, 200);
-    write_binary8(inputFile, 50);
-    write_binary8(inputFile, 75);
-    write_binary8(inputFile, 100);
+    BINARY::write_binary8(inputFile, 100);
+    BINARY::write_binary8(inputFile, 150);
+    BINARY::write_binary8(inputFile, 200);
+    BINARY::write_binary8(inputFile, 50);
+    BINARY::write_binary8(inputFile, 75);
+    BINARY::write_binary8(inputFile, 100);
     inputFile.close();
 
     ifstream input("input_test.ppm", ios::binary);
@@ -44,12 +44,12 @@ TEST(IntensityScalingTests, IntensitySmaller255_to_IntensitySmaller255) {
         getline(outputCheck, line);
     }
 
-    uint8_t r1 = read_binary8(outputCheck);
-    uint8_t g1 = read_binary8(outputCheck);
-    uint8_t b1 = read_binary8(outputCheck);
-    uint8_t r2 = read_binary8(outputCheck);
-    uint8_t g2 = read_binary8(outputCheck);
-    uint8_t b2 = read_binary8(outputCheck);
+    uint8_t r1 = BINARY::read_binary8(outputCheck);
+    uint8_t g1 = BINARY::read_binary8(outputCheck);
+    uint8_t b1 = BINARY::read_binary8(outputCheck);
+    uint8_t r2 = BINARY::read_binary8(outputCheck);
+    uint8_t g2 = BINARY::read_binary8(outputCheck);
+    uint8_t b2 = BINARY::read_binary8(outputCheck);
 
     EXPECT_EQ(r1, 39);  // 100 * 100/255 ≈ 39
     EXPECT_EQ(g1, 58);  // 150 * 100/255 ≈ 59
@@ -67,12 +67,12 @@ TEST(IntensityScalingTests, IntensitySmaller255_to_IntensityGreater255) {
     ofstream inputFile("input_test.ppm", ios::binary);
     //This function is the one in charge of reading and writing so we omit the info of the file "P6 2 1 ..."
     inputFile << "P6\n1 2\n128\n";
-    write_binary8(inputFile, 100);
-    write_binary8(inputFile, 74);
-    write_binary8(inputFile, 18);
-    write_binary8(inputFile, 123);
-    write_binary8(inputFile, 88);
-    write_binary8(inputFile, 32);
+    BINARY::write_binary8(inputFile, 100);
+    BINARY::write_binary8(inputFile, 74);
+    BINARY::write_binary8(inputFile, 18);
+    BINARY::write_binary8(inputFile, 123);
+    BINARY::write_binary8(inputFile, 88);
+    BINARY::write_binary8(inputFile, 32);
     inputFile.close();
 
     ifstream input("input_test.ppm", ios::binary);
@@ -94,12 +94,12 @@ TEST(IntensityScalingTests, IntensitySmaller255_to_IntensityGreater255) {
         getline(outputCheck, line);
     }
 
-    uint16_t r1 = read_binary16(outputCheck);
-    uint16_t g1 = read_binary16(outputCheck);
-    uint16_t b1 = read_binary16(outputCheck);
-    uint16_t r2 = read_binary16(outputCheck);
-    uint16_t g2 = read_binary16(outputCheck);
-    uint16_t b2 = read_binary16(outputCheck);
+    uint16_t r1 = BINARY::read_binary16(outputCheck);
+    uint16_t g1 = BINARY::read_binary16(outputCheck);
+    uint16_t b1 = BINARY::read_binary16(outputCheck);
+    uint16_t r2 = BINARY::read_binary16(outputCheck);
+    uint16_t g2 = BINARY::read_binary16(outputCheck);
+    uint16_t b2 = BINARY::read_binary16(outputCheck);
 
     EXPECT_EQ(r1, 273);
     EXPECT_EQ(g1, 202);
@@ -119,12 +119,12 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensityGreater255) {
     ofstream inputFile("input_test.ppm", ios::binary);
     //This function is the one in charge of reading and writing so we omit the info of the file "P6 2 1 ..."
     inputFile << "P6\n1 2\n432\n";
-    write_binary16(inputFile, 407);
-    write_binary16(inputFile, 38);
-    write_binary16(inputFile, 384);
-    write_binary16(inputFile, 314);
-    write_binary16(inputFile, 265);
-    write_binary16(inputFile, 106);
+    BINARY::write_binary16(inputFile, 407);
+    BINARY::write_binary16(inputFile, 38);
+    BINARY::write_binary16(inputFile, 384);
+    BINARY::write_binary16(inputFile, 314);
+    BINARY::write_binary16(inputFile, 265);
+    BINARY::write_binary16(inputFile, 106);
     inputFile.close();
 
     ifstream input("input_test.ppm", ios::binary);
@@ -146,12 +146,12 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensityGreater255) {
         getline(outputCheck, line);
     }
 
-    uint16_t r1 = read_binary16(outputCheck);
-    uint16_t g1 = read_binary16(outputCheck);
-    uint16_t b1 = read_binary16(outputCheck);
-    uint16_t r2 = read_binary16(outputCheck);
-    uint16_t g2 = read_binary16(outputCheck);
-    uint16_t b2 = read_binary16(outputCheck);
+    uint16_t r1 = BINARY::read_binary16(outputCheck);
+    uint16_t g1 = BINARY::read_binary16(outputCheck);
+    uint16_t b1 = BINARY::read_binary16(outputCheck);
+    uint16_t r2 = BINARY::read_binary16(outputCheck);
+    uint16_t g2 = BINARY::read_binary16(outputCheck);
+    uint16_t b2 = BINARY::read_binary16(outputCheck);
 
     EXPECT_EQ(r1, 1539);
     EXPECT_EQ(g1, 143);
@@ -169,12 +169,12 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensitySmaller255) {
     ofstream inputFile("input_test.ppm", ios::binary);
     //This function is the one in charge of reading and writing so we omit the info of the file "P6 2 1 ..."
     inputFile << "P6\n1 2\n12543\n";
-    write_binary16(inputFile, 10131);
-    write_binary16(inputFile, 5089);
-    write_binary16(inputFile, 3997);
-    write_binary16(inputFile, 49);
-    write_binary16(inputFile, 5390);
-    write_binary16(inputFile, 4728);
+    BINARY::write_binary16(inputFile, 10131);
+    BINARY::write_binary16(inputFile, 5089);
+    BINARY::write_binary16(inputFile, 3997);
+    BINARY::write_binary16(inputFile, 49);
+    BINARY::write_binary16(inputFile, 5390);
+    BINARY::write_binary16(inputFile, 4728);
     inputFile.close();
 
     ifstream input("input_test.ppm", ios::binary);
@@ -196,12 +196,12 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensitySmaller255) {
         getline(outputCheck, line);
     }
 
-    uint8_t r1 = read_binary8(outputCheck);
-    uint8_t g1 = read_binary8(outputCheck);
-    uint8_t b1 = read_binary8(outputCheck);
-    uint8_t r2 = read_binary8(outputCheck);
-    uint8_t g2 = read_binary8(outputCheck);
-    uint8_t b2 = read_binary8(outputCheck);
+    uint8_t r1 = BINARY::read_binary8(outputCheck);
+    uint8_t g1 = BINARY::read_binary8(outputCheck);
+    uint8_t b1 = BINARY::read_binary8(outputCheck);
+    uint8_t r2 = BINARY::read_binary8(outputCheck);
+    uint8_t g2 = BINARY::read_binary8(outputCheck);
+    uint8_t b2 = BINARY::read_binary8(outputCheck);
 
     EXPECT_EQ(r1, 79);
     EXPECT_EQ(g1, 39);
@@ -218,12 +218,12 @@ TEST(IntensityScalingTests, IntensityGreater255_to_IntensitySmaller255) {
 TEST(IntensityScalingTests, ReadImage) {
     ofstream inputFile("input_test.ppm", ios::binary);
     inputFile << "P6\n1 2\n255\n";
-    write_binary8(inputFile, 100);
-    write_binary8(inputFile, 150);
-    write_binary8(inputFile, 200);
-    write_binary8(inputFile, 50);
-    write_binary8(inputFile, 75);
-    write_binary8(inputFile, 100);
+    BINARY::write_binary8(inputFile, 100);
+    BINARY::write_binary8(inputFile, 150);
+    BINARY::write_binary8(inputFile, 200);
+    BINARY::write_binary8(inputFile, 50);
+    BINARY::write_binary8(inputFile, 75);
+    BINARY::write_binary8(inputFile, 100);
     inputFile.close();
 
     setInFile("input_test.ppm");
@@ -246,12 +246,12 @@ TEST(IntensityScalingTests, ReadImage) {
         getline(outputFile2, line);
     }
 
-    uint8_t r1 = read_binary8(outputFile2);
-    uint8_t g1 = read_binary8(outputFile2);
-    uint8_t b1 = read_binary8(outputFile2);
-    uint8_t r2 = read_binary8(outputFile2);
-    uint8_t g2 = read_binary8(outputFile2);
-    uint8_t b2 = read_binary8(outputFile2);
+    uint8_t r1 = BINARY::read_binary8(outputFile2);
+    uint8_t g1 = BINARY::read_binary8(outputFile2);
+    uint8_t b1 = BINARY::read_binary8(outputFile2);
+    uint8_t r2 = BINARY::read_binary8(outputFile2);
+    uint8_t g2 = BINARY::read_binary8(outputFile2);
+    uint8_t b2 = BINARY::read_binary8(outputFile2);
 
     EXPECT_EQ(r1, 39);
     EXPECT_EQ(g1, 58);
