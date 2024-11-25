@@ -1,13 +1,14 @@
 #include "soainfrequentcolor.hpp"
 #include "../common/binaryio.hpp"
 #include "../common/utility.hpp"
+#include <cstddef>
 #include <queue>
 
 using namespace std;
 
 // Populate pixels for 8-bit colors
 void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream& inFile) {
-    size_t pixelCount = photoData.width * photoData.height;
+    auto const pixelCount = static_cast<const size_t>(photoData.width) * static_cast<const size_t>(photoData.height);
     pixels.r.resize(pixelCount);
     pixels.g.resize(pixelCount);
     pixels.b.resize(pixelCount);
@@ -21,7 +22,7 @@ void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream
 
 // Populate pixels for 16-bit colors
 void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstream& inFile) {
-    size_t pixelCount = photoData.width * photoData.height;
+    auto const pixelCount = static_cast<const size_t>(photoData.width) * static_cast<const size_t>(photoData.height);
     pixels.r.resize(pixelCount);
     pixels.g.resize(pixelCount);
     pixels.b.resize(pixelCount);
@@ -37,7 +38,7 @@ unordered_map<int, int> countColors_8(const SoA_8& pixels) {
     unordered_map<int, int> colorMap;
 
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = ((pixels.r[i] & 0xFF) << 16) |
+        int const colorHash = ((pixels.r[i] & 0xFF) << 16) |
                         ((pixels.g[i] & 0xFF) << 8)  |
                         (pixels.b[i] & 0xFF);
 
@@ -51,7 +52,7 @@ unordered_map<int, int> countColors_16(const SoA_16& pixels) {
     unordered_map<int, int> colorMap;
 
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = ((pixels.r[i] & 0xFF) << 16) |
+        int const colorHash = ((pixels.r[i] & 0xFF) << 16) |
                         ((pixels.g[i] & 0xFF) << 8)  |
                         (pixels.b[i] & 0xFF);
 
@@ -63,17 +64,17 @@ unordered_map<int, int> countColors_16(const SoA_16& pixels) {
 
 // Compute color distance
 double colorDistance_8(size_t index1, size_t index2, const SoA_8& pixels) {
-    int dr = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
-    int dg = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
-    int db = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
-    return dr * dr + dg * dg + db * db;
+    int const distanceRed = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
+    int const distanceGreen = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
+    int const distanceBlue = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
+    return (distanceRed * distanceRed) + (distanceGreen * distanceGreen) + (distanceBlue * distanceBlue);
 }
 
 double colorDistance_16(size_t index1, size_t index2, const SoA_16& pixels) {
-    int dr = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
-    int dg = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
-    int db = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
-    return dr * dr + dg * dg + db * db;
+    int const distanceRed = static_cast<int>(pixels.r[index2]) - static_cast<int>(pixels.r[index1]);
+    int const distanceGreen = static_cast<int>(pixels.g[index2]) - static_cast<int>(pixels.g[index1]);
+    int const distanceBlue = static_cast<int>(pixels.b[index2]) - static_cast<int>(pixels.b[index1]);
+    return (distanceRed * distanceRed) + (distanceGreen * distanceGreen) + (distanceBlue * distanceBlue);
 }
 
 // Change infrequent colors
@@ -92,7 +93,7 @@ void changeInfrequentColors_8(SoA_8& pixels, size_t n) {
         colorFreqList.begin(),
         colorFreqList.begin() + static_cast<vector<pair<int, int>>::difference_type>(n),
         colorFreqList.end(),
-        [](const pair<int, int>& a, const pair<int, int>& b) { return a.second < b.second; });
+        [](const pair<int, int>& aPair, const pair<int, int>& bPair) { return aPair.second < bPair.second; });
 
     unordered_map<int, int> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
@@ -100,7 +101,7 @@ void changeInfrequentColors_8(SoA_8& pixels, size_t n) {
     }
 
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        int const colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
         if (infrequentColors.find(colorHash) != infrequentColors.end()) {
             pixels.r[i] = 0;
             pixels.g[i] = 0;
@@ -124,7 +125,7 @@ void changeInfrequentColors_16(SoA_16& pixels, size_t n) {
         colorFreqList.begin(),
         colorFreqList.begin() + static_cast<vector<pair<int, int>>::difference_type>(n),
         colorFreqList.end(),
-        [](const pair<int, int>& a, const pair<int, int>& b) { return a.second < b.second; });
+        [](const pair<int, int>& aPair, const pair<int, int>& bPair) { return aPair.second < bPair.second; });
 
     unordered_map<int, int> infrequentColors;
     for (size_t i = 0; i < n; ++i) {
@@ -132,8 +133,8 @@ void changeInfrequentColors_16(SoA_16& pixels, size_t n) {
     }
 
     for (size_t i = 0; i < pixels.r.size(); ++i) {
-        int colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
-        if (infrequentColors.find(colorHash) != infrequentColors.end()) {
+        int const colorHash = (pixels.r[i] << 16) | (pixels.g[i] << 8) | pixels.b[i];
+        if (infrequentColors.contains(colorHash)) {
             pixels.r[i] = 0;
             pixels.g[i] = 0;
             pixels.b[i] = 0;

@@ -124,8 +124,8 @@ bigColor interpolate_16(const bigArray& image, const Coords& coords, const float
     const uint16_t redTR = image.r[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint16_t redBL = image.r[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint16_t redBR = image.r[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float redTop = (redTL*(1-frac_x)) + (redTR*(frac_x));
-    const float redBot = (redBL*(1-frac_x)) + (redBR*(frac_x));
+    const float redTop = (static_cast<float>(redTL)*(1-frac_x)) + (static_cast<float>(redTR)*(frac_x));
+    const float redBot = (static_cast<float>(redBL)*(1-frac_x)) + (static_cast<float>(redBR)*(frac_x));
     const auto redFin = static_cast<uint16_t>(round((redTop*(1-frac_y)) + (redBot*(frac_y))));
 
     //bilinear interpolation of green
@@ -133,8 +133,8 @@ bigColor interpolate_16(const bigArray& image, const Coords& coords, const float
     const uint16_t greenTR = image.g[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint16_t greenBL = image.g[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint16_t greenBR = image.g[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float greenTop = (greenTL*(1-frac_x)) + (greenTR*(frac_x));
-    const float greenBot = (greenBL*(1-frac_x)) + (greenBR*(frac_x));
+    const float greenTop = (static_cast<float>(greenTL)*(1-frac_x)) + (static_cast<float>(greenTR)*(frac_x));
+    const float greenBot = (static_cast<float>(greenBL)*(1-frac_x)) + (static_cast<float>(greenBR)*(frac_x));
     const auto greenFin = static_cast<uint16_t>(round((greenTop*(1-frac_y)) + (greenBot*(frac_y))));
 
     //bilinear interpolation of blue
@@ -142,8 +142,8 @@ bigColor interpolate_16(const bigArray& image, const Coords& coords, const float
     const uint16_t blueTR = image.b[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint16_t blueBL = image.b[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint16_t blueBR = image.b[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float blueTop = (blueTL*(1-frac_x)) + (blueTR*(frac_x));
-    const float blueBot = (blueBL*(1-frac_x)) + (blueBR*(frac_x));
+    const float blueTop = (static_cast<float>(blueTL)*(1-frac_x)) + (static_cast<float>(blueTR)*(frac_x));
+    const float blueBot = (static_cast<float>(blueBL)*(1-frac_x)) + (static_cast<float>(blueBR)*(frac_x));
     const auto blueFin = static_cast<uint16_t>(round((blueTop*(1-frac_y)) + (blueBot*(frac_y))));
 
     return {.r=redFin,.g=greenFin,.b=blueFin};
@@ -166,8 +166,8 @@ smallColor interpolate_8(const smallArray& image, const Coords& coords, const fl
     const uint8_t redTR = image.r[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint8_t redBL = image.r[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint8_t redBR = image.r[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float redTop = (redTL*(1-frac_x)) + (redTR*(frac_x));
-    const float redBot = (redBL*(1-frac_x)) + (redBR*(frac_x));
+    const float redTop = (static_cast<float>(redTL)*(1-frac_x)) + (static_cast<float>(redTR)*(frac_x));
+    const float redBot = (static_cast<float>(redBL)*(1-frac_x)) + (static_cast<float>(redBR)*(frac_x));
     const auto redFin = static_cast<uint8_t>(round((redTop*(1-frac_y)) + (redBot*(frac_y))));
 
     //bilinear interpolation of green
@@ -175,8 +175,8 @@ smallColor interpolate_8(const smallArray& image, const Coords& coords, const fl
     const uint8_t greenTR = image.g[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint8_t greenBL = image.g[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint8_t greenBR = image.g[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float greenTop = (greenTL*(1-frac_x)) + (greenTR*(frac_x));
-    const float greenBot = (greenBL*(1-frac_x)) + (greenBR*(frac_x));
+    const float greenTop = (static_cast<float>(greenTL)*(1-frac_x)) + (static_cast<float>(greenTR)*(frac_x));
+    const float greenBot = (static_cast<float>(greenBL)*(1-frac_x)) + (static_cast<float>(greenBR)*(frac_x));
     const auto greenFin = static_cast<uint8_t>(round((greenTop*(1-frac_y)) + (greenBot*(frac_y))));
 
     //bilinear interpolation of blue
@@ -184,8 +184,8 @@ smallColor interpolate_8(const smallArray& image, const Coords& coords, const fl
     const uint8_t blueTR = image.b[static_cast<unsigned int>(coords.x_hi+(coords.y_lo*width))];
     const uint8_t blueBL = image.b[static_cast<unsigned int>(coords.x_lo+(coords.y_hi*width))];
     const uint8_t blueBR = image.b[static_cast<unsigned int>(coords.x_hi+(coords.y_hi*width))];
-    const float blueTop = (blueTL*(1-frac_x)) + (blueTR*(frac_x));
-    const float blueBot = (blueBL*(1-frac_x)) + (blueBR*(frac_x));
+    const float blueTop = (static_cast<float>(blueTL)*(1-frac_x)) + (static_cast<float>(blueTR)*(frac_x));
+    const float blueBot = (static_cast<float>(blueBL)*(1-frac_x)) + (static_cast<float>(blueBR)*(frac_x));
     const auto blueFin = static_cast<uint8_t>(round((blueTop*(1-frac_y)) + (blueBot*(frac_y))));
 
     return {.r=redFin,.g=greenFin,.b=blueFin};
