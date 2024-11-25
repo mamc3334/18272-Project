@@ -33,23 +33,21 @@ Image_Attributes get_image_metadata(ifstream& imageFile)
 
 void setInFile(const string& name)
 {
-    getInFile() = name;
+    inFile = name;
 }
 
 void setOutFile(const string& name)
 {
-    getOutFile() = name;
+    outFile = name;
 }
 
 string getInFile()
 {
-  const static string inFile;
   return inFile;
 }
 
 string getOutFile()
 {
-  const static string outFile;
   return outFile;
 }
 

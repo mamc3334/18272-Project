@@ -86,6 +86,8 @@ namespace std {
   };
 }  // namespace std
 
+inline string inFile;
+inline string outFile;
 
 void validate_metadata (const string& word, int width, int height, int intensity);
 Image_Attributes get_image_metadata (ifstream& imageFile);
