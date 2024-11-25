@@ -2,7 +2,7 @@
 // Created by mcgaf on 10/20/2024.
 //
 #include "aossize.hpp"
-#include "../common/binaryio.cpp"
+#include "../common/binaryio.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -19,7 +19,7 @@ void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const Image_Attr
 {
     for(unsigned int i = 0; i < OldPhotoData.height; i++){
         for(unsigned int j = 0; j < OldPhotoData.width; j++){
-            pixelArray[i][j]= {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
+            pixelArray[i][j]= {.r=BINARY::read_binary16(inFile), .g=BINARY::read_binary16(inFile), .b=BINARY::read_binary16(inFile)};
         }
     }
     //close input image file stream after reading
@@ -37,7 +37,7 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const Image_Att
 {
     for(unsigned int i = 0; i < OldPhotoData.height; i++){
         for(unsigned int j = 0; j < OldPhotoData.width; j++){
-            pixelArray[i][j]= {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
+            pixelArray[i][j]= {.r=BINARY::read_binary8(inFile), .g=BINARY::read_binary8(inFile), .b=BINARY::read_binary8(inFile)};
         }
     }
     //close input image file stream after reading
@@ -68,9 +68,9 @@ void aossize_resize_16(const vector<vector<bigColor>>& pixelArray, const Image_A
             const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
             // generate new pixel using bilinear interpolation of 4 nearest pixels.
             const bigColor pixel = interpolate_16(pixelArray, coords);
-            write_binary16(outFile, pixel.r);
-            write_binary16(outFile, pixel.g);
-            write_binary16(outFile, pixel.b);
+            BINARY::write_binary16(outFile, pixel.r);
+            BINARY::write_binary16(outFile, pixel.g);
+            BINARY::write_binary16(outFile, pixel.b);
         }
     }
     //close output file stream after populating
@@ -100,9 +100,9 @@ void aossize_resize_8(const vector<vector<smallColor>>& pixelArray, const Image_
             const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
             // generate new pixel using bilinear interpolation
             const smallColor pixel = interpolate_8(pixelArray, coords);
-            write_binary8(outFile, pixel.r);
-            write_binary8(outFile, pixel.g);
-            write_binary8(outFile, pixel.b);
+            BINARY::write_binary8(outFile, pixel.r);
+            BINARY::write_binary8(outFile, pixel.g);
+            BINARY::write_binary8(outFile, pixel.b);
         }
     }
     //close output file stream after populating
@@ -128,12 +128,12 @@ bigColor interpolate_16(const vector<vector<bigColor>>& pixelArray, const Coords
   const bigColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
 
   //first round of interpolation - x
-  const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
-  const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
-  const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
-  const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
-  const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
-  const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
+  const float topR = (static_cast<float>(pixelTL.r)*(1-frac_x)) + (static_cast<float>(pixelTR.r)*frac_x);
+  const float topG = (static_cast<float>(pixelTL.g)*(1-frac_x)) + (static_cast<float>(pixelTR.g)*frac_x);
+  const float topB = (static_cast<float>(pixelTL.b)*(1-frac_x)) + (static_cast<float>(pixelTR.b)*frac_x);
+  const float botR = (static_cast<float>(pixelBL.r)*(1-frac_x)) + (static_cast<float>(pixelBR.r)*frac_x);
+  const float botG = (static_cast<float>(pixelBL.g)*(1-frac_x)) + (static_cast<float>(pixelBR.g)*frac_x);
+  const float botB = (static_cast<float>(pixelBL.b)*(1-frac_x)) + (static_cast<float>(pixelBR.b)*frac_x);
 
   //Second round of interpolation - y
   const auto finalR = static_cast<uint16_t>(round((topR*(1-frac_y)) + (botR*frac_y)));
@@ -162,12 +162,12 @@ smallColor interpolate_8(const vector<vector<smallColor>>& pixelArray, const Coo
   const smallColor pixelBR = pixelArray[static_cast<unsigned int>(coords.y_hi)][static_cast<unsigned int>(coords.x_hi)];
 
   //first round of interpolation - x
-  const float topR = (pixelTL.r*(1-frac_x)) + (pixelTR.r*frac_x);
-  const float topG = (pixelTL.g*(1-frac_x)) + (pixelTR.g*frac_x);
-  const float topB = (pixelTL.b*(1-frac_x)) + (pixelTR.b*frac_x);
-  const float botR = (pixelBL.r*(1-frac_x)) + (pixelBR.r*frac_x);
-  const float botG = (pixelBL.g*(1-frac_x)) + (pixelBR.g*frac_x);
-  const float botB = (pixelBL.b*(1-frac_x)) + (pixelBR.b*frac_x);
+  const float topR = (static_cast<float>(pixelTL.r)*(1-frac_x)) + (static_cast<float>(pixelTR.r)*frac_x);
+  const float topG = (static_cast<float>(pixelTL.g)*(1-frac_x)) + (static_cast<float>(pixelTR.g)*frac_x);
+  const float topB = (static_cast<float>(pixelTL.b)*(1-frac_x)) + (static_cast<float>(pixelTR.b)*frac_x);
+  const float botR = (static_cast<float>(pixelBL.r)*(1-frac_x)) + (static_cast<float>(pixelBR.r)*frac_x);
+  const float botG = (static_cast<float>(pixelBL.g)*(1-frac_x)) + (static_cast<float>(pixelBR.g)*frac_x);
+  const float botB = (static_cast<float>(pixelBL.b)*(1-frac_x)) + (static_cast<float>(pixelBR.b)*frac_x);
 
   //second round of interpolation - y
   const auto finalR = static_cast<uint8_t>(round((topR*(1-frac_y)) + (botR*frac_y)));

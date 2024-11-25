@@ -18,7 +18,8 @@ int main(int argc, char *argv[]) {
       span const args_view{ argv, static_cast<std::size_t>(argc) };
       vector<string> const args{args_view.begin() + 1, args_view.end()};
       // set input and output files
-      prog_paths(args[0], args[1]);
+      setInFile(args[0]);
+      setOutFile(args[1]);
       // process parameters based on user choice
       if(args[2] == "info")
       {

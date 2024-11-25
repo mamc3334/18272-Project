@@ -11,19 +11,19 @@
 class KDTreeSmallColor {
 public:
     KDTreeSmallColor(const std::vector<smallColor>& colors);
-    smallColor nearestNeighbor(const smallColor& target) const;
+    [[nodiscard]] smallColor nearestNeighbor(const smallColor& target) const;
 
 private:
     struct Node {
         smallColor point;
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
-        Node(const smallColor& pt) : point(pt), left(nullptr), right(nullptr) {}
+        Node(const smallColor& point) : point(point), left(nullptr), right(nullptr) {}
     };
 
     std::unique_ptr<Node> buildTree(std::vector<smallColor>& colors, int depth);
     smallColor nearestNeighborSearch(const smallColor& target, Node* node, int depth, smallColor best, double bestDist) const;
-    double colorDistance(const smallColor& c1, const smallColor& c2) const;
+    [[nodiscard]] double colorDistance(const smallColor& color1, const smallColor& color2) const;
 
     std::unique_ptr<Node> root;
 };
@@ -32,19 +32,19 @@ private:
 class KDTreeBigColor {
 public:
     KDTreeBigColor(const std::vector<bigColor>& colors);
-    bigColor nearestNeighbor(const bigColor& target) const;
+    [[nodiscard]] bigColor nearestNeighbor(const bigColor& target) const;
 
 private:
     struct Node {
         bigColor point;
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
-        Node(const bigColor& pt) : point(pt), left(nullptr), right(nullptr) {}
+        Node(const bigColor& point) : point(point), left(nullptr), right(nullptr) {}
     };
 
     std::unique_ptr<Node> buildTree(std::vector<bigColor>& colors, int depth);
     bigColor nearestNeighborSearch(const bigColor& target, Node* node, int depth, bigColor best, double bestDist) const;
-    double colorDistance(const bigColor& c1, const bigColor& c2) const;
+    [[nodiscard]] double colorDistance(const bigColor& color1, const bigColor& color2) const;
 
     std::unique_ptr<Node> root;
 };

@@ -7,12 +7,6 @@
 
 #include <gtest/gtest.h>
 
-TEST(ProgArgsTest, ProgPathsTest) {
-  prog_paths("file1", "file2");
-  EXPECT_EQ(getInFile(), "file1");
-  EXPECT_EQ(getOutFile(), "file2");
-}
-
 TEST(ProgArgsTest, ProgInfoTest_Valid) {
   EXPECT_NO_THROW(prog_info(InfoArgs));
 }

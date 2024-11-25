@@ -17,7 +17,7 @@ TEST(AOSSizeTests, Old16Test) {
   ofstream createMockFile("Old16_input.bin", ios::binary);
   // Write each value to the file
   for (const auto& value : values) {
-      write_binary16(createMockFile, value);
+      BINARY::write_binary16(createMockFile, value);
   }
   createMockFile.close();
 
@@ -48,7 +48,7 @@ TEST(AOSSizeTests, Old8Test){
   ofstream createMockFile("Old8_input.bin", ios::binary);
   // Write each value to the file
   for (const auto& value : values) {
-    write_binary8(createMockFile, value);
+    BINARY::write_binary8(createMockFile, value);
   }
   createMockFile.close();
 
@@ -83,7 +83,7 @@ TEST(AOSSizeTests, Resize16Test) {
   const vector<uint16_t> values = {100,120,140,280,300,320,820,840,860,1000,1020,1040};
   ofstream createExpectedFile("Resize16_expected.bin", ios::binary);
   for (const auto& value : values) {
-    write_binary16(createExpectedFile, value);
+    BINARY::write_binary16(createExpectedFile, value);
   }
   createExpectedFile.close();
 
@@ -114,7 +114,7 @@ TEST(AOSSizeTests, Resize8Test) {
   const vector<uint8_t> values = {10,12,14,28,30,32,82,84,86,100,102,104};
   ofstream createExpectedFile("Resize8_expected.bin", ios::binary);
   for (const auto& value : values) {
-    write_binary8(createExpectedFile, value);
+    BINARY::write_binary8(createExpectedFile, value);
   }
   createExpectedFile.close();
 

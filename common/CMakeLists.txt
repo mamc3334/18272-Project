@@ -2,7 +2,6 @@
 add_library(common
         progargs.cpp
         progargs.hpp
-        binaryio.cpp
         binaryio.hpp
         utility.cpp
         utility.hpp

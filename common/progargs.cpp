@@ -7,16 +7,10 @@
 #include <iostream>
 
 
-void prog_paths(const string& inName, const string& outName)
-{
-    setInFile(inName);
-    setOutFile(outName);
-}
-
 void prog_info(const int argc)
 {
     if (argc != InfoArgs) {
-        cerr << "Error:\tInvalid extra arguments for info:\t" << (4 - argc) << "\n";
+        cerr << "Error:\tInvalid arguments for info:\t" << (argc) << "\n";
         exit(1);
     }
 }
@@ -24,7 +18,7 @@ void prog_info(const int argc)
 void prog_maxlevel(const int argc, const vector<string> & args)
 {
     if (argc != MaxLevelArgs) {
-        cerr << "Error:\tInvalid extra arguments for maxlevel:\t" << (5 - argc) << "\n";
+        cerr << "Error:\tInvalid arguments for maxlevel:\t" << (argc) << "\n";
         exit(1);
     }
     if (stoi(args[3]) < 0 || stoi(args[3]) > MaxIntensity) {
@@ -36,7 +30,7 @@ void prog_maxlevel(const int argc, const vector<string> & args)
 void prog_resize(const int argc, const vector<string> & args)
 {
     if (argc != ResizeArgs) {
-        cerr << "Error:\tInvalid extra arguments for resize:\t" << (6 - argc) << "\n";
+        cerr << "Error:\tInvalid arguments for resize:\t" << (argc) << "\n";
         exit(1);
     }
     if (stoi(args[3]) < 0) {
@@ -52,7 +46,7 @@ void prog_resize(const int argc, const vector<string> & args)
 void prog_cutfreq(const int argc, const vector<string> & args)
 {
     if (argc != CutFreqArgs) {
-        cerr << "Error:\tInvalid extra arguments for cutfreq:\t" << (5 - argc) << "\n";
+        cerr << "Error:\tInvalid arguments for cutfreq:\t" << (argc) << "\n";
         exit(1);
     }
     if (stoi(args[3]) < 0) {
@@ -64,7 +58,7 @@ void prog_cutfreq(const int argc, const vector<string> & args)
 void prog_compress(const int argc)
 {
     if (argc != CompressArgs) {
-        cerr << "Error:\tInvalid extra arguments for compress:\t" << (4 - argc) << "\n";
+        cerr << "Error:\tInvalid arguments for compress:\t" << (argc) << "\n";
         exit(1);
     }
 }
