@@ -19,9 +19,6 @@ void compress(ifstream& inFile, ofstream& outFile);
 
 bool contains_smallColor(vector<smallColor> vec, smallColor element);
 bool contains_bigColor(vector<bigColor> vec, bigColor element);
-template <typename T> bool index_of_1b(vector<T> vec, T& element, uint8_t& index);
-template <typename T> bool index_of_2b(vector<T> vec, T& element, uint16_t& index);
-template <typename T> bool index_of_4b(vector<T> vec, T& element, int& index);
 
 void get_small_colors(ifstream& inFile, unsigned int numPixels, vector<smallColor>& colors, unordered_map<smallColor, int>& colorIndexMap);
 void get_big_colors(ifstream& inFile, unsigned int numPixels, vector<bigColor>& colors, unordered_map<bigColor, int>& colorIndexMap);

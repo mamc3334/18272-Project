@@ -22,13 +22,13 @@ void validate_metadata (const string& word, const int width, const int height, c
 Image_Attributes get_image_metadata(ifstream& imageFile)
 {
     string magic_word;
-    int width;
-    int height;
-    int intensity;
+    int width = 0;
+    int height = 0;
+    int intensity = 0;
     imageFile >> magic_word >> width >> height >> intensity;
     validate_metadata(magic_word, width, height, intensity);
     Image_Attributes output = {.magic_word=magic_word, .width=static_cast<unsigned int>(width), .height=static_cast<unsigned int>(height), .intensity=intensity};
-    imageFile.ignore(256,'\n');
+    imageFile.ignore(256,'\n');  // NOLINT(*-magic-numbers) //Avoid magic numbers for this line. Just ensures new line to get file stream in correct state
     return output;
 }
 

@@ -16,8 +16,6 @@ constexpr int CutFreqArgs = 5;
 constexpr int CompressArgs = 4;
 constexpr int MaxIntensity = 65535;
 
-void prog_paths(const string& imagePath, const string& outFile);
-
 void prog_info(int argc);
 
 void prog_maxlevel(int argc, const vector<string> & args);

@@ -15,7 +15,7 @@ void populatePixels_8(vector<smallColor> &pixels, const Image_Attributes& photoD
 {
     pixels.resize(static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height));
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
-        pixels[i] = {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
+        pixels[i] = {.r=BINARY::read_binary8(inFile), .g=BINARY::read_binary8(inFile), .b=BINARY::read_binary8(inFile)};
     }
 }
 
@@ -23,7 +23,7 @@ void populatePixels_16(vector<bigColor> &pixels, const Image_Attributes& photoDa
 {
     pixels.resize(static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height));
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
-        pixels[i] = {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
+        pixels[i] = {.r=BINARY::read_binary16(inFile), .g=BINARY::read_binary16(inFile), .b=BINARY::read_binary16(inFile)};
     }
 }
 
@@ -144,16 +144,16 @@ void changeInfrequentColors_16(std::vector<bigColor>& pixels, const size_t n) {
 
 void writeBinary_8(const vector<smallColor>& pixels, ofstream& outFile) {
     for (const auto& pixel : pixels) {
-        write_binary8(outFile, static_cast<uint8_t>(pixel.r));
-        write_binary8(outFile, static_cast<uint8_t>(pixel.g));
-        write_binary8(outFile, static_cast<uint8_t>(pixel.b));
+        BINARY::write_binary8(outFile, static_cast<uint8_t>(pixel.r));
+        BINARY::write_binary8(outFile, static_cast<uint8_t>(pixel.g));
+        BINARY::write_binary8(outFile, static_cast<uint8_t>(pixel.b));
     }
 }
 
 void writeBinary_16(const vector<bigColor>& pixels, ofstream& outFile) {
     for (const auto& pixel : pixels) {
-        write_binary16(outFile, static_cast<uint16_t>(pixel.r));
-        write_binary16(outFile, static_cast<uint16_t>(pixel.g));
-        write_binary16(outFile, static_cast<uint16_t>(pixel.b));
+        BINARY::write_binary16(outFile, static_cast<uint16_t>(pixel.r));
+        BINARY::write_binary16(outFile, static_cast<uint16_t>(pixel.g));
+        BINARY::write_binary16(outFile, static_cast<uint16_t>(pixel.b));
     }
 }

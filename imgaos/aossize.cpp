@@ -2,7 +2,7 @@
 // Created by mcgaf on 10/20/2024.
 //
 #include "aossize.hpp"
-#include "../common/binaryio.cpp"
+#include "../common/binaryio.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -19,7 +19,7 @@ void aossize_old_photo_16(vector<vector<bigColor>>& pixelArray, const Image_Attr
 {
     for(unsigned int i = 0; i < OldPhotoData.height; i++){
         for(unsigned int j = 0; j < OldPhotoData.width; j++){
-            pixelArray[i][j]= {.r=read_binary16(inFile), .g=read_binary16(inFile), .b=read_binary16(inFile)};
+            pixelArray[i][j]= {.r=BINARY::read_binary16(inFile), .g=BINARY::read_binary16(inFile), .b=BINARY::read_binary16(inFile)};
         }
     }
     //close input image file stream after reading
@@ -37,7 +37,7 @@ void aossize_old_photo_8(vector<vector<smallColor>>& pixelArray, const Image_Att
 {
     for(unsigned int i = 0; i < OldPhotoData.height; i++){
         for(unsigned int j = 0; j < OldPhotoData.width; j++){
-            pixelArray[i][j]= {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
+            pixelArray[i][j]= {.r=BINARY::read_binary8(inFile), .g=BINARY::read_binary8(inFile), .b=BINARY::read_binary8(inFile)};
         }
     }
     //close input image file stream after reading
@@ -68,9 +68,9 @@ void aossize_resize_16(const vector<vector<bigColor>>& pixelArray, const Image_A
             const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
             // generate new pixel using bilinear interpolation of 4 nearest pixels.
             const bigColor pixel = interpolate_16(pixelArray, coords);
-            write_binary16(outFile, pixel.r);
-            write_binary16(outFile, pixel.g);
-            write_binary16(outFile, pixel.b);
+            BINARY::write_binary16(outFile, pixel.r);
+            BINARY::write_binary16(outFile, pixel.g);
+            BINARY::write_binary16(outFile, pixel.b);
         }
     }
     //close output file stream after populating
@@ -100,9 +100,9 @@ void aossize_resize_8(const vector<vector<smallColor>>& pixelArray, const Image_
             const Coords coords = {.x_map=x_map,.x_lo=x_lo,.x_hi=x_hi,.y_map=y_map,.y_lo=y_lo,.y_hi=y_hi};
             // generate new pixel using bilinear interpolation
             const smallColor pixel = interpolate_8(pixelArray, coords);
-            write_binary8(outFile, pixel.r);
-            write_binary8(outFile, pixel.g);
-            write_binary8(outFile, pixel.b);
+            BINARY::write_binary8(outFile, pixel.r);
+            BINARY::write_binary8(outFile, pixel.g);
+            BINARY::write_binary8(outFile, pixel.b);
         }
     }
     //close output file stream after populating

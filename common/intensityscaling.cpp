@@ -14,15 +14,15 @@ void intensity_smaller_255(const vector<int> & data, ifstream &inputImageFile, o
     const float scalingFactor = static_cast<float>(data[1]) / static_cast<float>(data[0]);
     if(data[1] <= IntensityCutoff){
         for(int i = 0;i < data[2]; i ++){
-            const uint8_t oldColor = read_binary8 (inputImageFile);
-            const auto newColor = static_cast<uint8_t>(oldColor*scalingFactor);
-            write_binary8 (outputImageFile, newColor);
+            const uint8_t oldColor = BINARY::read_binary8 (inputImageFile);
+            const auto newColor = static_cast<uint8_t>(static_cast<float>(oldColor)*scalingFactor);
+            BINARY::write_binary8 (outputImageFile, newColor);
         }
     }else{ //newIntensity > 255
         for(int i = 0;i < data[2]; i ++){
-            const uint8_t oldColor = read_binary8 (inputImageFile);
-            const auto newColor = static_cast<uint16_t>(oldColor*scalingFactor);
-            write_binary16 (outputImageFile, newColor);
+            const uint8_t oldColor = BINARY::read_binary8 (inputImageFile);
+            const auto newColor = static_cast<uint16_t>(static_cast<float>(oldColor)*scalingFactor);
+            BINARY::write_binary16 (outputImageFile, newColor);
         }
     }
 }
@@ -31,15 +31,15 @@ void intensity_greater_255(const vector<int> & data, ifstream &inputImageFile, o
     const float scalingFactor = static_cast<float>(data[1]) / static_cast<float>(data[0]);
     if(data[1] <= IntensityCutoff){
         for(int i = 0;i < data[2]; i ++){
-            const uint16_t oldColor = read_binary16 (inputImageFile);
-            const auto newColor = static_cast<uint8_t>(oldColor*scalingFactor);
-            write_binary8 (outputImageFile, newColor);
+            const uint16_t oldColor = BINARY::read_binary16 (inputImageFile);
+            const auto newColor = static_cast<uint8_t>(static_cast<float>(oldColor)*scalingFactor);
+            BINARY::write_binary8 (outputImageFile, newColor);
         }
     }else{ //newIntensity > 255
         for(int i = 0;i < data[2]; i ++){
-            const uint16_t oldColor = read_binary16 (inputImageFile);
-            const auto newColor = static_cast<uint16_t>(oldColor*scalingFactor);
-            write_binary16 (outputImageFile, newColor);
+            const uint16_t oldColor = BINARY::read_binary16 (inputImageFile);
+            const auto newColor = static_cast<uint16_t>(static_cast<float>(oldColor)*scalingFactor);
+            BINARY::write_binary16 (outputImageFile, newColor);
         }
     }
 }
