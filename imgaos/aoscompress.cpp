@@ -102,7 +102,7 @@ uint8_t getIndexByteLength(size_t colorSize) {
 
 // Writes metadata to output file
 
-void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
+void write_metadata(ofstream& outFile, Image_Attributes const & metadata) {
 	outFile << "C6 " << metadata.width << " " << metadata.height << " " << metadata.intensity << " ";
 }
 
@@ -121,7 +121,7 @@ void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
 
 // Writes sequence of colors, using 6 bytes to match intensity > 255
 
-void write_big_colors(ofstream& outFile, const vector<bigColor>& colors) {
+void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
   outFile << std::dec << colors.size() << "\n";
   for(auto color : colors) {
     constexpr int padding = 5;

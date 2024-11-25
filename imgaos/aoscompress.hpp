@@ -31,7 +31,7 @@ void get_big_colors(ifstream& inFile, unsigned int numPixels, vector<bigColor>& 
 
 uint8_t getIndexByteLength(size_t colorSize);
 
-void write_metadata(ofstream& outFile, Image_Attributes& metadata);
+void write_metadata(ofstream& outFile, Image_Attributes const & metadata);
 void write_small_colors(ofstream& outFile, vector<smallColor>& colors);
 void write_big_colors(ofstream& outFile, vector<bigColor>& colors);
 

@@ -13,7 +13,7 @@ using namespace std;
 
 void populatePixels_8(vector<smallColor> &pixels, const Image_Attributes& photoData, ifstream& inFile)
 {
-    pixels.resize(photoData.width * photoData.height);
+    pixels.resize(static_cast<unsigned long>(photoData.width * photoData.height));
     for(unsigned int i = 0; i < (photoData.height * photoData.width); i++){
         pixels[i] = {.r=read_binary8(inFile), .g=read_binary8(inFile), .b=read_binary8(inFile)};
     }
