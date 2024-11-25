@@ -61,11 +61,11 @@ void get_small_colors(ifstream& inFile, unsigned int numPixels, vector<smallColo
         uint8_t const green = read_binary8(inFile);
         uint8_t const blue = read_binary8(inFile);
         smallColor const color = {.r=red, .g=green, .b=blue};
-		if(!colorIndexMap.contains(color)) {
-			colorIndexMap[color] = index;
-			colors.push_back(color);
-			index++;
-		}
+	  if(colorIndexMap.find(color) == colorIndexMap.end()) {
+	    colorIndexMap[color] = index;
+	    colors.push_back(color);
+	    index++;
+	  }
     }
 }
 
@@ -78,11 +78,11 @@ void get_big_colors(ifstream& inFile, unsigned int numPixels, vector<bigColor>& 
 		uint16_t const green = read_binary16(inFile);
 		uint16_t const blue = read_binary16(inFile);
 		bigColor const color = {.r=red, .g=green, .b=blue};
-		if(!colorIndexMap.contains(color)) {
-			colorIndexMap[color] = index;
-			colors.push_back(color);
-			index++;
-		}
+	  if(colorIndexMap.find(color) == colorIndexMap.end()) {
+	    colorIndexMap[color] = index;
+	    colors.push_back(color);
+	    index++;
+	  }
 	}
 }
 
@@ -102,7 +102,7 @@ uint8_t getIndexByteLength(size_t colorSize) {
 
 // Writes metadata to output file
 
-void write_metadata(ofstream& outFile, const Image_Attributes& metadata) {
+void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
 	outFile << "C6 " << metadata.width << " " << metadata.height << " " << metadata.intensity << " ";
 }
 
@@ -111,7 +111,7 @@ void write_metadata(ofstream& outFile, const Image_Attributes& metadata) {
 
 // Writes sequence of colors, using 3 bytes to match intensity <= 255
 
-void write_small_colors(ofstream& outFile, const vector<smallColor>& colors) {
+void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
     outFile << std::dec << colors.size() << "\n";
     for(auto color : colors) {
     	outFile << color.r << color.g << color.b;
