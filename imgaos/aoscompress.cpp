@@ -10,8 +10,6 @@
 #include "../common/binaryio.hpp"
 #include <vector>
 #include <unordered_map>
-#include<iostream>
-
 
 using namespace std;
 
@@ -61,7 +59,7 @@ void get_small_colors(ifstream& inFile, vector<smallColor>& colors, unordered_ma
         uint8_t green = read_binary8(inFile);
         uint8_t blue = read_binary8(inFile);
         smallColor color = {red, green, blue};
-		if(!colorIndexMap.contains(color)) {
+		if(colorIndexMap.find(color) == colorIndexMap.end()) {
 			colorIndexMap[color] = index;
 			colors.push_back(color);
 			index++;
@@ -78,7 +76,7 @@ void get_big_colors(ifstream& inFile, vector<bigColor>& colors, unordered_map<bi
 		uint16_t green = read_binary16(inFile);
 		uint16_t blue = read_binary16(inFile);
 		bigColor color = {red, green, blue};
-		if(!colorIndexMap.contains(color)) {
+		if(colorIndexMap.find(color) == colorIndexMap.end()) {
 			colorIndexMap[color] = index;
 			colors.push_back(color);
 			index++;
@@ -102,7 +100,7 @@ uint8_t getIndexByteLength(size_t colorSize) {
 
 // Writes metadata to output file
 
-void write_metadata(ofstream& outFile, const Image_Attributes& metadata) {
+void write_metadata(ofstream& outFile, Image_Attributes& metadata) {
 	outFile << "C6 " << metadata.width << " " << metadata.height << " " << metadata.intensity << " ";
 }
 
@@ -111,7 +109,7 @@ void write_metadata(ofstream& outFile, const Image_Attributes& metadata) {
 
 // Writes sequence of colors, using 3 bytes to match intensity <= 255
 
-void write_small_colors(ofstream& outFile, const vector<smallColor>& colors) {
+void write_small_colors(ofstream& outFile, vector<smallColor>& colors) {
     outFile << std::dec << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
     	smallColor color = colors[i];
@@ -122,7 +120,7 @@ void write_small_colors(ofstream& outFile, const vector<smallColor>& colors) {
 
 // Writes sequence of colors, using 6 bytes to match intensity > 255
 
-void write_big_colors(ofstream& outFile, const vector<bigColor>& colors) {
+void write_big_colors(ofstream& outFile, vector<bigColor>& colors) {
 	outFile << std::dec << colors.size() << "\n";
     for(size_t i = 0; i < colors.size(); i++) {
 		bigColor color = colors[i];
@@ -255,9 +253,11 @@ void uncompress(ifstream& inFile, ofstream& outFile) {
 			inFile >> red >> green >> blue;
 			colors.push_back({red, green, blue});
 		}
-                for (int i = 0; i < numPixels; i++) {
-			uint16_t index = read_binary16(inFile);
-			smallColor color = colors[index];
+		smallColor color;
+		uint16_t index;
+		for (int i = 0; i < numPixels; i++) {
+			index = read_binary16(inFile);
+			color = colors[index];
 			red = color.r;
 			green = color.g;
 			blue = color.b;
@@ -269,3 +269,4 @@ void uncompress(ifstream& inFile, ofstream& outFile) {
 	}
 
 }
+

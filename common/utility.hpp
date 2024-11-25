@@ -46,7 +46,7 @@ struct bigColor{
 namespace std {
     template <>
     struct hash<smallColor> {
-        std::size_t operator()(const smallColor& color) const noexcept {
+        std::size_t operator()(const smallColor& color) const {
             // Combine hash values of red, green, and blue components
             return (std::hash<uint8_t>()(color.r) << 16) ^
                    (std::hash<uint8_t>()(color.g) << 8) ^
@@ -56,7 +56,7 @@ namespace std {
 
     template <>
     struct hash<bigColor> {
-        std::size_t operator()(const bigColor& color) const noexcept {
+        std::size_t operator()(const bigColor& color) const {
             // Combine hash values of red, green, and blue components
             return (std::hash<uint16_t>()(color.r) << 32) ^
                    (std::hash<uint16_t>()(color.g) << 16) ^
@@ -66,7 +66,7 @@ namespace std {
 
     template <>
     struct hash<std::tuple<uint8_t, uint8_t, uint8_t>> {
-        std::size_t operator()(const std::tuple<uint8_t, uint8_t, uint8_t>& t) const noexcept {
+        std::size_t operator()(const std::tuple<uint8_t, uint8_t, uint8_t>& t) const {
             // Combine hash values of the three uint16_t elements
             return (std::hash<uint8_t>()(std::get<0>(t)) << 16) ^
                    (std::hash<uint8_t>()(std::get<1>(t)) << 8) ^
@@ -75,9 +75,8 @@ namespace std {
     };
 
     template <>
-    struct hash<std::tuple<
-      uint16_t, uint16_t, uint16_t>> {
-        std::size_t operator()(const std::tuple<uint16_t, uint16_t, uint16_t>& t) const noexcept {
+    struct hash<std::tuple<uint16_t, uint16_t, uint16_t>> {
+        std::size_t operator()(const std::tuple<uint16_t, uint16_t, uint16_t>& t) const {
             // Combine hash values of the three uint16_t elements
             return (std::hash<uint16_t>()(std::get<0>(t)) << 32) ^
                    (std::hash<uint16_t>()(std::get<1>(t)) << 16) ^

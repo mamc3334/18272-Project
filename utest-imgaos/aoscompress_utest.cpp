@@ -82,7 +82,8 @@ TEST (AOSCompressTests, get_small_colorsTest) {
     ASSERT_TRUE(mockFile.is_open()) << "Failed to open test data\n";
     unsigned int numPixels = 10;
     vector<bigColor> colors;
-    get_big_colors(mockFile, colors, numPixels);
+    unordered_map<bigColor, int> colorIndexMap;
+    get_big_colors(mockFile, colors, colorIndexMap, numPixels);
     vector<bigColor> expectedColors = {
         bigColor(1000, 1500, 2000),
         bigColor(400, 400, 400),
@@ -92,7 +93,16 @@ TEST (AOSCompressTests, get_small_colorsTest) {
         bigColor(0, 0, 0),
         bigColor(200, 200, 200)
     };
+    unordered_map<bigColor, int> expectedColorIndexMap;
+    expectedColorIndexMap[bigColor(1000, 1500, 2000)] = 0;
+    expectedColorIndexMap[bigColor(400, 400,  400)] = 1;
+    expectedColorIndexMap[bigColor(100, 100, 100)] = 2;
+    expectedColorIndexMap[bigColor(255, 0, 0)] = 3;
+    expectedColorIndexMap[bigColor(255, 0, 255)] = 4;
+    expectedColorIndexMap[bigColor(0, 0, 0)] = 5;
+    expectedColorIndexMap[bigColor(200, 200, 200)] = 6;
     EXPECT_EQ(colors, expectedColors);
+    EXPECT_EQ(colorIndexMap, expectedColorIndexMap);
 }
 
 
@@ -204,15 +214,14 @@ TEST (AOSCompressTests, write_small_pixels_1bTest) {
         200, 200, 200
     };
 
-    vector<smallColor> colors = {
-        smallColor(100, 150, 200),
-        smallColor(255, 255, 255),
-        smallColor(100, 100, 100),
-        smallColor(255, 0, 0),
-        smallColor(255, 0, 255),
-        smallColor(0, 0, 0),
-        smallColor(200, 200, 200)
-    };
+    unordered_map<smallColor, int> colorIndexMap;
+    colorIndexMap[smallColor(100, 150, 200)] = 0;
+    colorIndexMap[smallColor(255, 255, 255)] = 1;
+    colorIndexMap[smallColor(100, 100, 100)] = 2;
+    colorIndexMap[smallColor(255, 0, 0)] = 3;
+    colorIndexMap[smallColor(255, 0, 255)] = 4;
+    colorIndexMap[smallColor(0, 0, 0)] = 5;
+    colorIndexMap[smallColor(200, 200, 200)] = 6;
 
     const unsigned int numPixels = 10;
 
@@ -227,7 +236,7 @@ TEST (AOSCompressTests, write_small_pixels_1bTest) {
 
     ofstream writeMockOutputFile("write_small_pixels_1bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_small_pixels_1b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_small_pixels_1b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_small_pixels_1bTestOutput.ppm");
@@ -262,15 +271,14 @@ TEST (AOSCompressTests, write_small_pixels_2bTest) {
         200, 200, 200
     };
 
-    vector<smallColor> colors = {
-        smallColor(100, 150, 200),
-        smallColor(255, 255, 255),
-        smallColor(100, 100, 100),
-        smallColor(255, 0, 0),
-        smallColor(255, 0, 255),
-        smallColor(0, 0, 0),
-        smallColor(200, 200, 200)
-    };
+    unordered_map<smallColor, int> colorIndexMap;
+    colorIndexMap[smallColor(100, 150, 200)] = 0;
+    colorIndexMap[smallColor(255, 255, 255)] = 1;
+    colorIndexMap[smallColor(100, 100, 100)] = 2;
+    colorIndexMap[smallColor(255, 0, 0)] = 3;
+    colorIndexMap[smallColor(255, 0, 255)] = 4;
+    colorIndexMap[smallColor(0, 0, 0)] = 5;
+    colorIndexMap[smallColor(200, 200, 200)] = 6;
 
     const unsigned int numPixels = 10;
 
@@ -285,7 +293,7 @@ TEST (AOSCompressTests, write_small_pixels_2bTest) {
 
     ofstream writeMockOutputFile("write_small_pixels_2bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_small_pixels_2b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_small_pixels_2b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_small_pixels_2bTestOutput.ppm");
@@ -320,15 +328,15 @@ TEST (AOSCompressTests, write_small_pixels_4bTest) {
         200, 200, 200
     };
 
-    vector<smallColor> colors = {
-        smallColor(100, 150, 200),
-        smallColor(255, 255, 255),
-        smallColor(100, 100, 100),
-        smallColor(255, 0, 0),
-        smallColor(255, 0, 255),
-        smallColor(0, 0, 0),
-        smallColor(200, 200, 200)
-    };
+    unordered_map<smallColor, int> colorIndexMap;
+    colorIndexMap[smallColor(100, 150, 200)] = 0;
+    colorIndexMap[smallColor(255, 255, 255)] = 1;
+    colorIndexMap[smallColor(100, 100, 100)] = 2;
+    colorIndexMap[smallColor(255, 0, 0)] = 3;
+    colorIndexMap[smallColor(255, 0, 255)] = 4;
+    colorIndexMap[smallColor(0, 0, 0)] = 5;
+    colorIndexMap[smallColor(200, 200, 200)] = 6;
+
 
     const unsigned int numPixels = 10;
 
@@ -343,7 +351,7 @@ TEST (AOSCompressTests, write_small_pixels_4bTest) {
 
     ofstream writeMockOutputFile("write_small_pixels_4bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_small_pixels_4b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_small_pixels_4b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_small_pixels_4bTestOutput.ppm");
@@ -379,16 +387,14 @@ TEST (AOSCompressTests, write_big_pixels_1bTest) {
         200, 200, 200
     };
 
-    vector<bigColor> colors = {
-        bigColor(1000, 1500, 2000),
-        bigColor(400, 400, 400),
-        bigColor(100, 100, 100),
-        bigColor(255, 0, 0),
-        bigColor(255, 0, 255),
-        bigColor(0, 0, 0),
-        bigColor(200, 200, 200)
-    };
-
+    unordered_map<bigColor, int> colorIndexMap;
+    colorIndexMap[bigColor(1000, 1500, 2000)] = 0;
+    colorIndexMap[bigColor(400, 400,  400)] = 1;
+    colorIndexMap[bigColor(100, 100, 100)] = 2;
+    colorIndexMap[bigColor(255, 0, 0)] = 3;
+    colorIndexMap[bigColor(255, 0, 255)] = 4;
+    colorIndexMap[bigColor(0, 0, 0)] = 5;
+    colorIndexMap[bigColor(200, 200, 200)] = 6;
 
     const unsigned int numPixels = 10;
 
@@ -403,7 +409,7 @@ TEST (AOSCompressTests, write_big_pixels_1bTest) {
 
     ofstream writeMockOutputFile("write_big_pixels_1bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_big_pixels_1b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_big_pixels_1b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_big_pixels_1bTestOutput.ppm");
@@ -438,15 +444,14 @@ TEST (AOSCompressTests, write_big_pixels_2bTest) {
         200, 200, 200
     };
 
-    vector<bigColor> colors = {
-        bigColor(1000, 1500, 2000),
-        bigColor(400, 400, 400),
-        bigColor(100, 100, 100),
-        bigColor(255, 0, 0),
-        bigColor(255, 0, 255),
-        bigColor(0, 0, 0),
-        bigColor(200, 200, 200)
-    };
+    unordered_map<bigColor, int> colorIndexMap;
+    colorIndexMap[bigColor(1000, 1500, 2000)] = 0;
+    colorIndexMap[bigColor(400, 400,  400)] = 1;
+    colorIndexMap[bigColor(100, 100, 100)] = 2;
+    colorIndexMap[bigColor(255, 0, 0)] = 3;
+    colorIndexMap[bigColor(255, 0, 255)] = 4;
+    colorIndexMap[bigColor(0, 0, 0)] = 5;
+    colorIndexMap[bigColor(200, 200, 200)] = 6;
 
     const unsigned int numPixels = 10;
 
@@ -461,7 +466,7 @@ TEST (AOSCompressTests, write_big_pixels_2bTest) {
 
     ofstream writeMockOutputFile("write_big_pixels_2bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_big_pixels_2b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_big_pixels_2b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_big_pixels_2bTestOutput.ppm");
@@ -496,15 +501,14 @@ TEST (AOSCompressTests, write_big_pixels_4bTest) {
         200, 200, 200
     };
 
-    vector<bigColor> colors = {
-        bigColor(1000, 1500, 2000),
-        bigColor(400, 400, 400),
-        bigColor(100, 100, 100),
-        bigColor(255, 0, 0),
-        bigColor(255, 0, 255),
-        bigColor(0, 0, 0),
-        bigColor(200, 200, 200)
-    };
+    unordered_map<bigColor, int> colorIndexMap;
+    colorIndexMap[bigColor(1000, 1500, 2000)] = 0;
+    colorIndexMap[bigColor(400, 400,  400)] = 1;
+    colorIndexMap[bigColor(100, 100, 100)] = 2;
+    colorIndexMap[bigColor(255, 0, 0)] = 3;
+    colorIndexMap[bigColor(255, 0, 255)] = 4;
+    colorIndexMap[bigColor(0, 0, 0)] = 5;
+    colorIndexMap[bigColor(200, 200, 200)] = 6;
 
     const unsigned int numPixels = 10;
 
@@ -519,7 +523,7 @@ TEST (AOSCompressTests, write_big_pixels_4bTest) {
 
     ofstream writeMockOutputFile("write_big_pixels_4bTestOutput.ppm");
     ASSERT_TRUE(writeMockOutputFile.is_open()) << "Failed to open test data\n";
-    write_big_pixels_4b(mockInputFile, writeMockOutputFile, colors, numPixels);
+    write_big_pixels_4b(mockInputFile, writeMockOutputFile, colorIndexMap, numPixels);
 
     writeMockOutputFile.close();
     ifstream mockOutputFile("write_big_pixels_4bTestOutput.ppm");
