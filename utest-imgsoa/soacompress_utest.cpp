@@ -34,13 +34,13 @@ TEST (SOACompressTests, get_small_colorsTest) {
     vector<uint8_t> reds;
     vector<uint8_t> greens;
     vector<uint8_t> blues;
-    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
     get_small_colors(mockFile, reds, greens, blues, colorIndexMap, numPixels);
     vector<uint8_t> const expectedReds = {100, 255, 100, 255, 255, 0, 200};
     vector<uint8_t> const expectedGreens = {150, 255, 100, 0, 0, 0, 200};
     vector<uint8_t> const expectedBlues = {200, 255, 100, 0, 255, 0, 200};
 
-    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> expectedColorIndexMap;
+    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> expectedColorIndexMap;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     expectedColorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -84,13 +84,13 @@ TEST (SOACompressTests, get_big_colorsTest) {
     vector<uint16_t> reds;
     vector<uint16_t> greens;
     vector<uint16_t> blues;
-    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
     get_big_colors(mockFile, reds, greens, blues, colorIndexMap, numPixels);
     vector<uint16_t> const expectedReds = {1000, 400, 100, 255, 255, 0, 200};
     vector<uint16_t> const expectedGreens = {1500, 400, 100, 0, 0, 0, 200};
     vector<uint16_t> const expectedBlues = {2000, 400, 100, 0, 255, 0, 200};
 
-    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> expectedColorIndexMap;
+    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> expectedColorIndexMap;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     expectedColorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -220,7 +220,7 @@ TEST (SOACompressTests, write_small_pixels_1bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -277,7 +277,7 @@ TEST (SOACompressTests, write_small_pixels_2bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -334,7 +334,7 @@ TEST (SOACompressTests, write_small_pixels_4bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint8_t, const uint8_t, const uint8_t>, int> colorIndexMap;
+    unordered_map<tuple<uint8_t, uint8_t, uint8_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 150, 200)] = 0;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(255, 255, 255)] = 1;
     colorIndexMap[tuple<uint8_t, uint8_t, uint8_t>(100, 100, 100)] = 2;
@@ -393,7 +393,7 @@ TEST (SOACompressTests, write_big_pixels_1bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -450,7 +450,7 @@ TEST (SOACompressTests, write_big_pixels_2bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
@@ -507,7 +507,7 @@ TEST (SOACompressTests, write_big_pixels_4bTest) {
         200, 200, 200
     };
 
-    unordered_map<tuple<const uint16_t, const uint16_t, const uint16_t>, int> colorIndexMap;
+    unordered_map<tuple<uint16_t, uint16_t, uint16_t>, int> colorIndexMap;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(1000, 1500, 2000)] = 0;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(400, 400,  400)] = 1;
     colorIndexMap[tuple<uint16_t, uint16_t, uint16_t>(100, 100, 100)] = 2;
