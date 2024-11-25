@@ -8,7 +8,7 @@ using namespace std;
 
 // Populate pixels for 8-bit colors
 void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream& inFile) {
-    auto const pixelCount = static_cast<const size_t>(photoData.width) * static_cast<const size_t>(photoData.height);
+    auto const pixelCount = static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height);
     pixels.r.resize(pixelCount);
     pixels.g.resize(pixelCount);
     pixels.b.resize(pixelCount);
@@ -22,7 +22,7 @@ void populatePixels_8(SoA_8& pixels, const Image_Attributes& photoData, ifstream
 
 // Populate pixels for 16-bit colors
 void populatePixels_16(SoA_16& pixels, const Image_Attributes& photoData, ifstream& inFile) {
-    auto const pixelCount = static_cast<const size_t>(photoData.width) * static_cast<const size_t>(photoData.height);
+    auto const pixelCount = static_cast<size_t>(photoData.width) * static_cast<size_t>(photoData.height);
     pixels.r.resize(pixelCount);
     pixels.g.resize(pixelCount);
     pixels.b.resize(pixelCount);
